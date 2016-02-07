@@ -1,0 +1,60 @@
+{
+  "project_info": {
+    "project_id": "flashfetch-39e49",
+    "project_number": "1062955509945",
+    "name": "FlashFetch"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1062955509945:android:c49e2ea587448afa",
+        "client_id": "android:com.example.bikash.flashfetchcustomer",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.example.bikash.flashfetchcustomer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1062955509945-rvt8u5cj63il7mpi2hobe2ib2k9021m3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bikash.flashfetchcustomer",
+            "certificate_hash": "9FCD54BF3C0C67199222208F50EAC4715CB44931"
+          }
+        },
+        {
+          "client_id": "1062955509945-163mennqg0jsgm803bfqui60qttjk20v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1062955509945-163mennqg0jsgm803bfqui60qttjk20v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

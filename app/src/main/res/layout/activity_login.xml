@@ -23,6 +23,7 @@
         android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
@@ -30,30 +31,35 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
                 <com.google.android.gms.common.SignInButton
                     android:id="@+id/google_signin"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content">
-                </com.google.android.gms.common.SignInButton>
-                <com.facebook.login.widget.LoginButton
-                    android:id="@+id/facebook_login"
-                    android:textSize="15sp"
-                    android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
+                    android:layout_weight="1">
+
+                </com.google.android.gms.common.SignInButton>
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/facebook_login"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
                     android:paddingBottom="10dp"
-                    android:layout_gravity="center_vertical"/>
+                    android:paddingTop="10dp"
+                    android:textSize="15sp" />
             </LinearLayout>
+
             <TextView
-                android:text="OR"
-                android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="OR" />
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

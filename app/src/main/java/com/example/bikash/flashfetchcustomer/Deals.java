@@ -1,8 +1,15 @@
 package com.example.bikash.flashfetchcustomer;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -11,26 +18,29 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
+import android.widget.Chronometer;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.InputStream;
 
 public class Deals extends AppCompatActivity {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-
+    public static final String TAG = "fault: ";
+    private SharedPreferences prefs;
+    private static final String SIGNED = "SIGNED";
+    private static final String NAME = "name";
+    private static final String FILE = LoginActivity.FILE;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -39,13 +49,27 @@ public class Deals extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = getSharedPreferences(FILE,MODE_PRIVATE);
+        boolean signed = prefs.getBoolean(SIGNED,false);
+        if(!signed){
+            Intent intent = new Intent(this,MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
         setContentView(R.layout.activity_deals);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
+        // Create the adapter that will return a fragment for each of the two
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        /*
+      The {@link android.support.v4.view.PagerAdapter} that will provide
+      fragments for each of the sections. We use a
+      {@link FragmentPagerAdapter} derivative, which will keep every
+      loaded fragment in memory. If this becomes too memory intensive, it
+      may be best to switch to a
+      {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     */
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -53,15 +77,6 @@ public class Deals extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
     }
 
@@ -92,6 +107,8 @@ public class Deals extends AppCompatActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
+        private int ACCEPTED=10;
+        private int REQUESTED=10;
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -116,18 +133,50 @@ public class Deals extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_deals, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            View rootView ;
+            if(Empty()) {
+                rootView = inflater.inflate(R.layout.fragment_deals,container,false);
+                LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.list_layout);
+                TextView textView = new TextView(getContext());
+                textView.setText("Empty");
+                layout.addView(textView);
+            }
+            else {
+                Bundle args = getArguments();
+                int count = args.getInt(ARG_SECTION_NUMBER);
+                if (count == 1) {
+                    rootView = inflater.inflate(R.layout.fragment_deals, container, false);
+                    FragmentManager fragmentManager = getFragmentManager();
+                    for (int i = 1; i <=REQUESTED; i++) {
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        FillList fillList = FillList.newInstance(i);
+                        fragmentTransaction.add(R.id.list_layout, fillList);
+                        fragmentTransaction.commit();
+                    }
+                } else {
+                    rootView = inflater.inflate(R.layout.fragment_deals2, container, false);
+                    FragmentManager fragmentManager = getFragmentManager();
+                    for (int i = 1; i <=ACCEPTED; i++) {
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        Accepted_list accepted_list = Accepted_list.newInstance(i);
+                        fragmentTransaction.add(R.id.list_layout2, accepted_list);
+                        fragmentTransaction.commit();
+                    }
+                }
+            }
             return rootView;
         }
+    }
+
+    private static boolean Empty(){
+        return false;
     }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -150,13 +199,205 @@ public class Deals extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "Placed";
                 case 1:
-                    return "SECTION 2";
+                    return "Accepted";
                // case 2:
                  //   return "SECTION 3";
             }
             return null;
+        }
+    }
+
+    public static class FillList extends Fragment{
+        private int rank=0;
+        private String PRODUCT = "Product Name";
+        private int PRICE = 0;
+        private String url;
+
+        public FillList(){}
+
+        public static FillList newInstance(int index) {
+            FillList f = new FillList();
+            // Supply index input as an argument.
+            Bundle args = new Bundle();
+            args.putInt("index", index);
+            f.setArguments(args);
+            return f;
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            rank = getArguments()!=null? getArguments().getInt("index"):1;
+        }
+
+        @Nullable
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.list_requested,container,false);
+            url = "http://img6a.flixcart.com/image/computer/x/g/u/lenovo-notebook-400x400-imaef6hcdq9hjnqt.jpeg";
+            TextView textView = (TextView) view.findViewById(R.id.product_name);
+            textView.setText(PRODUCT);
+            textView = (TextView) view.findViewById(R.id.set_price);
+            textView.setText("" + PRICE);
+            ImageView imageView = (ImageView) view.findViewById(R.id.image_view_requested);
+            new DownloadImageTask(imageView).execute(url);
+            return view;
+        }
+
+        @Override
+        public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+            Button button = (Button) getView().findViewById(R.id.button_detail);
+            CharSequence tag = "button_detail"+rank;
+            button.setTag(tag);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.v(TAG, "clicked " + v.getTag());
+                    Toast toast = Toast.makeText(getContext(), ""+v.getTag(), Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            });
+            Button button_quote = (Button) getView().findViewById(R.id.button_quote);
+            tag = "button_quote"+rank;
+            button_quote.setTag(tag);
+            button_quote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(),Quotes.class);
+                    intent.putExtra("URL",url);
+                    startActivity(intent);
+                }
+            });
+        }
+
+    }
+
+
+    // Class for orders that have been accepted
+    public static class Accepted_list extends Fragment{
+        private int rank=0;
+        private long PHONE=1234567890;
+        private String PRODUCT= "Product Name";
+        private int PRICE = 0;
+        private int PRICE_OFFERED = 0;
+        private double LATITUDE = 12.9923;
+        private double LONGITUDE = 80.2368;
+
+        public Accepted_list(){}
+
+
+
+        public static Accepted_list newInstance(int index) {
+            Accepted_list f = new Accepted_list();
+            // Supply index input as an argument.
+            Bundle args = new Bundle();
+            args.putInt("index", index);
+            f.setArguments(args);
+            return f;
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            rank = getArguments()!=null? getArguments().getInt("index"):1;
+        }
+
+        @Nullable
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.list_accepted,container,false);
+            String url = "http://img5a.flixcart.com/image/book/4/5/1/advantage-india-from-challenge-to-opportunity-400x400-imaec4hqddggjjs7.jpeg";
+
+            ImageView imageView = (ImageView) view.findViewById(R.id.image_view_accepted);
+            new DownloadImageTask(imageView).execute(url);
+            ZoomImage zoomImage = new ZoomImage(url);
+            imageView.setOnClickListener(zoomImage);
+            TextView textView = (TextView) view.findViewById(R.id.product_name_accepted);
+            textView.setText(PRODUCT);
+            textView = (TextView)view.findViewById(R.id.set_store_price);
+            textView.setText(""+PRICE);
+            textView = (TextView) view.findViewById(R.id.set_price_offered);
+            textView.setText(""+PRICE_OFFERED);
+            return view;
+        }
+
+        @Override
+        public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+            Button button = (Button) getView().findViewById(R.id.chat);
+            CharSequence tag = "button_chat"+rank;
+            button.setTag(tag);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), Chat.class);
+                    startActivity(intent);
+                }
+            });
+            Button button_call = (Button) getView().findViewById(R.id.call);
+            tag = "button_call"+rank;
+            button_call.setTag(tag);
+            button_call.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL,Uri.parse("tel:"+PHONE));
+                    startActivity(intent);
+                }
+            });
+            Button button_location = (Button) getView().findViewById(R.id.location);
+            tag = "button_location"+rank;
+            button_location.setTag(tag);
+            button_location.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Uri uri = Uri.parse(String.format("geo:%f,%f?z=16&q=%f,%f", LATITUDE, LONGITUDE, LATITUDE, LONGITUDE));
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                }
+            });
+        }
+
+
+        // this is to zoom image
+        public class ZoomImage implements View.OnClickListener{
+            String url;
+            public ZoomImage(String img){
+                url = img;
+            }
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(url));
+                startActivity(intent);
+            }
+        }
+
+    }
+    private static class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
         }
     }
 }

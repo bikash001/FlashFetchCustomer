@@ -327,7 +327,7 @@ public class Deals extends AppCompatActivity {
         @Override
         public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-            Button button = (Button) getView().findViewById(R.id.chat);
+          /*  Button button = (Button) getView().findViewById(R.id.chat);
             CharSequence tag = "button_chat"+rank;
             button.setTag(tag);
             button.setOnClickListener(new View.OnClickListener() {
@@ -336,9 +336,9 @@ public class Deals extends AppCompatActivity {
                     Intent intent = new Intent(getContext(), Chat.class);
                     startActivity(intent);
                 }
-            });
+            });*/
             Button button_call = (Button) getView().findViewById(R.id.call);
-            tag = "button_call"+rank;
+            CharSequence tag = "button_call"+rank;
             button_call.setTag(tag);
             button_call.setOnClickListener(new View.OnClickListener() {
                 @Override

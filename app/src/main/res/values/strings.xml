@@ -52,7 +52,16 @@
     <string name="title_activity_chat">Chat</string>
     <string name="prompt_message">Type a message</string>
 
-    <string name="prompt_extract">"There is an error in the link. Please try again"</string>
+    <string name="prompt_extract">"Is this the product you wanted?"</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_main2">Main2Activity</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="seller_accepted">Seller Accepted Your Deal</string>
+    <string name="prompt_accept">Select your delivery type</string>
+    <string name="ok_button">OK</string>
+    <string name="home_del_button">Home Delivery</string>
+    <string name="visit_shop_button">Visit Shop</string>
 </resources>

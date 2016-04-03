@@ -531,7 +531,7 @@ View.OnClickListener{
                 editor.putBoolean("SIGNED",true);
                 editor.putString("EMAIL",mEmail);
                 editor.apply();
-                Intent intent = new Intent(LoginActivity.this,Deals.class);
+                Intent intent = new Intent(LoginActivity.this,Main2Activity.class);
                 startActivity(intent);
                 finish();
             } else {

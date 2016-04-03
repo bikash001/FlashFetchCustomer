@@ -1,70 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="@dimen/margin" android:background="#ffffff"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
+    android:background="#ffffff"
+    android:padding="@dimen/margin">
+
     <TextView
         android:id="@+id/seller_name"
-        android:text="@string/seller_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/timer"
+        android:layout_toStartOf="@+id/timer"
+        android:text="Seller: XYZ " />
+
     <TextView
-        android:id="@+id/set_seller_name"
-        android:layout_toRightOf="@id/seller_name"
-        android:text="@string/set_seller"
+        android:id="@+id/timer"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/store_price"
-        android:layout_below="@id/seller_name"
-        android:text="@string/price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/set_store_price_quotes"
-        android:layout_below="@id/seller_name"
-        android:layout_toRightOf="@id/store_price"
-        android:text="00"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="12.00" />
+
     <TextView
         android:id="@+id/price_offered_quotes"
-        android:layout_below="@id/store_price"
-        android:text="@string/price_offered"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/seller_name"
+        android:text="Offered: $50" />
+
     <TextView
-        android:id="@+id/set_price_offered_quotes"
-        android:layout_below="@id/store_price"
-        android:layout_toRightOf="@id/price_offered_quotes"
-        android:text="00"
+        android:id="@+id/distance"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/price_quoted"
+        android:layout_height="wrap_content"
         android:layout_below="@id/price_offered_quotes"
-        android:text="@string/price_quoted"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/set_price_quoted"
-        android:layout_below="@id/price_offered_quotes"
-        android:layout_toRightOf="@id/price_quoted"
-        android:text="00"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:text="Distance 5.2 KM" />
+
     <LinearLayout
         android:id="@+id/button_layout"
-        android:orientation="horizontal"
-        android:layout_below="@id/price_quoted"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <!--Button
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/distance"
+        android:weightSum="2"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/button_bargain"
+            android:text="@string/button_bargain"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <Button
             android:id="@+id/button_accept"
             android:text="@string/button_accept"
-            android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content" /-->
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </RelativeLayout>

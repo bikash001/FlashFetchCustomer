@@ -327,9 +327,11 @@ public class Quotes extends AppCompatActivity {
                 bargainButton.setOnClickListener(this);
                 acceptButton = (Button) itemView.findViewById(R.id.button_accept);
                 acceptButton.setOnClickListener(this);
-                tt = new TimerClass(0,15,timer);
-                tt.start();
+               // tt = new TimerClass(0,15,timer);
+                //tt.start();
             }
+
+
 
             @Override
             public void onClick(final View v) {
@@ -440,9 +442,9 @@ public class Quotes extends AppCompatActivity {
             holder.distance.setText(object.getDistance());
             holder.productPrice.setText(object.getPrice());
             holder.bargained = object.isBargained();
-            if(holder.bargained){
+           /* if(holder.bargained){
                 holder.bargain.setVisibility(View.GONE);
-            }
+            }*/
         }
 
         @Override

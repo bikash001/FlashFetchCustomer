@@ -28,6 +28,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/seller_name"
         android:text="Offered: $50" />
+    <TextView
+        android:id="@+id/bargined_price"
+        android:layout_below="@id/timer"
+        android:layout_alignParentRight="true"
+        android:text="Expected: Rs 41,000"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/distance"
@@ -41,7 +49,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/distance"
-        android:weightSum="2"
         android:orientation="horizontal">
         <Button
             android:id="@+id/button_bargain"

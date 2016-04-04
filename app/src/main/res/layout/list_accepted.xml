@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/list_accepted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        android:background="#ffffff"
+        android:padding="@dimen/small_margin">
+
+        <ImageView
+            android:id="@+id/image_view_accepted"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="10dp"
+            android:contentDescription="@string/image_description"
+            android:scaleType="fitCenter" />
+        <TextView
+            android:id="@+id/product_name_accepted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/image_view_accepted"
+            android:layout_toRightOf="@+id/image_view_accepted"
+            android:text="@string/product_name"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/price_from_store"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/product_name_accepted"
+            android:layout_toRightOf="@+id/image_view_accepted"
+            android:text="@string/price"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/set_store_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/product_name_accepted"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/price_from_store"
+            android:text="00"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/price_offered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/price_from_store"
+            android:layout_toRightOf="@+id/image_view_accepted"
+            android:text="@string/price_offered" />
+        <TextView
+            android:id="@+id/set_price_offered"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/set_store_price"
+            android:layout_toRightOf="@+id/price_offered"
+            android:text="00" />
+        <!--Button
+            android:id="@+id/chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/price_offered"
+            android:layout_toRightOf="@id/image_view_accepted"
+            android:foreground="@android:drawable/sym_action_chat" /-->
+        <Button
+            android:id="@+id/call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/price_offered"
+            android:layout_toRightOf="@id/image_view_accepted"
+            android:foreground="@android:drawable/sym_action_call" />
+        <Button
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/price_offered"
+            android:layout_toRightOf="@id/call"
+            android:foreground="@android:drawable/ic_menu_mylocation" />
+ </RelativeLayout>

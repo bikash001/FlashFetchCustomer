@@ -65,4 +65,7 @@
     <string name="home_del_button">Home Delivery</string>
     <string name="visit_shop_button">Visit Shop</string>
     <string name="refer">Enter Referal Code</string>
+    <string name="enter_button">Enter</string>
+    <string name="skip">skip</string>
+    <string name="title_activity_refer">Refer</string>
 </resources>

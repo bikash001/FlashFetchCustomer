@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_requested"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/small_margin"
+    android:layout_marginTop="@dimen/small_margin"
+    android:background="#ffffff"
+    android:padding="@dimen/small_margin">
+
+    <ImageView
+        android:id="@+id/image_view_requested"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="10dp"
+        android:contentDescription="@string/image_description"
+        android:src="#f71818" />
+    <TextView
+        android:id="@+id/product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/image_view_requested"
+        android:layout_toLeftOf="@+id/chronometer"
+        android:layout_toRightOf="@+id/image_view_requested"
+        android:layout_toStartOf="@+id/chronometer"
+        android:text="@string/product_name"
+        android:textSize="15sp" />
+
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/product_name"
+        android:layout_toRightOf="@+id/image_view_requested"
+        android:text="@string/price"
+        android:textSize="15sp" />
+    <TextView
+        android:id="@+id/set_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/product_name"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/price"
+        android:text="00"
+        android:textSize="15sp" />
+    <Button
+        android:id="@+id/button_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/price"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/image_view_requested"
+        android:text="@string/button_detail" />
+    <Button
+        android:id="@+id/button_quote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/set_price"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/button_detail"
+        android:text="@string/button_quote" />
+
+</RelativeLayout>

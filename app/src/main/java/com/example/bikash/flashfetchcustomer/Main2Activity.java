@@ -365,16 +365,6 @@ public class Main2Activity extends AppCompatActivity
         @Override
         public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-           /* Button button = (Button) getView().findViewById(R.id.chat);
-            CharSequence tag = "button_chat"+rank;
-            button.setTag(tag);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getContext(), Chat.class);
-                    startActivity(intent);
-                }
-            });*/
             Button button_call = (Button) getView().findViewById(R.id.call);
             CharSequence tag = "button_call"+rank;
             button_call.setTag(tag);

@@ -450,6 +450,7 @@
     <string name="decline">Decline</string>
     <string name="details">Verify Your Details</string>
     <string name="email">Email:</string>
+    <string name="enter_button">Enter</string>
     <string name="error_field_required">This field is required</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_invalid_email">This email address is invalid</string>
@@ -499,11 +500,13 @@
     <string name="prompt_name">Name</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_phone">Phone Number</string>
+    <string name="refer">Enter Referal Code</string>
     <string name="register">Register</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="seller_accepted">Seller Accepted Your Deal</string>
     <string name="seller_name">"Seller: "</string>
     <string name="set_seller">"Name of the Seller"</string>
+    <string name="skip">skip</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="store_picture_message">"Allow Ad to store image in Picture gallery?"</string>
     <string name="store_picture_title">Save image</string>
@@ -511,10 +514,13 @@
     <string name="title_activity_chat">Chat</string>
     <string name="title_activity_confirm__register">Confirm_Register</string>
     <string name="title_activity_deals">Deals</string>
+    <string name="title_activity_home_delivery">HomeDelivery</string>
     <string name="title_activity_login">Sign in</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_offer">Offer</string>
     <string name="title_activity_quotes">Quotes</string>
+    <string name="title_activity_refer">Refer</string>
     <string name="title_activity_register">Register</string>
     <string name="visit_shop_button">Visit Shop</string>
     <string name="wallet_buy_button_place_holder">Buy with Google</string>

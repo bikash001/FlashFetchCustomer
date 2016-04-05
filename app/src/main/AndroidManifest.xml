@@ -32,7 +32,7 @@
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.MainActivity" />
+                android:value="com.example.bikash.flashfetchcustomer.Main2Activity" />
         </activity>
         <activity
             android:name=".Register"
@@ -42,25 +42,8 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.MainActivity" />
+                android:value="com.example.bikash.flashfetchcustomer.Main2Activity" />
         </activity>
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!--
-             ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
-        -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-
         <activity
             android:name=".Quotes"
             android:label=""
@@ -69,7 +52,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.Deals" />
+                android:value="com.example.bikash.flashfetchcustomer.Main2Activity" />
         </activity>
         <activity
             android:name=".Extract"
@@ -131,7 +114,16 @@
         <activity
             android:name=".HomeDelivery"
             android:label="@string/title_activity_home_delivery"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ContactUs"
+            android:label="@string/title_activity_contact_us"
+            android:parentActivityName=".Main2Activity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.bikash.flashfetchcustomer.Main2Activity" />
+        </activity>
     </application>
 
 </manifest>

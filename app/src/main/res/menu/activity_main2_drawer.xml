@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <menu>
+    <group>
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"
@@ -18,21 +17,20 @@
             android:id="@+id/nav_account"
             android:icon="@drawable/ic_menu_manage"
             android:title="Account" />
-    </menu>
+    </group>
 
-    <item android:title="">
-        <menu>
-            <item android:id="@+id/nav_notification"
-                android:title="Notifications"/>
-            <item
-                android:id="@+id/nav_refer"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/refer" />
-            <item
-                android:id="@+id/nav_help"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Help Us Improve" />
-        </menu>
-    </item>
+    <group>
+        <item
+            android:id="@+id/nav_notification"
+            android:title="Notifications" />
+        <item
+            android:id="@+id/nav_refer"
+            android:icon="@drawable/ic_menu_share"
+            android:title="@string/refer" />
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Help Us Improve" />
+    </group>
 
 </menu>

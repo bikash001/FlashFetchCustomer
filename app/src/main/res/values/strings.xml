@@ -72,4 +72,5 @@
     <string name="title_activity_home_delivery">HomeDelivery</string>
 
     <string name="nav_refer">Refer &amp; Earn</string>
+    <string name="title_activity_contact_us">ContactUs</string>
 </resources>

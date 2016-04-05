@@ -476,6 +476,7 @@
     <string name="mr_media_route_controller_stop">Stop casting</string>
     <string name="mr_system_route_name">System</string>
     <string name="mr_user_route_category_name">Devices</string>
+    <string name="nav_refer">Refer &amp; Earn</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="new_price">New Price</string>

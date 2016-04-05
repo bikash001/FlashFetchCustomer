@@ -70,4 +70,6 @@
     <string name="title_activity_refer">Refer</string>
     <string name="title_activity_offer">Offer</string>
     <string name="title_activity_home_delivery">HomeDelivery</string>
+
+    <string name="nav_refer">Refer &amp; Earn</string>
 </resources>

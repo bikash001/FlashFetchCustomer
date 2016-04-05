@@ -1,35 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <menu>
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:title="Home" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_deals"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:title="Deals Nearby" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_wallet"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:title="Wallet" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_account"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
-    </group>
+            android:title="Account" />
+    </menu>
 
-    <item android:title="Communicate">
+    <item android:title="">
         <menu>
+            <item android:id="@+id/nav_notification"
+                android:title="Notifications"/>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_refer"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="@string/refer" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_help"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="Help Us Improve" />
         </menu>
     </item>
 

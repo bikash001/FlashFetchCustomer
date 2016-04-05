@@ -62,17 +62,13 @@ import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
-public class Register extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,
-View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>{
+public class Register extends AppCompatActivity implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
 
-    private GoogleApiClient client, mGoogleApiClient;
-    private static final int RC_SIGN_IN = 9001;
     private static final String TAG = "RegisterActivity";
-    private CallbackManager callbackManager;
     private String personName;
     private String personEmail;
     private long personPhone = 0;
@@ -92,51 +88,10 @@ View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_register);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        //GoogleService googleservice = new GoogleService();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
-        SignInButton signInButton = (SignInButton) findViewById(R.id.google_register);
-        signInButton.setSize(signInButton.SIZE_STANDARD);
-        signInButton.setScopes(new Scope[]{new Scope(Scopes.PLUS_LOGIN)});
-        signInButton.setOnClickListener(this);
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-
-        callbackManager = CallbackManager.Factory.create();
-        LoginButton facebook_register = (LoginButton) findViewById(R.id.facebook_register);
-        facebook_register.setReadPermissions(Arrays.asList("email","public_profile"));
-        facebook_register.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Profile profile = Profile.getCurrentProfile();
-                personName = profile.getName();
-                personPhone = 0;
-                personEmail = null;
-                personId = profile.getId();
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-
-            }
-        });
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email_register);
@@ -208,59 +163,6 @@ View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>{
         return false;
     }
 
-    @Override
-    public View onCreateView(String name, Context context, AttributeSet attrs) {
-        return super.onCreateView(name, context, attrs);
-    }
-
-    @Override
-    public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
-        return super.onCreateView(parent, name, context, attrs);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
-        }
-        else{
-            callbackManager.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-    private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
-        if (result.isSuccess()) {
-            // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
-            personName = acct.getDisplayName();
-            personEmail = acct.getEmail();
-            personPhone = 0;
-            personId = acct.getId();
-        } else {
-            // Signed out, show unauthenticated UI.
-            updateUI(false);
-        }
-    }
-
-    private void updateUI(boolean signedIn) {
-        if (signedIn) {
-            findViewById(R.id.google_signin).setVisibility(View.GONE);
-            // findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
-        } else {
-            // mStatusTextView.setText(R.string.signed_out);
-
-            findViewById(R.id.google_signin).setVisibility(View.VISIBLE);
-            // findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
-        }
-    }
-
-    private void register(){
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -311,7 +213,7 @@ View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>{
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
-            Intent intent = new Intent(this,Deals.class);
+            Intent intent = new Intent(this,Main2Activity.class);
             startActivity(intent);
         }
     }
@@ -365,9 +267,6 @@ View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.google_register:
-                register();
-                break;
             case R.id.button_register:
                /* EditText editText = (EditText)findViewById(R.id.name);
                 personName = editText.getText().toString();
@@ -389,10 +288,6 @@ View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>{
         }
     }
 
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
-    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -437,57 +332,6 @@ View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>{
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Login Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.example.bikash.flashfetchcustomer/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Login Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.example.bikash.flashfetchcustomer/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        AppEventsLogger.activateApp(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        AppEventsLogger.deactivateApp(this);
-    }
 
     private interface ProfileQuery {
         String[] PROJECTION = {

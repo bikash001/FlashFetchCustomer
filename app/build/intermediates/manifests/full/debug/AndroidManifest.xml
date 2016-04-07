@@ -171,6 +171,15 @@
                 android:value="com.example.bikash.flashfetchcustomer.Main2Activity" />
         </activity>
         <activity
+            android:name="com.example.bikash.flashfetchcustomer.Account"
+            android:label="@string/title_activity_account"
+            android:parentActivityName="com.example.bikash.flashfetchcustomer.Main2Activity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.bikash.flashfetchcustomer.Main2Activity" />
+        </activity>
+        <activity
             android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
             android:excludeFromRecents="true"
             android:exported="false"

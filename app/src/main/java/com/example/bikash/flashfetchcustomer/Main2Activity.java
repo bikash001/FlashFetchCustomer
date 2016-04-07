@@ -141,6 +141,9 @@ public class Main2Activity extends AppCompatActivity
             startActivity(intent);
             return true;
         } else if (id == R.id.nav_account) {
+            Intent intent = new Intent(this,Account.class);
+            startActivity(intent);
+            return true;
 
         } else if (id == R.id.nav_notification) {
 

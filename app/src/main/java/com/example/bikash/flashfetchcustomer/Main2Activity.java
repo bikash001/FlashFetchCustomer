@@ -114,6 +114,10 @@ public class Main2Activity extends AppCompatActivity
             Intent intent = new Intent(this,LoginActivity.class);
             startActivity(intent);
             return true;
+        } else if (id == R.id.action_contact){
+            Intent intent = new Intent(this,ContactUs.class);
+            startActivity(intent);
+            return true;
         }
 
         return false;
@@ -128,15 +132,18 @@ public class Main2Activity extends AppCompatActivity
         if (id == R.id.nav_home) {
             // Handle the camera action
         } else if (id == R.id.nav_deals) {
-
-        } else if (id == R.id.nav_wallet) {
-
-        } else if (id == R.id.nav_account) {
-
-        } else if (id == R.id.nav_notification) {
             Intent intent = new Intent(this,Offer.class);
             startActivity(intent);
             return true;
+
+        } else if (id == R.id.nav_wallet) {
+            Intent intent = new Intent(this,Wallet.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.nav_account) {
+
+        } else if (id == R.id.nav_notification) {
+
         } else if (id == R.id.nav_refer) {
 
         } else if(id == R.id.nav_help){
@@ -362,17 +369,17 @@ public class Main2Activity extends AppCompatActivity
             imageView.setOnClickListener(zoomImage);
             TextView textView = (TextView) view.findViewById(R.id.product_name_accepted);
             textView.setText(PRODUCT);
-            textView = (TextView)view.findViewById(R.id.set_store_price);
-            textView.setText(""+PRICE);
-            textView = (TextView) view.findViewById(R.id.set_price_offered);
-            textView.setText(""+PRICE_OFFERED);
+            textView = (TextView)view.findViewById(R.id.price_from_store);
+            textView.setText(String.format("Price: Rs %d",PRICE));
+            textView = (TextView) view.findViewById(R.id.price_offered);
+            textView.setText(String.format("Price Offered: %d",PRICE_OFFERED));
             return view;
         }
 
         @Override
         public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-            Button button_call = (Button) getView().findViewById(R.id.call);
+            Button button_call = (Button) view.findViewById(R.id.call);
             CharSequence tag = "button_call"+rank;
             button_call.setTag(tag);
             button_call.setOnClickListener(new View.OnClickListener() {
@@ -382,7 +389,7 @@ public class Main2Activity extends AppCompatActivity
                     startActivity(intent);
                 }
             });
-            Button button_location = (Button) getView().findViewById(R.id.location);
+            Button button_location = (Button) view.findViewById(R.id.location);
             tag = "button_location"+rank;
             button_location.setTag(tag);
             button_location.setOnClickListener(new View.OnClickListener() {

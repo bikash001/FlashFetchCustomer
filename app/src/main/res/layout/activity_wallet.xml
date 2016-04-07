@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/material_grey"
     android:fitsSystemWindows="true"
-    tools:context="com.example.bikash.flashfetchcustomer.HomeDelivery">
+    tools:context="com.example.bikash.flashfetchcustomer.Wallet">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -22,7 +21,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_home_delivery" />
+    <include layout="@layout/content_wallet" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

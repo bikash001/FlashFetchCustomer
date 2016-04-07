@@ -215,6 +215,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
             mAuthTask.execute((Void) null);
             Intent intent = new Intent(this,Main2Activity.class);
             startActivity(intent);
+            finish();
         }
     }
 

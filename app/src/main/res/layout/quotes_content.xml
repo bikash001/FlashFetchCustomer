@@ -27,7 +27,7 @@
         android:paddingBottom="2dp"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:text="Price: Rs 50,000" />
+        android:text="Price: ₹ 50,000" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_above="@+id/toolbar_bottom"

@@ -71,6 +71,12 @@
     <string name="title_activity_offer">Offer</string>
     <string name="title_activity_home_delivery">HomeDelivery</string>
 
-    <string name="nav_refer">Refer &amp; Earn</string>
+    <string name="nav_refer">Invite &amp; Earn</string>
     <string name="title_activity_contact_us">ContactUs</string>
+    <string name="title_activity_fill__address">Fill_Address</string>
+    <string name="title_activity_wallet">Wallet</string>
+    <string name="total_credit">Total Credit: ₹</string>
+    <string name="invite_text">INVITE FRIENDS TO EARN MORE</string>
+    <string name="message">Your friend will get ₹50 for downloading the app and you will receive... </string>
+    <string name="chooser_title">Share Your Code</string>
 </resources>

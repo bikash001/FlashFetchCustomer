@@ -28,6 +28,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
+import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -74,20 +75,16 @@ public class Quotes extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-       /* Window window = getWindow();
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        window.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        width = displayMetrics.widthPixels;
-       */ height = WindowManager.LayoutParams.WRAP_CONTENT;
+        height = WindowManager.LayoutParams.WRAP_CONTENT;
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         width = size.x;
-       // int height = size.y;
+        // int height = size.y;
 
         url = getIntent().getStringExtra("URL");
         CollapsingToolbarLayout layout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        new Downnload(layout).execute(url);
+        new Download(layout).execute(url);
        /* Button button = (Button) findViewById(R.id.map_sellers);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +93,6 @@ public class Quotes extends AppCompatActivity {
                 startActivity(intent);
             }
         });*/
-       // fill_list();
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_quotes);
 
         mAdapter = new ProductAdapter(itemList);
@@ -108,179 +104,22 @@ public class Quotes extends AppCompatActivity {
     }
 
     private void prepareData() {
-        for(int i=0; i<10; ++i){
-            QuotesObject object = new QuotesObject("Seller: "+i,"12:00","Distance: 5.2 KM","Price: Rs 45,000",false);
+        for (int i = 0; i < 10; ++i) {
+            QuotesObject object = new QuotesObject("Seller: " + i, "12:00", "5.2 KM", "₹ 45,000", false);
             itemList.add(object);
         }
     }
 
 
-    private void fill_list(){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        for(int i=0; i<10; i++){
-            MakeList list = MakeList.newInstance(i);
-            transaction.add(R.id.quotes_list,list,Integer.toString(i));
-        }
-        transaction.commit();
-    }
-
-    public static class MakeList extends Fragment{
-        private final int RESULTOFBARGAIN = 1;
-
-        Button acceptButton, bargainButton;
-        private int rank;
-        public MakeList(){}
-        public static MakeList newInstance(int index){
-            MakeList fragment = new MakeList();
-            Bundle args = new Bundle();
-            args.putInt("index", index);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            rank = getArguments()!=null? getArguments().getInt("index"):1;
-        }
-
-        @Nullable
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View linearLayout = inflater.inflate(R.layout.list_quotes,container,false);
-            LinearLayout layout = (LinearLayout) linearLayout.findViewById(R.id.button_layout);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1.0f);
-            TextView seller = (TextView) linearLayout.findViewById(R.id.seller_name);
-            seller.setText("Seller: "+rank);
-            if(bargained()){
-                TextView view = new TextView(getContext());
-                view.setText("Price Quoted: $30");
-                view.setLayoutParams(params);
-                layout.addView(view);
-            }
-            if(!bargained()){
-                bargainButton = new Button(getContext());
-                bargainButton.setText(R.string.button_bargain);
-                bargainButton.setLayoutParams(params);
-                //bargainButton.setId(R.id.button_bargain);
-                layout.addView(bargainButton);
-            }
-            acceptButton = new Button(getContext());
-            acceptButton.setLayoutParams(params);
-            acceptButton.setText(R.string.button_accept);
-            layout.addView(acceptButton);
-            return linearLayout;
-        }
-
-
-        private boolean bargained() {
-            return false;
-        }
-
-        @Override
-        public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-            super.onViewCreated(view, savedInstanceState);
-            CharSequence tag = "button_accept"+rank;
-            acceptButton.setTag(tag);
-            acceptButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.v(TAG, "clicked " + v.getTag());
-                   // Toast toast = Toast.makeText(getContext(), "" + v.getTag(), Toast.LENGTH_SHORT);
-                    //toast.show();
-                    final Dialog dialog = new Dialog(getContext());
-                    dialog.setContentView(R.layout.dialog_accept);
-                    DisplayMetrics displayMetrics = new DisplayMetrics();
-                    getActivity().getWindow().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                    int width = displayMetrics.widthPixels;
-                    int height = WindowManager.LayoutParams.WRAP_CONTENT;
-                    dialog.getWindow().setLayout((int) (width * 0.8), height);
-                    final RadioButton home = (RadioButton) dialog.findViewById(R.id.home_delivery);
-                    final RadioButton shop = (RadioButton) dialog.findViewById(R.id.visit_shop);
-                    final Button button = (Button) dialog.findViewById(R.id.ok);
-                    button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if(home.isChecked() || shop.isChecked()){
-                                FragmentManager manager = getFragmentManager();
-                                FragmentTransaction transaction = manager.beginTransaction();
-                                //transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-                                transaction.setCustomAnimations(R.anim.left_out, R.anim.right_out);
-                                transaction.remove(getFragmentManager().findFragmentByTag(getTag())).commit();
-                                dialog.dismiss();
-                            }
-                            else{
-                                Toast toast = Toast.makeText(getContext(),"Select delivery type", Toast.LENGTH_SHORT);
-                                toast.show();
-                            }
-                        }
-                    });
-                    dialog.show();
-                }
-            });
-            if(!bargained()){
-               // Button button1 = (Button) getView().findViewById(R.id.button_bargain);
-                CharSequence tag1= "button_bargain"+rank;
-                bargainButton.setTag(tag1);
-                bargainButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        final Dialog dialog = new Dialog(getContext());
-                        dialog.setContentView(R.layout.dialog);
-                        dialog.setTitle("Title...");
-                        DisplayMetrics displayMetrics = new DisplayMetrics();
-                        getActivity().getWindow().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                        int width = displayMetrics.widthPixels;
-                        int height = WindowManager.LayoutParams.WRAP_CONTENT;
-                        dialog.getWindow().setLayout((int) (width * 0.8), height);
-                        final EditText priceText = (EditText) dialog.findViewById(R.id.new_price);
-                        priceText.setFilters(new InputFilter[]{new InputCheck(0, 10000000)});
-                        final EditText hourText = (EditText) dialog.findViewById(R.id.hour);
-                        hourText.setFilters(new InputFilter[]{ new InputCheck(0, 23)});
-                        final EditText minText = (EditText) dialog.findViewById(R.id.min);
-                        minText.setFilters(new InputFilter[]{ new InputCheck(0, 59)});
-                        Button button = (Button) dialog.findViewById(R.id.ok);
-                        button.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String price = priceText.getText().toString();
-                                String hour = hourText.getText().toString();
-                                String min = minText.getText().toString();
-
-                                if(hour.length()==0){
-                                    hourText.setError("Set Hour");
-                                }
-                                if(min.length()==0){
-                                    minText.setError("Set Min");
-                                }
-                                if( price.length() == 0) {
-                                    priceText.setError("Set Price");
-                                }
-                                else{
-                                    Toast toast = Toast.makeText(getContext(), ""+ price, Toast.LENGTH_SHORT);
-                                    toast.show();
-                                    dialog.dismiss();
-                                }
-                            }
-                        });
-                        // set the custom dialog components - text, image and button
-                        dialog.show();
-                    }
-                });
-            }
-        }
-
-    }
-
-    class Downnload extends AsyncTask<String, Void, Bitmap> {
+    private class Download extends AsyncTask<String, Void, Bitmap> {
         CollapsingToolbarLayout mylayout;
         ImageView view;
-        Downnload(CollapsingToolbarLayout layout){
+
+        Download(CollapsingToolbarLayout layout) {
             mylayout = layout;
         }
 
-        Downnload(ImageView imageView){
+        Download(ImageView imageView) {
             view = imageView;
         }
 
@@ -296,29 +135,35 @@ public class Quotes extends AppCompatActivity {
                 return null;
             }
         }
+
         protected void onPostExecute(Bitmap bitmap) {
-            BitmapDrawable background = new BitmapDrawable(getResources(),bitmap);
+            BitmapDrawable background = new BitmapDrawable(getResources(), bitmap);
             setbackground(background);
         }
+
         @TargetApi(16)
-        private void setbackground(BitmapDrawable bitmapDrawable){
+        private void setbackground(BitmapDrawable bitmapDrawable) {
             mylayout.setBackground(bitmapDrawable);
         }
     }
 
-    public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder>{
+    public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
 
         final private List<QuotesObject> list;
 
-        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-            private TextView sellerName, productPrice,timer,distance,bargain;
-            private Button bargainButton,acceptButton;
+        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+            private TextView sellerName, productPrice, timer, distance, bargain,comment,more;
+            private Button bargainButton, acceptButton;
             private boolean bargained;
+            private LinearLayout layout;
+
             TimerClass tt;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                bargain = (TextView) itemView.findViewById(R.id.bargined_price);
+                more = (TextView) itemView.findViewById(R.id.more);
+                comment = (TextView) itemView.findViewById(R.id.comment);
+                bargain = (TextView) itemView.findViewById(R.id.bargained_price);
                 sellerName = (TextView) itemView.findViewById(R.id.seller_name);
                 productPrice = (TextView) itemView.findViewById(R.id.price_offered_quotes);
                 timer = (TextView) itemView.findViewById(R.id.timer);
@@ -327,17 +172,30 @@ public class Quotes extends AppCompatActivity {
                 bargainButton.setOnClickListener(this);
                 acceptButton = (Button) itemView.findViewById(R.id.button_accept);
                 acceptButton.setOnClickListener(this);
-               // tt = new TimerClass(0,15,timer);
+                layout = (LinearLayout) itemView.findViewById(R.id.button_layout);
+                Log.d(TAG, "ViewHolder");
+
+                // tt = new TimerClass(0,15,timer);
                 //tt.start();
+
             }
 
-
+            public void changeView(int pos){
+                int n = getItemCount();
+                for(int i=0; i<pos; i++){
+                    list.get(i).setValid(false);
+                }
+                for(int i=pos+1; i<n; i++){
+                    list.get(i).setValid(false);
+                }
+                notifyDataSetChanged();
+            }
 
             @Override
             public void onClick(final View v) {
                 final Dialog dialog = new Dialog(v.getContext());
 
-                switch (v.getId()){
+                switch (v.getId()) {
                     case R.id.button_accept:
                         dialog.setContentView(R.layout.dialog_accept);
                         dialog.getWindow().setLayout((int) (width * 0.8), height);
@@ -347,20 +205,20 @@ public class Quotes extends AppCompatActivity {
                         button.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                if(home.isChecked()){
-                                    Toast toast = Toast.makeText(view.getContext(),"Home Delivery Selected", Toast.LENGTH_SHORT);
+                                if (home.isChecked()) {
+                                    bargainButton.setVisibility(View.GONE);
+                                    changeView(getAdapterPosition());
+                                    Intent intent = new Intent(v.getContext(),HomeDelivery.class);
+                                    startActivity(intent);
+
+                                    dialog.dismiss();
+                                } else if (shop.isChecked()) {
+                                    Toast toast = Toast.makeText(view.getContext(), "Visit Shop Selected", Toast.LENGTH_SHORT);
                                     toast.show();
                                     removeAt(getAdapterPosition());
                                     dialog.dismiss();
-                                }
-                                else if(shop.isChecked()){
-                                    Toast toast = Toast.makeText(view.getContext(),"Visit Shop Selected", Toast.LENGTH_SHORT);
-                                    toast.show();
-                                    removeAt(getAdapterPosition());
-                                    dialog.dismiss();
-                                }
-                                else{
-                                    Toast toast = Toast.makeText(view.getContext(),"Select delivery type", Toast.LENGTH_SHORT);
+                                } else {
+                                    Toast toast = Toast.makeText(view.getContext(), "Select delivery type", Toast.LENGTH_SHORT);
                                     toast.show();
                                 }
                             }
@@ -374,9 +232,9 @@ public class Quotes extends AppCompatActivity {
                         final EditText priceText = (EditText) dialog.findViewById(R.id.new_price);
                         priceText.setFilters(new InputFilter[]{new InputCheck(0, 10000000)});
                         final EditText hourText = (EditText) dialog.findViewById(R.id.hour);
-                        hourText.setFilters(new InputFilter[]{ new InputCheck(0, 23)});
+                        hourText.setFilters(new InputFilter[]{new InputCheck(0, 23)});
                         final EditText minText = (EditText) dialog.findViewById(R.id.min);
-                        minText.setFilters(new InputFilter[]{ new InputCheck(0, 59)});
+                        minText.setFilters(new InputFilter[]{new InputCheck(0, 59)});
                         Button button1 = (Button) dialog.findViewById(R.id.ok_dialog);
                         button1.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -385,26 +243,26 @@ public class Quotes extends AppCompatActivity {
                                 String hour = hourText.getText().toString();
                                 String min = minText.getText().toString();
                                 boolean error = false;
-                                if(hour.length()==0){
+                                if (hour.length() == 0) {
                                     error = true;
                                     hourText.setError("Set Hour");
                                 }
-                                if(min.length()==0){
+                                if (min.length() == 0) {
                                     error = true;
                                     minText.setError("Set Min");
                                 }
-                                if( price.length() == 0) {
+                                if (price.length() == 0) {
                                     error = true;
                                     priceText.setError("Set Price");
                                 }
-                                if(!error){
+                                if (!error) {
                                     bargainButton.setVisibility(View.GONE);
                                     //list.get(getAdapterPosition()).setBargained(false);
-                                    bargain.setText(String.format("%s %s","Expected: Rs",price));
-                                   // tt.update(Long.valueOf(hour), Long.valueOf(min));
+                                    bargain.setText(String.format("%s %s", "Bargained for ₹", price));
+                                    // tt.update(Long.valueOf(hour), Long.valueOf(min));
                                     //timer.setText(hour+":"+min);
                                     bargain.setVisibility(View.VISIBLE);
-                                    Toast toast = Toast.makeText(v.getContext(), ""+ price, Toast.LENGTH_SHORT);
+                                    Toast toast = Toast.makeText(v.getContext(), "" + price, Toast.LENGTH_SHORT);
                                     toast.show();
                                     dialog.dismiss();
                                 }
@@ -424,13 +282,13 @@ public class Quotes extends AppCompatActivity {
             notifyItemRangeChanged(position, itemList.size());
         }
 
-        public ProductAdapter(List<QuotesObject> items){
+        public ProductAdapter(List<QuotesObject> items) {
             list = items;
         }
 
         @Override
         public ProductAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_quotes,parent,false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_quotes, parent, false);
             return new ViewHolder(view);
         }
 
@@ -442,9 +300,24 @@ public class Quotes extends AppCompatActivity {
             holder.distance.setText(object.getDistance());
             holder.productPrice.setText(object.getPrice());
             holder.bargained = object.isBargained();
-           /* if(holder.bargained){
+            Layout temp = holder.comment.getLayout();
+            if(temp != null) {
+                int lines = temp.getLineCount();
+                if(lines > 0) {
+                    int ellipsisCount = temp.getEllipsisCount(lines-1);
+                    if ( ellipsisCount > 0) {
+                        holder.more.setVisibility(View.VISIBLE);
+                        Log.d(TAG, "Text is ellipsized");
+                    }
+                }
+            }
+            if(holder.bargained){
                 holder.bargain.setVisibility(View.GONE);
-            }*/
+            }
+            if(!object.getValid()){
+                holder.layout.setVisibility(View.GONE);
+            }
+            Log.d(TAG, "bind" + position);
         }
 
         @Override

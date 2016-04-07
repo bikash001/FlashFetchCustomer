@@ -5,13 +5,27 @@ package com.example.bikash.flashfetchcustomer;
  */
 public class QuotesObject {
     private String seller,time,distance,price;
-    private boolean bargained;
+    private boolean bargained, valid_layout, rejected;
     public QuotesObject(String s,String t,String d,String p,boolean bargained){
         seller = s;
         time = t;
         price = p;
         distance = d;
+        valid_layout = true;
+        rejected = false;
         this.bargained = bargained;
+    }
+    void setValid(boolean t){
+        valid_layout = t;
+    }
+    boolean getValid(){
+        return valid_layout;
+    }
+    void setRejected(boolean t){
+        rejected = t;
+    }
+    boolean isRejected(){
+        return rejected;
     }
     String getSeller(){
         return seller;

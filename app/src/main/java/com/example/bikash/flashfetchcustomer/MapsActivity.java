@@ -1,5 +1,6 @@
 package com.example.bikash.flashfetchcustomer;
 
+import android.graphics.Bitmap;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -37,6 +38,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+
 
         // Add a marker in Sydney and move the camera
         LatLng research = new LatLng(12.988082, 80.246662);

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class ReferAndEarn extends AppCompatActivity implements View.OnClickListener{
     private ImageView whatsapp,gmail,hangout,more;
@@ -46,15 +47,30 @@ public class ReferAndEarn extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.whatsapp:
                 intent.setPackage("com.whatsapp");
-                startActivity(intent);
+                try {
+                    startActivity(intent);
+                } catch (Exception ex) {
+                    Toast toast = Toast.makeText(this, "Whatsapp Not Installed", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
                 break;
             case R.id.gmail:
                 intent.setPackage("com.gmail");
-                startActivity(intent);
+                try {
+                    startActivity(intent);
+                } catch (Exception ex) {
+                    Toast toast = Toast.makeText(this, "Gmail Not Installed", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
                 break;
             case R.id.hangout:
                 intent.setPackage("com.hangout");
-                startActivity(intent);
+                try {
+                    startActivity(intent);
+                } catch (Exception ex) {
+                    Toast toast = Toast.makeText(this, "Hangout Not Installed", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
                 break;
             case R.id.more:
                 startActivity(intent);

@@ -20,6 +20,10 @@
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.6.0\\res\\layout\\messenger_button_send_blue_round.xml"
     },
     {
+        "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_account.xml",
+        "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\activity_account.xml"
+    },
+    {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_menu_item_layout.xml",
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_action_menu_item_layout.xml"
     },
@@ -130,6 +134,10 @@
     {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_mode_bar.xml",
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_action_mode_bar.xml"
+    },
+    {
+        "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\content_account.xml",
+        "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\content_account.xml"
     },
     {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\content_fill__address.xml",

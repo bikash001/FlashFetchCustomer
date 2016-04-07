@@ -155,6 +155,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.bikash.flashfetchcustomer.Main2Activity" />
         </activity>
+        <activity android:name=".feedback"></activity>
     </application>
 
 </manifest>

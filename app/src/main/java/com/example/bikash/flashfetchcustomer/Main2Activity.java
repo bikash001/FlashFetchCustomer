@@ -1,5 +1,6 @@
 package com.example.bikash.flashfetchcustomer;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -7,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -119,9 +121,46 @@ public class Main2Activity extends AppCompatActivity
             startActivity(intent);
             return true;
         }
+        else if(id==R.id.action_connect)
+        {
+            Dialog dialog = new Dialog(this);
+            dialog.setTitle("Connect with Us");
+            dialog.setContentView(R.layout.dialog_connect);
+            LinearLayout fb = (LinearLayout)dialog.findViewById(R.id.fb);
+            LinearLayout twitter = (LinearLayout)dialog.findViewById(R.id.twitter);
+            LinearLayout whatsapp = (LinearLayout)dialog.findViewById(R.id.whatsapp);
+            fb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/Flashfetch-140606842997095/"));//Insert FB page link
+                    startActivity(browserIntent);
+                }
+            });
+            twitter.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/flashfetch"));//Insert twitter link
+                    startActivity(browserIntent);
+                }
+            });
+            whatsapp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ContactsContract.Intents.Insert.ACTION);
+                    intent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
+                    intent.putExtra(ContactsContract.Intents.Insert.PHONE, "+919940126973")
+                            .putExtra(ContactsContract.Intents.Insert.PHONE_TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_WORK)
+                            .putExtra(ContactsContract.Intents.Insert.NAME, "FlashFetch");
+                    startActivity(intent);
+                }
+            });
+            dialog.show();
+            return true;
+        }
 
         return false;
     }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -149,7 +188,7 @@ public class Main2Activity extends AppCompatActivity
             startActivity(intent);
             return true;
         } else if(id == R.id.nav_help){
-
+            startActivity(new Intent(this,feedback.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

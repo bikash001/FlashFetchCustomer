@@ -55,8 +55,9 @@ public class ReferAndEarn extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.gmail:
-                intent.setPackage("com.gmail");
+                intent.setPackage("com.google.android.gm");
                 try {
+                    intent.putExtra(Intent.EXTRA_SUBJECT,"Download FlashFetch App");
                     startActivity(intent);
                 } catch (Exception ex) {
                     Toast toast = Toast.makeText(this, "Gmail Not Installed", Toast.LENGTH_SHORT);
@@ -64,7 +65,7 @@ public class ReferAndEarn extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.hangout:
-                intent.setPackage("com.hangout");
+                intent.setPackage("com.google.android.talk");
                 try {
                     startActivity(intent);
                 } catch (Exception ex) {

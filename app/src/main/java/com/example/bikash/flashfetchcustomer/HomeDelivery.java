@@ -46,8 +46,8 @@ public class HomeDelivery extends AppCompatActivity implements View.OnClickListe
             tag = (TextView) view.findViewById(R.id.address_tag);
             address = (TextView) view.findViewById(R.id.address_content);
             tag.setText(data.getStringExtra("TAG"));
-            String ss = String.format("%s, %s, %s, %s, %s",data.getStringExtra("ADDRESSLINE"),data.getStringExtra("AREA"),
-                    data.getStringExtra("CITY"),data.getStringExtra("STATE"),data.getStringExtra("PIN"));
+            String ss = String.format("%s, %s, %s, %s, %s",data.getStringExtra("ADDRESSLINE"),data.getStringExtra("STREET"),
+                    data.getStringExtra("AREA"),data.getStringExtra("PIN"),data.getStringExtra("PHONE"));
             address.setText(ss);
             layout.addView(view);
         }

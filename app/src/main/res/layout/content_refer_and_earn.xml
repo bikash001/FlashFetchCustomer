@@ -12,6 +12,10 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.bikash.flashfetchcustomer.ReferAndEarn"
     tools:showIn="@layout/activity_refer_and_earn">
+    <TextView
+        android:id="@+id/refer_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <ImageView
         android:id="@+id/refer_image"
         android:minHeight="200dp"

@@ -131,11 +131,11 @@
         <activity
             android:name=".Fill_Address"
             android:label="@string/title_activity_fill__address"
-            android:parentActivityName=".HomeDelivery"
+            android:parentActivityName=".Account"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.HomeDelivery" />
+                android:value="com.example.bikash.flashfetchcustomer.Account" />
         </activity>
         <activity
             android:name=".Wallet"
@@ -163,6 +163,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.bikash.flashfetchcustomer.Main2Activity" />
+        </activity>
+        <activity
+            android:name=".Address"
+            android:label="@string/title_activity_address"
+            android:parentActivityName=".HomeDelivery"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.bikash.flashfetchcustomer.HomeDelivery" />
         </activity>
     </application>
 

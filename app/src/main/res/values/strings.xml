@@ -81,4 +81,5 @@
     <string name="chooser_title">Share Your Code</string>
     <string name="title_activity_refer_and_earn">ReferAndEarn</string>
     <string name="title_activity_account">Account</string>
+    <string name="title_activity_address">Address</string>
 </resources>

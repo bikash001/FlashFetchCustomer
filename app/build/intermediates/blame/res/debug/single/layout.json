@@ -4,12 +4,12 @@
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\list_quotes.xml"
     },
     {
-        "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_offer.xml",
-        "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\activity_offer.xml"
-    },
-    {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_navigation_item.xml",
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.1.1\\res\\layout\\design_navigation_item.xml"
+    },
+    {
+        "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_offer.xml",
+        "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\activity_offer.xml"
     },
     {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple_overlay_action_mode.xml",
@@ -152,6 +152,10 @@
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\content_contact_us.xml"
     },
     {
+        "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_refer_and_earn.xml",
+        "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\activity_refer_and_earn.xml"
+    },
+    {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\messenger_button_send_blue_small.xml",
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.6.0\\res\\layout\\messenger_button_send_blue_small.xml"
     },
@@ -224,6 +228,10 @@
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_action_mode_close_item_material.xml"
     },
     {
+        "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\content_refer_and_earn.xml",
+        "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\content_refer_and_earn.xml"
+    },
+    {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_navigation_menu_item.xml",
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.1.1\\res\\layout\\design_navigation_menu_item.xml"
     },
@@ -242,6 +250,10 @@
     {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_expanded_menu_layout.xml",
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_expanded_menu_layout.xml"
+    },
+    {
+        "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_wallet.xml",
+        "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\activity_wallet.xml"
     },
     {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_select_dialog_material.xml",
@@ -386,6 +398,10 @@
     {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_media_action.xml",
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\notification_media_action.xml"
+    },
+    {
+        "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\content_wallet.xml",
+        "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\content_wallet.xml"
     },
     {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_search_view.xml",

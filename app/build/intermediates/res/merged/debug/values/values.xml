@@ -400,6 +400,7 @@
     <string name="cast_notification_connecting_message">Connecting to <ns1:g id="name">%1$s</ns1:g></string>
     <string name="cast_notification_disconnect">Disconnect</string>
     <string name="character_counter_pattern" translatable="false">%1$d / %2$d</string>
+    <string name="chooser_title">Share Your Code</string>
     <string name="com_facebook_image_download_unknown_error">Unexpected error while downloading an image.</string>
     <string name="com_facebook_internet_permission_error_message">WebView login requires INTERNET permission</string>
     <string name="com_facebook_internet_permission_error_title">AndroidManifest Error</string>
@@ -463,7 +464,9 @@
     </string>
     <string name="home_del_button">Home Delivery</string>
     <string name="image_description">Image Description</string>
+    <string name="invite_text">INVITE FRIENDS TO EARN MORE</string>
     <string name="login">Login</string>
+    <string name="message">Your friend will get ₹50 for downloading the app and you will receive... </string>
     <string name="messenger_send_button_text">Send</string>
     <string name="mr_media_route_button_content_description">Cast</string>
     <string name="mr_media_route_chooser_searching">Searching for devices\u2026</string>
@@ -524,7 +527,10 @@
     <string name="title_activity_offer">Offer</string>
     <string name="title_activity_quotes">Quotes</string>
     <string name="title_activity_refer">Refer</string>
+    <string name="title_activity_refer_and_earn">ReferAndEarn</string>
     <string name="title_activity_register">Register</string>
+    <string name="title_activity_wallet">Wallet</string>
+    <string name="total_credit">Total Credit: ₹</string>
     <string name="visit_shop_button">Visit Shop</string>
     <string name="wallet_buy_button_place_holder">Buy with Google</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>

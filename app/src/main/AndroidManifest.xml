@@ -146,6 +146,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.bikash.flashfetchcustomer.Main2Activity" />
         </activity>
+        <activity
+            android:name=".ReferAndEarn"
+            android:label="@string/title_activity_refer_and_earn"
+            android:parentActivityName=".Main2Activity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.bikash.flashfetchcustomer.Main2Activity" />
+        </activity>
     </application>
 
 </manifest>

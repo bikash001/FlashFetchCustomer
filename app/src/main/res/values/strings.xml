@@ -79,4 +79,5 @@
     <string name="invite_text">INVITE FRIENDS TO EARN MORE</string>
     <string name="message">Your friend will get ₹50 for downloading the app and you will receive... </string>
     <string name="chooser_title">Share Your Code</string>
+    <string name="title_activity_refer_and_earn">ReferAndEarn</string>
 </resources>

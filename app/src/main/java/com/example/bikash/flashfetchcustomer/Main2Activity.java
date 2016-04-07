@@ -145,7 +145,9 @@ public class Main2Activity extends AppCompatActivity
         } else if (id == R.id.nav_notification) {
 
         } else if (id == R.id.nav_refer) {
-
+            Intent intent = new Intent(this,ReferAndEarn.class);
+            startActivity(intent);
+            return true;
         } else if(id == R.id.nav_help){
 
         }

@@ -80,7 +80,8 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:parentActivityName=".Quotes">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.bikash.flashfetchcustomer.Quotes" />

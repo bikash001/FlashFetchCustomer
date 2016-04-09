@@ -95,6 +95,7 @@
         <activity
             android:name="com.example.bikash.flashfetchcustomer.MapsActivity"
             android:label="@string/title_activity_maps"
+            android:parentActivityName="com.example.bikash.flashfetchcustomer.Quotes"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

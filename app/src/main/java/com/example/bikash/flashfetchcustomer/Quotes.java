@@ -116,7 +116,7 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
         int id = v.getId();
         if(id == R.id.quotes_map){
             Intent intent = new Intent(this,MapsActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent,1);
         }
         else if(id == R.id.quotes_sort){
             dialog = new Dialog(this);

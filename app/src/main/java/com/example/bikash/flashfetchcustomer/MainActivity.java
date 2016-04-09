@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        startActivity(new Intent(this,Delivery.class));
+
         Login = (Button) findViewById(R.id.button_signin);
         Register = (Button) findViewById(R.id.button_register);
         Login.setOnClickListener(new View.OnClickListener() {

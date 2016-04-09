@@ -1,4 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="#ffffffff"
+    android:background="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="2dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -15,7 +37,9 @@
     <TextView
         android:id="@+id/refer_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:text="Referred by:" />
     <ImageView
         android:id="@+id/refer_image"
         android:minHeight="200dp"
@@ -103,4 +127,6 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
+</LinearLayout>
+    </android.support.v7.widget.CardView>
 </LinearLayout>

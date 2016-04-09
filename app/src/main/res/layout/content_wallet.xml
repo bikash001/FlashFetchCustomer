@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,15 +10,19 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.bikash.flashfetchcustomer.Wallet"
-    tools:showIn="@layout/activity_wallet">
+    tools:showIn="@layout/activity_wallet"
+    android:orientation="vertical">
     <LinearLayout
         android:id="@+id/layout_wallet"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:padding="4dp"
         android:orientation="horizontal"
-        android:background="#00ff00"
+        android:background="#94999f"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingTop="16dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="16dp">
         <TextView
             android:text="@string/total_credit"
             android:layout_width="wrap_content"
@@ -49,6 +53,8 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/text_message"
         android:text="SHARE"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</RelativeLayout>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/ff_green"
+        android:textColor="#fff" />
+</LinearLayout>

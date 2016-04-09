@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#ffffffff"
+        android:background="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="2dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/product_image"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Product Name"
+                    android:id="@+id/product_name"
+                    android:layout_weight="1"
+                    android:padding="2dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Price"
+                    android:id="@+id/product_price"
+                    android:padding="2dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginRight="20dp">
+
+                    <ImageButton
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/imageButton"
+                        android:layout_weight="1"
+                        android:src="@android:drawable/ic_media_previous" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="0"
+                        android:id="@+id/number"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:gravity="center_vertical|center_horizontal" />
+
+                    <ImageButton
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/imageButton2"
+                        android:layout_weight="1"
+                        android:src="@android:drawable/ic_media_next" />
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Purchase"
+                    android:id="@+id/button"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

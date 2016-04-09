@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ff_gray"
+    android:fillViewport="false">
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delivery"
+            android:id="@+id/delivery"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="Visit Shop"
+                android:id="@+id/shop_visit"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_weight="1"
+                android:background="@color/ff_green"
+                android:padding="8dp"
+                android:checked="true" />
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="Home Delivery"
+                android:id="@+id/home_del"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:background="#fff" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price Details:"
+            android:id="@+id/price_details"
+            android:layout_margin="8dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ll_product_price"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="#fff"
+            android:padding="6dp"
+            android:layout_gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price of Product"
+                android:id="@+id/price_title"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/product_price" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ll_voucher"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="#fff"
+            android:padding="6dp"
+            android:layout_gravity="center_vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vouchers"
+                android:id="@+id/voucher_title"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/voucher_price" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ll_del_by"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="#fff"
+            android:padding="6dp"
+            android:layout_gravity="center_vertical"
+            android:visibility="visible">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delivery by"
+                android:id="@+id/del_title"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/del_by" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ll_del_cost"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="#fff"
+            android:padding="6dp"
+            android:layout_gravity="center_vertical"
+            android:visibility="visible">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delivery Cost"
+                android:id="@+id/del_cost_title"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/del_cost" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ll_wallet"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="#fff"
+            android:padding="6dp"
+            android:layout_gravity="center_vertical"
+            android:visibility="visible">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wallet"
+                android:id="@+id/wallet_title"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/wallet_price" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ll_total"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="#fff"
+            android:padding="6dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="1dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Payable"
+                android:id="@+id/total_title"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/total_price" />
+        </LinearLayout>
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="I accept the Terms and Conditions\n and the Return Policy"
+            android:id="@+id/tandc"
+            android:layout_margin="8dp"
+            android:background="#fff"
+            android:ellipsize="end"
+            android:singleLine="false" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Place Order"
+            android:id="@+id/place_order"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/ff_green"
+            android:textColor="#fff"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp" />
+
+    </LinearLayout>
+</ScrollView>

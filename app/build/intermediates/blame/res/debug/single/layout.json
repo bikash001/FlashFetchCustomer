@@ -40,10 +40,6 @@
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\activity_address.xml"
     },
     {
-        "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\content_main2.xml",
-        "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\content_main2.xml"
-    },
-    {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\place_autocomplete_progress.xml",
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-location\\8.4.0\\res\\layout\\place_autocomplete_progress.xml"
     },

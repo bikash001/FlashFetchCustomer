@@ -4,12 +4,12 @@
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\list_quotes.xml"
     },
     {
-        "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_offer.xml",
-        "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\activity_offer.xml"
-    },
-    {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_navigation_item.xml",
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.3.0\\res\\layout\\design_navigation_item.xml"
+    },
+    {
+        "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_offer.xml",
+        "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\activity_offer.xml"
     },
     {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple_overlay_action_mode.xml",
@@ -216,6 +216,10 @@
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.3.0\\res\\layout\\design_navigation_item_header.xml"
     },
     {
+        "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\about_us.xml",
+        "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\about_us.xml"
+    },
+    {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\seller_accepted.xml",
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\seller_accepted.xml"
     },
@@ -276,6 +280,10 @@
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\layout\\abc_select_dialog_material.xml"
     },
     {
+        "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_delivery.xml",
+        "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\activity_delivery.xml"
+    },
+    {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_toolbar.xml",
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\layout\\abc_screen_toolbar.xml"
     },
@@ -316,6 +324,10 @@
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\dialog_filter.xml"
     },
     {
+        "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\inventory.xml",
+        "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\inventory.xml"
+    },
+    {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\content_offer.xml",
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\content_offer.xml"
     },
@@ -330,6 +342,10 @@
     {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_content_include.xml",
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.3.0\\res\\layout\\abc_screen_content_include.xml"
+    },
+    {
+        "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\webpage.xml",
+        "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\webpage.xml"
     },
     {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_layout_snackbar.xml",

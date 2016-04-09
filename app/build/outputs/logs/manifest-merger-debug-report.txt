@@ -344,7 +344,7 @@ ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main
 	android:label
 		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:134:13-65
 	android:parentActivityName
-		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:135:13-50
+		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:135:13-55
 	android:theme
 		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:136:13-56
 	android:name

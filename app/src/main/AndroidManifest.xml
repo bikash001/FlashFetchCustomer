@@ -132,11 +132,11 @@
         <activity
             android:name=".Fill_Address"
             android:label="@string/title_activity_fill__address"
-            android:parentActivityName=".Account"
+            android:parentActivityName=".HomeDelivery"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.Account" />
+                android:value="com.example.bikash.flashfetchcustomer.HomeDelivery" />
         </activity>
         <activity
             android:name=".Wallet"

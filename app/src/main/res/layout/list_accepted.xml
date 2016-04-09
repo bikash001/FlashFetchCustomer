@@ -23,43 +23,56 @@
 
         <ImageView
             android:id="@+id/image_view_accepted"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
-            android:layout_marginRight="10dp"
             android:contentDescription="@string/image_description"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            android:layout_weight="0.3" />
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7">
 
             <TextView
             android:id="@+id/product_name_accepted"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/image_view_accepted"
             android:layout_toRightOf="@+id/image_view_accepted"
             android:text="@string/product_name"
-            android:textSize="15sp" />
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                android:layout_marginLeft="4dp"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp" />
 
             <TextView
             android:id="@+id/price_from_store"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/product_name_accepted"
             android:layout_toRightOf="@+id/image_view_accepted"
             android:text="@string/price"
-            android:textSize="15sp" />
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp" />
 
             <TextView
             android:id="@+id/price_offered"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/price_from_store"
             android:layout_toRightOf="@+id/image_view_accepted"
-            android:text="@string/price_offered" />
+            android:text="@string/price_offered"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp" />
 
             <LinearLayout
             android:id="@+id/accepted_layout"
@@ -68,14 +81,18 @@
             android:layout_below="@id/price_offered"
             android:layout_toRightOf="@+id/image_view_accepted"
             android:orientation="horizontal"
-            android:weightSum="1">
+            android:weightSum="1"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:id="@+id/ll_call"
-                    android:layout_weight="0.5">
+                    android:layout_weight="0.5"
+                    android:background="@color/ff_green"
+                    android:padding="8dp">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -88,8 +105,10 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="Call"
                         android:id="@+id/call_text"
-                        android:gravity="center_vertical"
-                        android:layout_gravity="right" />
+                        android:gravity="center_vertical|center_horizontal"
+                        android:textColor="#fff"
+                        android:layout_gravity="center"
+                        android:layout_weight="1" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -97,7 +116,9 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:id="@+id/ll_locate"
-                    android:layout_weight="0.5">
+                    android:layout_weight="0.5"
+                    android:background="@color/ff_black"
+                    android:padding="8dp">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -110,8 +131,10 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="Locate"
                         android:id="@+id/locate_text"
-                        android:gravity="center_vertical"
-                        android:layout_gravity="right" />
+                        android:gravity="center_vertical|center_horizontal"
+                        android:textColor="#fff"
+                        android:layout_gravity="center"
+                        android:layout_weight="1" />
                 </LinearLayout>
             </LinearLayout>
 

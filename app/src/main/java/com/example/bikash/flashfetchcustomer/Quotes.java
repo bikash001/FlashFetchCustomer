@@ -22,7 +22,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -68,8 +67,7 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView recyclerView;
     private ProductAdapter mAdapter;
     private int height, width;
-    private LinearLayout map,sort,filter;
-    private Dialog dialog;
+    private LinearLayout map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,13 +86,17 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
         url = getIntent().getStringExtra("URL");
         CollapsingToolbarLayout layout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         new Download(layout).execute(url);
+       /* Button button = (Button) findViewById(R.id.map_sellers);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Quotes.this,MapsActivity.class);
+                startActivity(intent);
+            }
+        });*/
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_quotes);
         map = (LinearLayout) findViewById(R.id.quotes_map);
         map.setOnClickListener(this);
-        filter = (LinearLayout) findViewById(R.id.quotes_filter);
-        filter.setOnClickListener(this);
-        sort = (LinearLayout) findViewById(R.id.quotes_sort);
-        sort.setOnClickListener(this);
         mAdapter = new ProductAdapter(itemList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -112,34 +114,10 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        DialogHandler handler;
         int id = v.getId();
         if(id == R.id.quotes_map){
             Intent intent = new Intent(this,MapsActivity.class);
             startActivityForResult(intent,1);
-        }
-        else if(id == R.id.quotes_sort){
-            dialog = new Dialog(this);
-            dialog.setContentView(R.layout.dialog_sort);
-            handler = new DialogHandler();
-            dialog.setTitle("Sort");
-            dialog.getWindow().setLayout((int) (width * 0.8), height);
-            TextView newest = (TextView) dialog.findViewById(R.id.sort_newest);
-            newest.setOnClickListener(handler);
-            TextView low = (TextView) dialog.findViewById(R.id.sort_low_high);
-            low.setOnClickListener(handler);
-            TextView high = (TextView) dialog.findViewById(R.id.sort_high_low);
-            high.setOnClickListener(handler);
-            dialog.show();
-        }
-        else if(id == R.id.quotes_filter){
-            dialog = new Dialog(this);
-            dialog.setContentView(R.layout.dialog_filter);
-            handler = new DialogHandler();
-            dialog.getWindow().setLayout((int) (width * 0.8), height);
-            Button button = (Button) dialog.findViewById(R.id.filter_apply);
-            button.setOnClickListener(handler);
-            dialog.show();
         }
     }
 
@@ -186,7 +164,7 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
 
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             private TextView sellerName, productPrice, timer, distance, bargain,comment,more;
-            private Button bargainButton, acceptButton;
+            private TextView bargainButton, acceptButton;
             private boolean bargained;
             private LinearLayout layout;
 
@@ -196,14 +174,14 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
                 super(itemView);
                 more = (TextView) itemView.findViewById(R.id.more);
                 comment = (TextView) itemView.findViewById(R.id.comment);
-                bargain = (TextView) itemView.findViewById(R.id.bargained_price);
+                bargain = (TextView) itemView.findViewById(R.id.bargained);
                 sellerName = (TextView) itemView.findViewById(R.id.seller_name);
                 productPrice = (TextView) itemView.findViewById(R.id.price_offered_quotes);
                 timer = (TextView) itemView.findViewById(R.id.timer);
                 distance = (TextView) itemView.findViewById(R.id.distance);
-                bargainButton = (Button) itemView.findViewById(R.id.button_bargain);
+                bargainButton = (TextView) itemView.findViewById(R.id.bargain);
                 bargainButton.setOnClickListener(this);
-                acceptButton = (Button) itemView.findViewById(R.id.button_accept);
+                acceptButton = (TextView) itemView.findViewById(R.id.accept);
                 acceptButton.setOnClickListener(this);
                 layout = (LinearLayout) itemView.findViewById(R.id.button_layout);
                 Log.d(TAG, "ViewHolder");
@@ -229,7 +207,7 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
                 final Dialog dialog = new Dialog(v.getContext());
 
                 switch (v.getId()) {
-                    case R.id.button_accept:
+                    case R.id.accept:
                         dialog.setContentView(R.layout.dialog_accept);
                         dialog.getWindow().setLayout((int) (width * 0.8), height);
                         final RadioButton home = (RadioButton) dialog.findViewById(R.id.home_delivery);
@@ -355,26 +333,6 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
         @Override
         public int getItemCount() {
             return list.size();
-        }
-    }
-
-    private class DialogHandler implements View.OnClickListener{
-
-        @Override
-        public void onClick(View v) {
-            int id = v.getId();
-            if(id == R.id.sort_newest){
-                dialog.dismiss();
-            }
-            else if(id == R.id.sort_low_high){
-                dialog.dismiss();
-            }
-            else if(id == R.id.sort_high_low){
-                dialog.dismiss();
-            }
-            else if(id == R.id.filter_apply){
-                dialog.dismiss();
-            }
         }
     }
 

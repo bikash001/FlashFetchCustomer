@@ -113,7 +113,7 @@ public class Main2Activity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
             prefs.edit().clear().apply();
-            Intent intent = new Intent(this,LoginActivity.class);
+            Intent intent = new Intent(this,MainActivity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.action_contact){

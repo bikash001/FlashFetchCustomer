@@ -210,7 +210,6 @@ public class Quotes extends AppCompatActivity {
                                     changeView(getAdapterPosition());
                                     Intent intent = new Intent(v.getContext(),HomeDelivery.class);
                                     startActivity(intent);
-
                                     dialog.dismiss();
                                 } else if (shop.isChecked()) {
                                     Toast toast = Toast.makeText(view.getContext(), "Visit Shop Selected", Toast.LENGTH_SHORT);

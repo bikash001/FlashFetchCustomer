@@ -21,8 +21,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -32,37 +30,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.Profile;
-import com.facebook.appevents.AppEventsLogger;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.Scopes;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Scope;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
-public class Register extends AppCompatActivity implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>{
+public class Register extends AppCompatActivity implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>,
+        TextView.OnEditorActionListener{
 
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
@@ -81,7 +56,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
     // UI references.
     private static final int REQUEST_READ_CONTACTS = 0;
     private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView, mPasswordViewConfirm;
+    private EditText mPasswordView, mPasswordViewConfirm, name,phone;
     private View mProgressView;
     private View mLoginFormView;
 
@@ -98,28 +73,16 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
         populateAutoComplete();
 
         mPasswordViewConfirm = (EditText) findViewById(R.id.password_register_confirm);
-        mPasswordViewConfirm.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
+        mPasswordViewConfirm.setOnEditorActionListener(this);
 
         mPasswordView = (EditText) findViewById(R.id.password_register);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
+        mPasswordView.setOnEditorActionListener(this);
+
+        name = (EditText) findViewById(R.id.name);
+        name.setOnEditorActionListener(this);
+
+        phone = (EditText) findViewById(R.id.phone_number);
+        phone.setOnEditorActionListener(this);
 
         Button mEmailSignInButton = (Button) findViewById(R.id.button_register);
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
@@ -177,18 +140,28 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
+        name.setError(null);
+        phone.setError(null);
+        mPasswordViewConfirm.setError(null);
 
         // Store values at the time of the login attempt.
+        String per_name = name.getText().toString();
+        String ph_num = phone.getText().toString();
+        String pass = mPasswordViewConfirm.getText().toString();
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
+        if (!isNameValid(per_name)){
+            name.setError("Name is too short");
+            focusView = name;
+            cancel = true;
+        }
+        if(!isPhoneValid(ph_num)){
+            phone.setError("Enter valid phone no.");
+            focusView = phone;
             cancel = true;
         }
 
@@ -200,6 +173,22 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
         } else if (!isEmailValid(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
+            cancel = true;
+        }
+        // Check for a valid password, if the user entered one.
+        if (TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+            mPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = mPasswordView;
+            cancel = true;
+        }
+        if (TextUtils.isEmpty(pass)){
+            mPasswordViewConfirm.setError("This can't be empty");
+            focusView = mPasswordViewConfirm;
+            cancel = true;
+        }
+        else if(!isConfirmValid(pass,password)){
+            mPasswordViewConfirm.setError("Password did not matched");
+            focusView = mPasswordViewConfirm;
             cancel = true;
         }
 
@@ -226,7 +215,19 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 7;
+    }
+
+    private boolean isPhoneValid(String number){
+        return number.length()==10;
+    }
+
+    private boolean isNameValid(String name){
+        return name.length() > 4;
+    }
+
+    private boolean isConfirmValid(String a, String b){
+        return  a == b;
     }
 
     /**
@@ -331,6 +332,15 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int id, KeyEvent event) {
+        if (id == EditorInfo.IME_NULL || id==R.id.login || id==R.id.name_ime || id==R.id.phone_ime) {
+            attemptLogin();
+            return true;
+        }
+        return false;
     }
 
 

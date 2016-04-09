@@ -4,12 +4,12 @@
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\list_quotes.xml"
     },
     {
-        "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_navigation_item.xml",
-        "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.3.0\\res\\layout\\design_navigation_item.xml"
-    },
-    {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_offer.xml",
         "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\src\\main\\res\\layout\\activity_offer.xml"
+    },
+    {
+        "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_navigation_item.xml",
+        "source": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.3.0\\res\\layout\\design_navigation_item.xml"
     },
     {
         "merged": "C:\\Users\\bikash\\AndroidStudioProjects\\FlashFetchCustomer\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple_overlay_action_mode.xml",

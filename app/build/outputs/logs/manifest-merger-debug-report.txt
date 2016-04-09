@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:2:1-187:12
+ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:2:1-192:12
 	package
 		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:3:5-52
 		INJECTED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml
@@ -48,7 +48,7 @@ ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main
 	android:name
 		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:16:22-76
 application
-ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:18:5-185:19
+ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:18:5-190:19
 MERGED from [com.android.support:appcompat-v7:23.3.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.3.0\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-vector-drawable:23.3.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.3.0\AndroidManifest.xml:7:5-20
 MERGED from [com.android.support:support-v4:23.3.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\AndroidManifest.xml:22:5-20
@@ -182,6 +182,9 @@ MERGED from [com.google.android.gms:play-services-measurement:8.4.0] C:\Users\bi
 MERGED from [com.google.android.gms:play-services-basement:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\AndroidManifest.xml:20:5-24:19
 MERGED from [com.android.support:support-v4:23.3.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.maps.android:android-maps-utils:0.4.3] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.maps.android\android-maps-utils\0.4.3\AndroidManifest.xml:7:5-11:19
+MERGED from [com.google.android.gms:play-services-auth:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\8.4.0\AndroidManifest.xml:20:5-32:19
+MERGED from [com.google.android.gms:play-services-basement:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.3.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-measurement:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-measurement\8.4.0\AndroidManifest.xml:26:5-46:19
 MERGED from [com.google.android.gms:play-services-basement:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\AndroidManifest.xml:20:5-24:19
 MERGED from [com.android.support:support-v4:23.3.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\AndroidManifest.xml:22:5-20
@@ -208,13 +211,13 @@ ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main
 	android:label
 		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:29:13-57
 	android:parentActivityName
-		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:30:13-56
+		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:30:13-55
 	android:name
 		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:28:13-42
 meta-data#android.support.PARENT_ACTIVITY
-ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:32:13-34:87
+ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:32:13-34:86
 	android:value
-		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:34:17-84
+		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:34:17-83
 	android:name
 		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:33:17-63
 activity#com.example.bikash.flashfetchcustomer.Register
@@ -224,7 +227,7 @@ ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main
 	android:label
 		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:38:13-60
 	android:parentActivityName
-		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:39:13-56
+		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:39:13-55
 	android:theme
 		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:41:13-56
 	android:name
@@ -399,6 +402,16 @@ ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main
 		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:180:13-56
 	android:name
 		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:177:13-36
+activity#com.example.bikash.flashfetchcustomer.Delivery
+ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:185:9-189:14
+	android:screenOrientation
+		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:187:13-49
+	android:label
+		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:186:13-37
+	android:theme
+		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:188:13-51
+	android:name
+		ADDED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml:185:19-43
 uses-sdk
 INJECTED from C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:23.3.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.3.0\AndroidManifest.xml:21:5-23:78
@@ -565,6 +578,10 @@ MERGED from [com.google.android.gms:play-services-measurement:8.4.0] C:\Users\bi
 MERGED from [com.google.android.gms:play-services-basement:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\AndroidManifest.xml:18:5-42
 MERGED from [com.android.support:support-v4:23.3.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\AndroidManifest.xml:20:5-43
 MERGED from [com.google.maps.android:android-maps-utils:0.4.3] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.maps.android\android-maps-utils\0.4.3\AndroidManifest.xml:5:5-43
+MERGED from [com.google.android.gms:play-services-auth:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\8.4.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-base:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.4.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-basement:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.3.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\AndroidManifest.xml:20:5-43
 MERGED from [com.google.android.gms:play-services-measurement:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-measurement\8.4.0\AndroidManifest.xml:18:5-42
 MERGED from [com.google.android.gms:play-services-basement:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\AndroidManifest.xml:18:5-42
 MERGED from [com.android.support:support-v4:23.3.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\AndroidManifest.xml:20:5-43
@@ -614,6 +631,7 @@ MERGED from [com.google.android.gms:play-services-basement:8.4.0] C:\Users\bikas
 MERGED from [com.google.android.gms:play-services-basement:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\AndroidManifest.xml:21:9-23:69
 MERGED from [com.google.android.gms:play-services-basement:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\AndroidManifest.xml:21:9-23:69
 MERGED from [com.google.maps.android:android-maps-utils:0.4.3] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.maps.android\android-maps-utils\0.4.3\AndroidManifest.xml:8:9-10:69
+MERGED from [com.google.android.gms:play-services-basement:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\AndroidManifest.xml:21:9-23:69
 MERGED from [com.google.android.gms:play-services-basement:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\AndroidManifest.xml:21:9-23:69
 	android:value
 		ADDED from [com.google.android.gms:play-services-basement:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\AndroidManifest.xml:23:13-66
@@ -666,6 +684,7 @@ ADDED from [com.google.android.gms:play-services-appinvite:8.4.0] C:\Users\bikas
 		ADDED from [com.google.android.gms:play-services-appinvite:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appinvite\8.4.0\AndroidManifest.xml:26:25-87
 activity#com.google.android.gms.auth.api.signin.internal.SignInHubActivity
 ADDED from [com.google.android.gms:play-services-auth:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\8.4.0\AndroidManifest.xml:21:9-24:46
+MERGED from [com.google.android.gms:play-services-auth:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\8.4.0\AndroidManifest.xml:21:9-24:46
 	android:excludeFromRecents
 		ADDED from [com.google.android.gms:play-services-auth:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\8.4.0\AndroidManifest.xml:23:19-52
 	android:exported
@@ -676,6 +695,7 @@ ADDED from [com.google.android.gms:play-services-auth:8.4.0] C:\Users\bikash\And
 		ADDED from [com.google.android.gms:play-services-auth:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\8.4.0\AndroidManifest.xml:21:19-72
 service#com.google.android.gms.auth.api.signin.RevocationBoundService
 ADDED from [com.google.android.gms:play-services-auth:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\8.4.0\AndroidManifest.xml:28:9-31:110
+MERGED from [com.google.android.gms:play-services-auth:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\8.4.0\AndroidManifest.xml:28:9-31:110
 	android:exported
 		ADDED from [com.google.android.gms:play-services-auth:8.4.0] C:\Users\bikash\AndroidStudioProjects\FlashFetchCustomer\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\8.4.0\AndroidManifest.xml:30:13-36
 	android:permission

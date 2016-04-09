@@ -1,61 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="#ffffffff"
+    android:background="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="2dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin"
     android:orientation="vertical"
-    android:padding="@dimen/margin">
+    android:layout_margin="2dp">
 
     <TextView
         android:id="@+id/type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#00ff00"
-        android:padding="2dp"
-        android:text="Same | Free Delivery Available" />
-
-    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff">
+        android:background="@color/ff_green"
+        android:padding="2dp"
+        android:text="Same | Free Delivery Available"
+        android:textColor="#fff" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/seller_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@+id/price_offered_quotes"
-            android:text="Seller: XYZ " />
+            android:text="Seller: XYZ "
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/price_offered_quotes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:text="₹ 5000" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/distance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/seller_name"
-            android:text="5.2 KM" />
+            android:text="5.2 KM"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/price_offered_quotes"
             android:text="Time left: 12.00"
             android:visibility="visible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/comment"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/bargained_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Bargained for ₹ 41,000"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/button_bargain"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_bargain"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/button_accept"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_accept"
+            android:textColor="#fff"
+            android:background="@color/ff_black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/ff_gray">
 
         <TextView
             android:id="@+id/comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/distance"
-            android:layout_toLeftOf="@+id/more"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="Comment alfjlajf  afjoaljfa  alfjaljf  ajfljaal fajlfjlajfla  afjaljf" />
@@ -64,51 +119,19 @@
             android:id="@+id/more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_below="@id/distance"
             android:text="more"
             android:visibility="gone" />
-
-        <LinearLayout
-            android:id="@+id/button_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/comment"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/bargained_price"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Bargained for ₹ 41,000"
-                android:visibility="visible" />
-
-            <Button
-                android:id="@+id/button_bargain"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/button_bargain"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/button_accept"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/button_accept" />
-        </LinearLayout>
 
         <TextView
             android:id="@+id/decline_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/button_layout"
             android:background="#6dceaa"
             android:gravity="center"
             android:text="Shopkepper declined your order"
             android:visibility="gone" />
 
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>
+    </android.support.v7.widget.CardView>

@@ -60,13 +60,14 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Quotes extends AppCompatActivity {
+public class Quotes extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "QUOTES";
     private String url;
     private List<QuotesObject> itemList = new ArrayList<>();
     private RecyclerView recyclerView;
     private ProductAdapter mAdapter;
     private int height, width;
+    private Button map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +95,8 @@ public class Quotes extends AppCompatActivity {
             }
         });*/
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_quotes);
-
+        map = (Button) findViewById(R.id.quotes_map);
+        map.setOnClickListener(this);
         mAdapter = new ProductAdapter(itemList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -107,6 +109,15 @@ public class Quotes extends AppCompatActivity {
         for (int i = 0; i < 10; ++i) {
             QuotesObject object = new QuotesObject("Seller: " + i, "12:00", "5.2 KM", "₹ 45,000", false);
             itemList.add(object);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if(id == R.id.quotes_map){
+            Intent intent = new Intent(this,MapsActivity.class);
+            startActivity(intent);
         }
     }
 

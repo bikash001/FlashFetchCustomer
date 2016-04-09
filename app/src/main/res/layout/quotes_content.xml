@@ -46,7 +46,13 @@
 
         <Button
             android:text="filter"
+            android:id="@+id/quotes_filter"
             android:background="@drawable/circularbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:text="map"
+            android:id="@+id/quotes_map"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

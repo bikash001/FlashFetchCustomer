@@ -423,7 +423,7 @@ public class Main2Activity extends AppCompatActivity
         @Override
         public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-            Button button_call = (Button) view.findViewById(R.id.call);
+            LinearLayout button_call = (LinearLayout) view.findViewById(R.id.ll_call);
             CharSequence tag = "button_call"+rank;
             button_call.setTag(tag);
             button_call.setOnClickListener(new View.OnClickListener() {
@@ -433,7 +433,7 @@ public class Main2Activity extends AppCompatActivity
                     startActivity(intent);
                 }
             });
-            Button button_location = (Button) view.findViewById(R.id.location);
+            LinearLayout button_location = (LinearLayout) view.findViewById(R.id.ll_locate);
             tag = "button_location"+rank;
             button_location.setTag(tag);
             button_location.setOnClickListener(new View.OnClickListener() {

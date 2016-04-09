@@ -30,31 +30,77 @@
         android:text="Price: ₹ 50,000" />
 
     <android.support.v7.widget.RecyclerView
-        android:layout_above="@+id/toolbar_bottom"
         android:id="@+id/recycler_view_quotes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/toolbar_bottom"
         android:layout_below="@+id/price_quotes"
         android:scrollbars="vertical" />
+
     <LinearLayout
         android:id="@+id/toolbar_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
         android:layout_alignParentBottom="true"
         android:fitsSystemWindows="true"
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
+        android:weightSum="3"
+        android:baselineAligned="false">
 
-        <Button
-            android:text="filter"
+        <LinearLayout
+            android:id="@+id/quotes_sort"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Sort"
+                android:gravity="center_vertical"
+                android:layout_gravity="right" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/quotes_filter"
-            android:background="@drawable/circularbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <Button
-            android:text="map"
-            android:id="@+id/quotes_map"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Filter"
+                android:gravity="center_vertical"
+                android:layout_gravity="right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:orientation="horizontal"
+            android:id="@+id/quotes_map"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Map"
+                android:gravity="center_vertical"
+                android:layout_gravity="right" />
+        </LinearLayout>
+
+    </LinearLayout>
 </RelativeLayout>

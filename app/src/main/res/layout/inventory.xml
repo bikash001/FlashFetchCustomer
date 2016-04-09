@@ -28,7 +28,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/product_image"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:padding="3dp" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -50,14 +51,39 @@
                     android:layout_weight="1"
                     android:padding="2dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Price"
-                    android:id="@+id/product_price"
-                    android:padding="2dp"
-                    android:layout_weight="1" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Price"
+                        android:id="@+id/product_price"
+                        android:padding="2dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Price1"
+                        android:id="@+id/price_initial"
+                        android:padding="2dp"
+                        android:layout_weight="1" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Price2"
+                        android:id="@+id/price_final"
+                        android:padding="2dp"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -97,12 +123,16 @@
                         android:src="@android:drawable/ic_media_next" />
                 </LinearLayout>
 
-                <Button
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Purchase"
+                    android:text="PURCHASE"
                     android:id="@+id/button"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:background="@color/ff_black"
+                    android:textColor="#fff"
+                    android:padding="8dp"
+                    android:gravity="center_horizontal" />
 
             </LinearLayout>
 

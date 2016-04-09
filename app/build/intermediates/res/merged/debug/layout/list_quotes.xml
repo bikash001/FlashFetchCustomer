@@ -1,137 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
+    android:layout_gravity="center"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
+    app:cardBackgroundColor="#ffffffff"
+    android:background="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="2dp"
+    android:layout_marginTop="4dp"
     android:layout_marginBottom="4dp"
     android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginTop="4dp"
-    android:background="?android:attr/selectableItemBackground"
-    app:cardBackgroundColor="#ffffffff"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="2dp">
+    android:layout_marginRight="8dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="2dp">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/type"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:orientation="vertical">
+        android:background="@color/ff_green"
+        android:padding="2dp"
+        android:text="Same | Free Delivery Available"
+        android:textColor="#fff" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="4dp">
 
         <TextView
-            android:id="@+id/type"
+            android:id="@+id/seller_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/price_offered_quotes"
+            android:text="Seller: XYZ "
+            android:layout_weight="1"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
+
+        <TextView
+            android:id="@+id/price_offered_quotes"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="₹ 5000"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="4dp">
+
+        <TextView
+            android:id="@+id/distance"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="5.2 KM"
+            android:layout_weight="1"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
+
+        <TextView
+            android:id="@+id/timer"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="12.00"
+            android:visibility="visible"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/comment"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="BARGAIN"
+            android:id="@+id/bargain"
+            android:textColor="#fff"
+            android:background="@color/ff_green"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|center_horizontal"
+            android:padding="8dp"
+            android:layout_margin="2dp"
+            android:visibility="visible" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Bargained for Rs. X"
+            android:id="@+id/bargained"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:layout_margin="2dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="ACCEPT"
+            android:id="@+id/accept"
+            android:textColor="#fff"
+            android:background="@color/ff_black"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|center_horizontal"
+            android:padding="8dp"
+            android:layout_margin="2dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/ff_gray"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/ff_green"
-            android:padding="2dp"
-            android:text="Same | Free Delivery Available"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Comment alfjlajf  afjoaljfa  alfjaljf  ajfljaal fajlfjlajfla  afjaljf"
+            android:background="#94999f"
+            android:padding="3dp"
             android:textColor="#fff" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+        <TextView
+            android:id="@+id/more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/distance"
+            android:text="more"
+            android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/seller_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/price_offered_quotes"
-                android:layout_weight="1"
-                android:text="Seller: XYZ " />
-
-            <TextView
-                android:id="@+id/price_offered_quotes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="₹ 5000" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/distance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="5.2 KM" />
-
-            <TextView
-                android:id="@+id/timer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Time left: 12.00"
-                android:visibility="visible" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/button_layout"
+        <TextView
+            android:id="@+id/decline_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/comment"
-            android:orientation="horizontal">
+            android:background="#6dceaa"
+            android:gravity="center"
+            android:text="Shopkepper declined your order"
+            android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/bargained_price"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Bargained for ₹ 41,000"
-                android:visibility="visible" />
-
-            <Button
-                android:id="@+id/button_bargain"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/button_bargain"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/button_accept"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/ff_black"
-                android:text="@string/button_accept"
-                android:textColor="#fff" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/ff_gray">
-
-            <TextView
-                android:id="@+id/comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="Comment alfjlajf  afjoaljfa  alfjaljf  ajfljaal fajlfjlajfla  afjaljf" />
-
-            <TextView
-                android:id="@+id/more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/distance"
-                android:text="more"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/decline_message"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#6dceaa"
-                android:gravity="center"
-                android:text="Shopkepper declined your order"
-                android:visibility="gone" />
-
-        </LinearLayout>
     </LinearLayout>
-</android.support.v7.widget.CardView>
+</LinearLayout>
+    </android.support.v7.widget.CardView>

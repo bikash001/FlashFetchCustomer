@@ -21,7 +21,6 @@
         android:hint="How can we help you?"
         android:inputType="text"
         android:layout_width="match_parent"
-        android:background="@drawable/border_edittext"
         android:layout_height="wrap_content" />
     <EditText
         android:padding="4dp"
@@ -30,7 +29,6 @@
         android:gravity="top"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="@drawable/border_edittext"
         style="@style/Base.V7.Widget.AppCompat.EditText" />
     <Button
         android:id="@+id/contact_submit"

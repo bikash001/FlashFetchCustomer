@@ -155,7 +155,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.bikash.flashfetchcustomer.Main2Activity" />
         </activity>
-        <activity android:name=".feedback"></activity>
+        <activity android:name=".feedback"
+            android:label="Feedback"
+            android:parentActivityName=".Main2Activity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.bikash.flashfetchcustomer.Main2Activity"/>
+        </activity>
         <activity
             android:name=".Account"
             android:label="@string/title_activity_account"

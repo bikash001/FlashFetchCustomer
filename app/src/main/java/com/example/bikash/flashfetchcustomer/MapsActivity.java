@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -38,13 +39,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng research = new LatLng(12.988082, 80.246662);
         mMap.addMarker(new MarkerOptions().position(research).title("IIT Research Park").icon(BitmapDescriptorFactory.fromBitmap(mp)));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        LatLng iit = new LatLng(13.000000,80.2368);
+        LatLng iit = new LatLng(12.988082,80.2368);
         mMap.addMarker(new MarkerOptions().position(iit).title("IIT Madras").icon(BitmapDescriptorFactory.fromBitmap(ui.makeIcon("₹700"))));
         LatLng hostel = new LatLng(12.986843,85.239006);
         mMap.addMarker(new MarkerOptions().position(hostel).title("Ganga Hostel").icon(BitmapDescriptorFactory.fromBitmap(ui.makeIcon("₹550"))));
-        LatLng gate = new LatLng(13.500000,83.239353);
+        LatLng gate = new LatLng(12.9880820,83.239353);
         mMap.addMarker(new MarkerOptions().position(gate).title("Taramani Gate").icon(BitmapDescriptorFactory.fromBitmap(ui.makeIcon("₹600"))));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(hostel));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(research));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
 
     }
 }

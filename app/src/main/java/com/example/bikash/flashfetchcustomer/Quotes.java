@@ -86,14 +86,6 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
         url = getIntent().getStringExtra("URL");
         CollapsingToolbarLayout layout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         new Download(layout).execute(url);
-       /* Button button = (Button) findViewById(R.id.map_sellers);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Quotes.this,MapsActivity.class);
-                startActivity(intent);
-            }
-        });*/
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_quotes);
         map = (Button) findViewById(R.id.quotes_map);
         map.setOnClickListener(this);

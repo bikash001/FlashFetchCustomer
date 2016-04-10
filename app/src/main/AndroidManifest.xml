@@ -27,21 +27,21 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
-            android:parentActivityName=".Main2Activity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.Main2Activity" />
+                android:value="com.example.bikash.flashfetchcustomer.MainActivity" />
         </activity>
         <activity
             android:name=".Register"
             android:label="@string/title_activity_register"
-            android:parentActivityName=".Main2Activity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.Main2Activity" />
+                android:value="com.example.bikash.flashfetchcustomer.MainActivity" />
         </activity>
         <activity
             android:name=".Quotes"
@@ -80,7 +80,8 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:parentActivityName=".Quotes">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.bikash.flashfetchcustomer.Quotes" />
@@ -131,11 +132,11 @@
         <activity
             android:name=".Fill_Address"
             android:label="@string/title_activity_fill__address"
-            android:parentActivityName=".Account"
+            android:parentActivityName=".HomeDelivery"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.Account" />
+                android:value="com.example.bikash.flashfetchcustomer.HomeDelivery" />
         </activity>
         <activity
             android:name=".Wallet"
@@ -181,6 +182,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.bikash.flashfetchcustomer.HomeDelivery" />
         </activity>
+        <activity android:name=".Delivery"
+            android:label="Delivery"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat"
+           />
     </application>
 
 </manifest>

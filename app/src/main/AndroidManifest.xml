@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.bikash.flashfetchcustomer">
+    package="com.buyer.flashfetch">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -31,7 +31,7 @@
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.MainActivity" />
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".Register"
@@ -41,7 +41,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.MainActivity" />
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".Quotes"
@@ -51,7 +51,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.Main2Activity" />
+                android:value=".Main2Activity" />
         </activity>
         <activity
             android:name=".Extract"
@@ -84,7 +84,7 @@
             android:parentActivityName=".Quotes">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.Quotes" />
+                android:value=".Quotes" />
         </activity>
         <activity
             android:name=".Main2Activity"
@@ -109,7 +109,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.Main2Activity" />
+                android:value=".Main2Activity" />
         </activity>
         <activity
             android:name=".HomeDelivery"
@@ -118,7 +118,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.Quotes" />
+                android:value=".Quotes" />
         </activity>
         <activity
             android:name=".ContactUs"
@@ -127,7 +127,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.Main2Activity" />
+                android:value=".Main2Activity" />
         </activity>
         <activity
             android:name=".Fill_Address"
@@ -136,7 +136,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.HomeDelivery" />
+                android:value="com.buyer.flashfetch.HomeDelivery" />
         </activity>
         <activity
             android:name=".Wallet"
@@ -145,7 +145,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.Main2Activity" />
+                android:value="com.buyer.flashfetch.Main2Activity" />
         </activity>
         <activity
             android:name=".ReferAndEarn"
@@ -154,7 +154,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.Main2Activity" />
+                android:value="com.buyer.flashfetch.Main2Activity" />
         </activity>
         <activity android:name=".feedback"
             android:label="Feedback"
@@ -162,7 +162,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.Main2Activity"/>
+                android:value="com.buyer.flashfetch.Main2Activity"/>
         </activity>
         <activity
             android:name=".Account"
@@ -171,7 +171,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.Main2Activity" />
+                android:value="com.buyer.flashfetch.Main2Activity" />
         </activity>
         <activity
             android:name=".Address"
@@ -180,7 +180,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.bikash.flashfetchcustomer.HomeDelivery" />
+                android:value="com.buyer.flashfetch.HomeDelivery" />
         </activity>
         <activity android:name=".Delivery"
             android:label="Delivery"

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/material_grey"
     android:fitsSystemWindows="true"
-    tools:context="com.example.bikash.flashfetchcustomer.HomeDelivery"
+    tools:context=".HomeDelivery"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout

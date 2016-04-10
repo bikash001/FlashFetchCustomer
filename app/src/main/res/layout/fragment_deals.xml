@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/margin"
     android:paddingRight="@dimen/margin"
     android:paddingTop="@dimen/margin"
-    tools:context="com.example.bikash.flashfetchcustomer.Deals$PlaceholderFragment">
+    tools:context=".Deals$PlaceholderFragment">
 
     <LinearLayout
         android:id="@+id/list_layout"

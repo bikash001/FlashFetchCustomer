@@ -172,40 +172,15 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
             }
 
             @Override
-            public void onClick(final View v) {
+            public void onClick(View v) {
                 final Dialog dialog = new Dialog(v.getContext());
 
                 switch (v.getId()) {
                     case R.id.accept:
-                        dialog.setContentView(R.layout.dialog_accept);
-                        dialog.getWindow().setLayout((int) (width * 0.8), height);
-                        final RadioButton home = (RadioButton) dialog.findViewById(R.id.home_delivery);
-                        final RadioButton shop = (RadioButton) dialog.findViewById(R.id.visit_shop);
-                        final Button button = (Button) dialog.findViewById(R.id.ok);
-                        button.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                if (home.isChecked()) {
-                                    bargainButton.setVisibility(View.GONE);
-                                    changeView(getAdapterPosition());
-                                    Intent intent = new Intent(v.getContext(),HomeDelivery.class);
-                                    startActivity(intent);
-                                    dialog.dismiss();
-                                } else if (shop.isChecked()) {
-                                    Toast toast = Toast.makeText(view.getContext(), "Visit Shop Selected", Toast.LENGTH_SHORT);
-                                    toast.show();
-                                    removeAt(getAdapterPosition());
-                                    dialog.dismiss();
-                                } else {
-                                    Toast toast = Toast.makeText(view.getContext(), "Select delivery type", Toast.LENGTH_SHORT);
-                                    toast.show();
-                                }
-                            }
-                        });
-                        dialog.show();
-
+                        Intent intent = new Intent(v.getContext(),Delivery.class);
+                        startActivity(intent);
                         break;
-                    case R.id.button_bargain:
+                    case R.id.bargain:
                         dialog.setContentView(R.layout.dialog);
                         dialog.getWindow().setLayout((int) (width * 0.8), height);
                         final EditText priceText = (EditText) dialog.findViewById(R.id.new_price);

@@ -4,234 +4,237 @@
     android:layout_height="match_parent"
     android:background="@color/ff_gray"
     android:fillViewport="false">
+
     <LinearLayout
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/delivery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delivery"
-            android:id="@+id/delivery"
+            android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp" />
+            android:text="Delivery" />
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp">
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal">
 
             <RadioButton
+                android:id="@+id/shop_visit"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="Visit Shop"
-                android:id="@+id/shop_visit"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_weight="1"
                 android:background="@color/ff_green"
+                android:checked="true"
                 android:padding="8dp"
-                android:checked="true" />
+                android:text="Visit Shop"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <RadioButton
+                android:id="@+id/home_del"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="Home Delivery"
-                android:id="@+id/home_del"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_weight="1"
+                android:background="#fff"
                 android:padding="8dp"
-                android:background="#fff" />
+                android:text="Home Delivery"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
         </LinearLayout>
 
         <TextView
+            android:id="@+id/price_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Price Details:"
-            android:id="@+id/price_details"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            android:text="Price Details:" />
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/ll_product_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:background="#fff"
-            android:padding="6dp"
-            android:layout_gravity="center_vertical">
+            android:orientation="horizontal"
+            android:padding="6dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Price of Product"
                 android:id="@+id/price_title"
-                android:layout_weight="1" />
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/product_price" />
+                android:layout_weight="1"
+                android:text="Price of Product" />
+
+            <TextView
+                android:id="@+id/product_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text" />
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/ll_voucher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:background="#fff"
+            android:orientation="horizontal"
             android:padding="6dp"
-            android:layout_gravity="center_vertical"
             android:visibility="visible">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Vouchers"
                 android:id="@+id/voucher_title"
-                android:layout_weight="1" />
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/voucher_price" />
+                android:layout_weight="1"
+                android:text="Vouchers" />
+
+            <TextView
+                android:id="@+id/voucher_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text" />
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/ll_del_by"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:background="#fff"
+            android:orientation="horizontal"
             android:padding="6dp"
-            android:layout_gravity="center_vertical"
             android:visibility="visible">
 
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Delivery by"
                 android:id="@+id/del_title"
-                android:layout_weight="1" />
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/del_by" />
+                android:layout_weight="1"
+                android:text="Delivery by" />
+
+            <TextView
+                android:id="@+id/del_by"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text" />
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/ll_del_cost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:background="#fff"
+            android:orientation="horizontal"
             android:padding="6dp"
-            android:layout_gravity="center_vertical"
             android:visibility="visible">
 
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Delivery Cost"
                 android:id="@+id/del_cost_title"
-                android:layout_weight="1" />
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/del_cost" />
+                android:layout_weight="1"
+                android:text="Delivery Cost" />
+
+            <TextView
+                android:id="@+id/del_cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text" />
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/ll_wallet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:background="#fff"
+            android:orientation="horizontal"
             android:padding="6dp"
-            android:layout_gravity="center_vertical"
             android:visibility="visible">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Wallet"
-                android:id="@+id/wallet_title"
-                android:layout_weight="1" />
 
             <TextView
+                android:id="@+id/wallet_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/wallet_price" />
+                android:layout_weight="1"
+                android:text="Wallet" />
+
+            <TextView
+                android:id="@+id/wallet_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text" />
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/ll_total"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/ll_total"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:layout_marginTop="1dp"
             android:background="#fff"
-            android:padding="6dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="1dp">
+            android:orientation="horizontal"
+            android:padding="6dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Total Payable"
                 android:id="@+id/total_title"
-                android:layout_weight="1" />
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/total_price" />
+                android:layout_weight="1"
+                android:text="Total Payable" />
+
+            <TextView
+                android:id="@+id/total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text" />
         </LinearLayout>
 
         <CheckBox
+            android:id="@+id/tandc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="I accept the Terms and Conditions\n and the Return Policy"
-            android:id="@+id/tandc"
             android:layout_margin="8dp"
             android:background="#fff"
             android:ellipsize="end"
-            android:singleLine="false" />
+            android:singleLine="false"
+            android:text="I accept the Terms and Conditions\n and the Return Policy" />
 
         <Button
+            android:id="@+id/place_order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Place Order"
-            android:id="@+id/place_order"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_gravity="center_horizontal"
-            android:background="@color/ff_green"
-            android:textColor="#fff"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp" />
+            android:layout_marginRight="8dp"
+            android:background="@color/ff_green"
+            android:text="Place Order"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#fff" />
 
     </LinearLayout>
 </ScrollView>

@@ -141,7 +141,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:padding="3dp"
-                android:text="Comment alfjlajf  afjoaljfa  alfjaljf  ajfljaal fajlfjlajfla  afjaljf"
+                android:text="Comment alfjlajf  afjoaljfa  alfjaljf "
                 android:textColor="#fff" />
 
             <TextView

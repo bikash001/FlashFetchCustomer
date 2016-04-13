@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:padding="5dp"
+        android:id="@+id/text_popup"
+        android:text="Enter your name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:layout_below="@+id/text_popup"
+        android:id="@+id/input_popup"
+        android:hint="Enter"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_marginRight="5dp"
+        android:padding="5dp"
+        android:id="@+id/cancel_popup"
+        android:layout_below="@id/input_popup"
+        android:layout_toLeftOf="@+id/confirm_popup"
+        android:text="CANCEL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:textColor="#ff0000" />
+    <TextView
+        android:layout_marginRight="5dp"
+        android:padding="5dp"
+        android:id="@+id/confirm_popup"
+        android:layout_below="@id/input_popup"
+        android:text="CONFIRM"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="false"
+        android:textSize="14dp"
+        android:textColor="#00ff00" />
+
+</RelativeLayout>

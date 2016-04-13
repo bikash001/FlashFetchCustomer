@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/material_grey"
+    android:fitsSystemWindows="true"
+    tools:context=".HomeDelivery"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:id="@+id/name"
+            android:textStyle="bold"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="8dp"
+            android:background="#fff" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Room No. abc,\nXYZ Hostel, \nIIT Madras, \nChennai - 600036"
+            android:id="@+id/address"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp"
+            android:background="#fff" />
+
+        <TextView
+            android:id="@+id/button_add_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Address"
+            android:padding="8dp"
+            android:background="#fff"
+            android:layout_marginTop="4dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:gravity="bottom"
+            android:layout_gravity="bottom"
+            android:foregroundGravity="bottom"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/button_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/ff_green"
+                android:text="Confirm Order"
+                android:textColor="#fff"
+                android:padding="8dp"
+                android:foregroundGravity="bottom"
+                android:layout_gravity="bottom"
+                android:gravity="center_horizontal" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

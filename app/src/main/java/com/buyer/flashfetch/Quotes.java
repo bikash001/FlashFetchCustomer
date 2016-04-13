@@ -31,6 +31,9 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.buyer.flashfetch.Objects.Quote;
+import com.buyer.flashfetch.Objects.Request;
+
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -39,12 +42,14 @@ import java.util.List;
 
 public class Quotes extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "QUOTES";
-    private String url;
-    private List<QuotesObject> itemList = new ArrayList<>();
+    private String url,id;
+    private List<Quote> mItems = new ArrayList<>();
     private RecyclerView recyclerView;
     private ProductAdapter mAdapter;
     private int height, width;
     private LinearLayout map;
+    TextView pname,pprice;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,29 +63,35 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
         Point size = new Point();
         display.getSize(size);
         width = size.x;
+        pname = (TextView)findViewById(R.id.product_name_quotes);
+        pprice = (TextView)findViewById(R.id.price_quotes);
 
         url = getIntent().getStringExtra("URL");
+        id= getIntent().getStringExtra("id");
+        mItems = Quote.getAllQuotes(Quotes.this,id);
+        pname.setText(Request.getRequest(Quotes.this, id).get(0).pname);
+        pprice.setText("Price: Rs." + Request.getRequest(Quotes.this, id).get(0).pprice);
         CollapsingToolbarLayout layout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         new Download(layout).execute(url);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_quotes);
         map = (LinearLayout) findViewById(R.id.quotes_map);
         map.setOnClickListener(this);
-        mAdapter = new ProductAdapter(itemList);
+        mAdapter = new ProductAdapter(mItems);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
-        prepareData();
+        //prepareData();
     }
 
-    private void prepareData() {
+   /* private void prepareData() {
         for (int i = 0; i < 10; ++i) {
             QuotesObject object = new QuotesObject("Seller: " + i, "12:00", "5.2 KM", "₹ 45,000", false);
             itemList.add(object);
         }
     }
-
+*/
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -129,7 +140,7 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
 
     public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
 
-        final private List<QuotesObject> list;
+        final private List<Quote> list;
 
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             private TextView sellerName, productPrice, timer, distance, bargain,comment,more;
@@ -256,12 +267,13 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
         }
 
         public void removeAt(int position) {
-            itemList.remove(position);
+            mItems.remove(position);
             notifyItemRemoved(position);
-            notifyItemRangeChanged(position, itemList.size());
+            notifyItemRangeChanged(position, mItems.size());
         }
 
-        public ProductAdapter(List<QuotesObject> items) {
+        public ProductAdapter(List<Quote> items) {
+
             list = items;
         }
 
@@ -273,12 +285,12 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
 
         @Override
         public void onBindViewHolder(ProductAdapter.ViewHolder holder, int position) {
-            QuotesObject object = list.get(position);
-            holder.sellerName.setText(object.getSeller());
-            holder.timer.setText(object.getTime());
-            holder.distance.setText(object.getDistance());
-            holder.productPrice.setText(object.getPrice());
-            holder.bargained = object.isBargained();
+            Quote object = list.get(position);
+            holder.sellerName.setText(object.name);
+            //holder.timer.setText(object.);
+            holder.distance.setText(object.distance);
+            holder.productPrice.setText(object.qprice);
+            holder.bargained = object.bargained >0;
             Layout temp = holder.comment.getLayout();
             if(temp != null) {
                 int lines = temp.getLineCount();

@@ -61,4 +61,9 @@ public class Request {
         DatabaseHelper data = new DatabaseHelper(context);
         return data.getAllRequests();
     }
+
+    public static ArrayList<Request> getRequest(Context context, String id){
+        DatabaseHelper data = new DatabaseHelper(context);
+        return data.getRequest(id);
+    }
 }

@@ -409,7 +409,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-//        client.connect();
+        //        client.connect();
         Action viewAction = Action.newAction(
                 Action.TYPE_VIEW, // TODO: choose an action type.
                 "Login Page", // TODO: Define a title for the content shown.
@@ -539,6 +539,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 else if(ResponseJSON.getJSONObject("data").getInt("result")==0) {
                     return false;
                 }
+                else if(ResponseJSON.getJSONObject("data").getInt("result")==-1) {
+                    return false;
+                }
               /*  else if (mEmail.equals("abc@def")&&mPassword.equals("123456"))
                 {
                     return true;
@@ -570,11 +573,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 } else if(ResponseJSON.getJSONObject("data").getInt("result")==0){
                     mPasswordView.setError(getString(R.string.error_incorrect_password));
                     mPasswordView.requestFocus();
-                }else {
+                }else if(ResponseJSON.getJSONObject("data").getInt("result")==-1){
+                    Snackbar.make(mLoginFormView,"No such account exists",Snackbar.LENGTH_LONG);
+                }
+                else {
                     Snackbar.make(mLoginFormView,"Network not available",Snackbar.LENGTH_LONG);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                Snackbar.make(mLoginFormView,"Network not available or Server not working",Snackbar.LENGTH_LONG);
             }
         }
 

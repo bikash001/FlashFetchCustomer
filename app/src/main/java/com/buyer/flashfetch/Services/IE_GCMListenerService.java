@@ -1,6 +1,7 @@
 package com.buyer.flashfetch.Services;
 
 
+import com.buyer.flashfetch.Helper.DatabaseHelper;
 import com.buyer.flashfetch.MainActivity;
 import com.buyer.flashfetch.R;
 import com.google.android.gms.gcm.GcmListenerService;
@@ -46,6 +47,21 @@ public class IE_GCMListenerService extends GcmListenerService {
     // [START receive_message]
     @Override
     public void onMessageReceived(String from, Bundle data) {
+
+        ContentValues cv = new ContentValues();
+        cv.put("id",data.getString("cus_id"));
+        cv.put("qid",data.getString("sel_id"));
+        cv.put("qprice",data.getString("qprice"));
+        cv.put("type",data.getString("type"));
+        cv.put("deltype",data.getString("deltype"));
+        cv.put("comment",data.getString("comment"));
+        cv.put("lat",data.getString("lat"));
+        cv.put("lon",data.getString("lon"));
+        cv.put("distance",data.getString("distance"));
+        DatabaseHelper dh = new DatabaseHelper(IE_GCMListenerService.this);
+        dh.addQuote(cv);
+
+
 
 
       /*   * Production applications would usually process the message here.

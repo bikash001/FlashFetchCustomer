@@ -377,6 +377,9 @@ public class Main2Activity extends AppCompatActivity
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(),Quotes.class);
                     intent.putExtra("URL",url);
+                   /* Bundle bundle = new Bundle();
+                    bundle.putString("id", reqs.get(rank-1).id);*/
+                    intent.putExtra("id",reqs.get(rank-1).id);
                     startActivity(intent);
                 }
             });

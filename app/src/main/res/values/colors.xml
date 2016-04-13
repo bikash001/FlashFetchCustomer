@@ -12,4 +12,5 @@
     <color name="ff_green">#0BC6A0</color>
     <color name="ff_red">#F16565</color>
     <color name="ff_gray">#D5D6D9</color>
+    <color name="ff_notif">#CD1721</color>
 </resources>

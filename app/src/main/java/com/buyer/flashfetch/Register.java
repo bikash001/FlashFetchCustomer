@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.LongSparseArray;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -207,6 +208,10 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
+            personName = per_name;
+            personEmail = email;
+            personPhone = Long.parseLong(ph_num);
+            this.password = pass;
             showProgress(true);
             mAuthTask = new Signup();
             mAuthTask.execute();

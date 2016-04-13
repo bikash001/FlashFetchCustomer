@@ -106,8 +106,8 @@ public class PostRequest {
     private static String urlEncode(ArrayList<PostParam> params) {
         String urlParameters = null;
         try {
-            urlParameters =  params.get(0).getKey()+ "=" + URLEncoder.encode(params.get(0).getValue(), "UTF-8");
-            for (int i=1; i< params.size(); i++ ){
+            //urlParameters =  params.get(0).getKey()+ "=" + URLEncoder.encode(params.get(0).getValue(), "UTF-8");
+            for (int i=0; i< params.size(); i++ ){
                 urlParameters += "&" + params.get(i).getKey() + "=" + URLEncoder.encode(params.get(i).getValue(), "UTF-8");
             }
         } catch (UnsupportedEncodingException e) {

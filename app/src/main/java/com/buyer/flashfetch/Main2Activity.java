@@ -50,6 +50,7 @@ public class Main2Activity extends AppCompatActivity
     private static final String NAME = "name";
     private static final String FILE = LoginActivity.FILE;
     static ArrayList<Request> reqs;
+    private static DownloadImageTask refTask;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -77,7 +78,7 @@ public class Main2Activity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -120,9 +121,13 @@ public class Main2Activity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
-            prefs.edit().clear().apply();
+           // prefs.edit().clear().apply();
             Intent intent = new Intent(this,MainActivity.class);
             startActivity(intent);
+            if(!refTask.isCancelled()){
+                refTask.cancel(true);
+            }
+            finish();
             return true;
         } else if (id == R.id.action_contact){
             Intent intent = new Intent(this,ContactUs.class);
@@ -213,7 +218,7 @@ public class Main2Activity extends AppCompatActivity
      */
     public static class PlaceholderFragment extends Fragment {
         private int ACCEPTED=10;
-        private int REQUESTED=10;
+        private int REQUESTED=0;
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -239,8 +244,16 @@ public class Main2Activity extends AppCompatActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView ;
-            reqs = Request.getAllRequests(getContext());
-            REQUESTED = reqs.size();
+            Bundle args = getArguments();
+            int count = args.getInt(ARG_SECTION_NUMBER);
+            if (count == 1){
+                reqs = Request.getAllRequests(getContext());
+                REQUESTED = reqs.size();
+                setEmpty(REQUESTED);
+            }
+            else{
+
+            }
             if(Empty()) {
                 rootView = inflater.inflate(R.layout.fragment_deals,container,false);
                 LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.list_layout);
@@ -249,8 +262,6 @@ public class Main2Activity extends AppCompatActivity
                 layout.addView(textView);
             }
             else {
-                Bundle args = getArguments();
-                int count = args.getInt(ARG_SECTION_NUMBER);
                 if (count == 1) {
                     rootView = inflater.inflate(R.layout.fragment_deals, container, false);
                     FragmentManager fragmentManager = getFragmentManager();
@@ -274,9 +285,14 @@ public class Main2Activity extends AppCompatActivity
             return rootView;
         }
     }
-
+    private static boolean list_is_empty;
     private static boolean Empty(){
-        return false;
+        return list_is_empty;
+    }
+    private static void setEmpty(int size){
+        if(size > 0){
+            list_is_empty = false;
+        }
     }
 
     /**
@@ -343,7 +359,7 @@ public class Main2Activity extends AppCompatActivity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.list_requested,container,false);
-            url = "http://img6a.flixcart.com/image/computer/x/g/u/lenovo-notebook-400x400-imaef6hcdq9hjnqt.jpeg";
+           // url = "http://img6a.flixcart.com/image/computer/x/g/u/lenovo-notebook-400x400-imaef6hcdq9hjnqt.jpeg";
             url = reqs.get(rank-1).pimg;
             //ArrayList<Request> requests = Request.getAllRequests(getActivity());
             TextView textView = (TextView) view.findViewById(R.id.product_name);
@@ -351,7 +367,8 @@ public class Main2Activity extends AppCompatActivity
             textView = (TextView) view.findViewById(R.id.set_price);
             textView.setText(reqs.get(rank-1).pprice);
             ImageView imageView = (ImageView) view.findViewById(R.id.image_view_requested);
-            new DownloadImageTask(imageView).execute(url);
+            refTask = new DownloadImageTask(imageView);
+            refTask.execute(url);
             return view;
         }
 

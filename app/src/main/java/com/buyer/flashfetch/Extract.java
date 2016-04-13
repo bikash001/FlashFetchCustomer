@@ -1,15 +1,21 @@
 package com.buyer.flashfetch;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +27,9 @@ import com.bumptech.glide.Glide;
 import com.buyer.flashfetch.Helper.DatabaseHelper;
 import com.buyer.flashfetch.Network.PostRequest;
 import com.buyer.flashfetch.Objects.PostParam;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,16 +39,20 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class Extract extends AppCompatActivity implements View.OnClickListener{
+public class Extract extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
 
     JSONObject ResponseJSON;
     ArrayList<PostParam> iPostParams;
-    String price,name,url;
+    String price, name, url;
     private View mProgressView;
-    String text,category;
-    TextView tvname,tvprice;
+    String text, category;
+    TextView tvname, tvprice;
     ImageView iv;
     int cat;
+    private GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,26 +65,44 @@ public class Extract extends AppCompatActivity implements View.OnClickListener{
         tvprice = (TextView) findViewById(R.id.price_extract);
         Intent intent = getIntent();
         text = intent.getStringExtra(Intent.EXTRA_TEXT);
-        if( text != null){
-            //new Download(imageView).execute(msg);
+        if (text != null) {
             GetTask gt = new GetTask();
             gt.execute();
-        }
-        else{
+        } else {
             tvname.setText(R.string.prompt_extract);
             okButton.setVisibility(View.INVISIBLE);
         }
         okButton.setOnClickListener(this);
         exitButton.setOnClickListener(this);
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+    }
+
+    protected void onStart() {
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
+
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ok_extract:
+
                 BargainTask bt = new BargainTask();
                 bt.execute();
-
+                Intent intent = new Intent(this, Main2Activity.class);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.exit_extract:
                 finish();
@@ -111,29 +142,38 @@ public class Extract extends AppCompatActivity implements View.OnClickListener{
             //mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
-    class Download extends AsyncTask<String, Void, Bitmap> {
-        ImageView view;
 
-        Download(ImageView imageView){
-            view = imageView;
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
         }
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLastLocation != null) {
 
-        protected Bitmap doInBackground(String... urls) {
-            try {
-                URL url = new URL(urls[0]);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                return BitmapFactory.decodeStream(input);
-            } catch (Exception e) {
-                return null;
-            }
-        }
-        protected void onPostExecute(Bitmap bitmap) {
-            view.setImageBitmap(bitmap);
         }
     }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
     public class BargainTask extends AsyncTask<Void, Void, Boolean> {
 
         @Override

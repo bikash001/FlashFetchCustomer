@@ -81,4 +81,8 @@
     <string name="title_activity_refer_and_earn">ReferAndEarn</string>
     <string name="title_activity_account">Account</string>
     <string name="title_activity_address">Address</string>
+    <string name="title_activity_verify_email">VerifyEmail</string>
+
+    <string name="verify_email">We have sent a verification code on your registered email. Please check and enter it
+        here to verify your account.</string>
 </resources>

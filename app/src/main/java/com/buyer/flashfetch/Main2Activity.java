@@ -35,7 +35,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.buyer.flashfetch.Objects.Request;
+import com.buyer.flashfetch.Objects.UserProfile;
+
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -45,6 +49,7 @@ public class Main2Activity extends AppCompatActivity
     private static final String SIGNED = "SIGNED";
     private static final String NAME = "name";
     private static final String FILE = LoginActivity.FILE;
+    static ArrayList<Request> reqs;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -53,9 +58,14 @@ public class Main2Activity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        prefs = getSharedPreferences(FILE,MODE_PRIVATE);
+       /* prefs = getSharedPreferences(FILE,MODE_PRIVATE);
         boolean signed = prefs.getBoolean(SIGNED,false);
         if(!signed){
+            Intent intent = new Intent(this,MainActivity.class);
+            startActivity(intent);
+            finish();
+        }*/
+        if((UserProfile.getEmail(Main2Activity.this)=="")){
             Intent intent = new Intent(this,MainActivity.class);
             startActivity(intent);
             finish();
@@ -229,6 +239,8 @@ public class Main2Activity extends AppCompatActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView ;
+            reqs = Request.getAllRequests(getContext());
+            REQUESTED = reqs.size();
             if(Empty()) {
                 rootView = inflater.inflate(R.layout.fragment_deals,container,false);
                 LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.list_layout);
@@ -332,10 +344,12 @@ public class Main2Activity extends AppCompatActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.list_requested,container,false);
             url = "http://img6a.flixcart.com/image/computer/x/g/u/lenovo-notebook-400x400-imaef6hcdq9hjnqt.jpeg";
+            url = reqs.get(rank-1).pimg;
+            //ArrayList<Request> requests = Request.getAllRequests(getActivity());
             TextView textView = (TextView) view.findViewById(R.id.product_name);
-            textView.setText(PRODUCT);
+            textView.setText(reqs.get(rank-1).pname);
             textView = (TextView) view.findViewById(R.id.set_price);
-            textView.setText("" + PRICE);
+            textView.setText(reqs.get(rank-1).pprice);
             ImageView imageView = (ImageView) view.findViewById(R.id.image_view_requested);
             new DownloadImageTask(imageView).execute(url);
             return view;

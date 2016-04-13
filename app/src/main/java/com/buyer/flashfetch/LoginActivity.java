@@ -4,24 +4,22 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,6 +29,25 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.buyer.flashfetch.Constants.URLConstants;
+import com.buyer.flashfetch.Network.PostRequest;
+import com.buyer.flashfetch.Objects.PostParam;
+import com.buyer.flashfetch.Objects.UserProfile;
+import com.buyer.flashfetch.Services.IE_RegistrationIntentService;
+/*import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;*/
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,13 +86,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
+    private GoogleApiClient client;
+    private GoogleApiClient mGoogleApiClient;
+    private static final int RC_SIGN_IN = 9001;
     private static final String TAG = "SignInActivity";
+    //private CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
         setupActionBar();
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        //GoogleService googleservice = new GoogleService();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, new GoogleService())
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+       /* SignInButton signInButton = (SignInButton) findViewById(R.id.google_signin);
+        signInButton.setSize(SignInButton.SIZE_STANDARD);
+        signInButton.setScopes(new Scope[]{new Scope(Scopes.PLUS_LOGIN)});
+        signInButton.setOnClickListener(this);*/
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email_login);
@@ -104,9 +140,71 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
+       /* // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+        //facebook signin button
+        callbackManager = CallbackManager.Factory.create();
+        LoginButton facebook_login = (LoginButton) findViewById(R.id.facebook_login);
+        // Callback registration
+        facebook_login.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                // App code
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+            }
+        });*/
     }
 
+ /*   @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
+        else{
+            callbackManager.onActivityResult(requestCode,resultCode,data);
+        }
+    }*/
 
+  /*  private void handleSignInResult(GoogleSignInResult result) {
+        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
+        } else {
+            // Signed out, show unauthenticated UI.
+            updateUI(false);
+        }
+    }*/
+
+  /*  private void updateUI(boolean signedIn) {
+        if (signedIn) {
+            findViewById(R.id.google_signin).setVisibility(View.GONE);
+           // findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
+        } else {
+           // mStatusTextView.setText(R.string.signed_out);
+
+            findViewById(R.id.google_signin).setVisibility(View.VISIBLE);
+           // findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
+        }
+    }*/
+
+   /* private void signIn(){
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }*/
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
@@ -184,7 +282,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -211,6 +309,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
+           // Intent intent = new Intent(this,Deals.class);
+            //startActivity(intent);
         }
     }
 
@@ -303,6 +403,59 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailView.setAdapter(adapter);
     }
 
+   /* @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+//        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Login Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.example.bikash.flashfetchcustomer/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Login Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.example.bikash.flashfetchcustomer/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+    }*/
+
+   /* @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.google_signin:
+                signIn();
+                break;
+            case R.id.facebook_login:
+                signIn();
+                break;
+        }
+    }
+*/
+
 
     private interface ProfileQuery {
         String[] PROJECTION = {
@@ -322,6 +475,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
+        JSONObject ResponseJSON;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -332,23 +486,69 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            try {
+           /* try {
                 // Simulate network access.
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 return false;
-            }
-
+            }*/
+/*
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
                     return pieces[1].equals(mPassword);
                 }
+            }*/
+            ArrayList<PostParam> iPostParams = new ArrayList<PostParam>();
+            PostParam postemail = new PostParam("email", mEmail);
+            PostParam postpassword = new PostParam("pass",mPassword);
+            iPostParams.add(postemail);
+            iPostParams.add(postpassword);
+            //ResponseJSON = PostRequest.execute("http://192.168.43.66/login_buyer.php", iPostParams, null);
+            //UserProfile.setEmail(mEmail, LoginActivity.this);       //TODO REMOVE THIS LINE
+            ResponseJSON = PostRequest.execute(URLConstants.URLLogin, iPostParams, null);
+            Log.d("RESPONSE", ResponseJSON.toString());
+            try {
+                if(ResponseJSON.getJSONObject("data").getInt("result")==1) {
+                    UserProfile.setEmail(mEmail, LoginActivity.this);
+                    UserProfile.setToken(ResponseJSON.getJSONObject("data").getString("token"), LoginActivity.this);
+                  /*  JSONObject trans = new JSONObject();
+                    JSONObject translist = ResponseJSON.getJSONObject("data").getJSONObject("Transactions");
+                    Notification not;
+                    for (int i=0; i<ResponseJSON.getJSONObject("data").getInt("length"); i++){
+                        trans = translist.getJSONObject(String.valueOf(i));
+                        not = new Notification(trans);
+//                        Log.d(LOG_TAG, "Category of event is " + event.getCate)
+                        not.saveNot(LoginActivity.this);
+                    }
+                    UserProfile.setEmail(mEmail, LoginActivity.this);
+                    UserProfile.setCategory(ResponseJSON.getJSONObject("data").getInt("cat"), LoginActivity.this);
+                    UserProfile.setToken(ResponseJSON.getJSONObject("data").getString("token"), LoginActivity.this);
+                    UserProfile.setName(ResponseJSON.getJSONObject("data").getString("user"), LoginActivity.this);
+                    UserProfile.setPhone(ResponseJSON.getJSONObject("data").getString("mobile"), LoginActivity.this);
+                    UserProfile.setPassword(ResponseJSON.getJSONObject("data").getString("password"), LoginActivity.this);
+                    UserProfile.setShopId(ResponseJSON.getJSONObject("data").getString("shopid"), LoginActivity.this);
+                    UserProfile.setShopPhone(ResponseJSON.getJSONObject("data").getString("office_no"), LoginActivity.this);
+                    UserProfile.setAddress1(ResponseJSON.getJSONObject("data").getString("Address1"), LoginActivity.this);
+                    UserProfile.setAddress2(ResponseJSON.getJSONObject("data").getString("Address2"), LoginActivity.this);
+                    UserProfile.setShopName(ResponseJSON.getJSONObject("data").getString("shopname"), LoginActivity.this);
+                    UserProfile.setLocation(ResponseJSON.getJSONObject("data").getString("sel_loc"), LoginActivity.this);*/
+                    return true;
+                }
+                else if(ResponseJSON.getJSONObject("data").getInt("result")==0) {
+                    return false;
+                }
+              /*  else if (mEmail.equals("abc@def")&&mPassword.equals("123456"))
+                {
+                    return true;
+                }*/
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
-            // TODO: register the new account here.
             return false;
+
         }
 
         @Override
@@ -356,18 +556,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
-                SharedPreferences preferences = getSharedPreferences(FILE,MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putBoolean("SIGNED",true);
-                editor.putString("EMAIL",mEmail);
-                editor.apply();
-                Intent intent = new Intent(LoginActivity.this,Main2Activity.class);
-                startActivity(intent);
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+            try {
+                if (ResponseJSON.getJSONObject("data").getInt("result")==1) {
+                   /* Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(i);*/
+                    Intent intent = new Intent(LoginActivity.this,Main2Activity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("LOGIN", true);
+                    startActivity(intent);
+                    intent = new Intent(LoginActivity.this, IE_RegistrationIntentService.class);
+                    startService(intent);
+                    finish();
+                } else if(ResponseJSON.getJSONObject("data").getInt("result")==0){
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }else {
+                    Snackbar.make(mLoginFormView,"Network not available",Snackbar.LENGTH_LONG);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
 
@@ -378,6 +585,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+    private class GoogleService implements OnConnectionFailedListener {
+
+        @Override
+        public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+        }
+    }
 
 }
 

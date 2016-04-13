@@ -167,6 +167,9 @@ public class Extract extends AppCompatActivity implements View.OnClickListener{
                     cv.put("cat",cat);
                     DatabaseHelper dh = new DatabaseHelper(Extract.this);
                     dh.addRequest(cv);
+                    Intent intent = new Intent(Extract.this,Main2Activity.class);
+                    startActivity(intent);
+                    finish();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

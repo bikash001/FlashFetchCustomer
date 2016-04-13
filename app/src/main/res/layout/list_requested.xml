@@ -42,9 +42,9 @@
                 <TextView
                     android:id="@+id/product_name"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="@string/product_name"
-                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
                     android:ellipsize="end"
                     android:maxLines="4"
                     android:layout_weight="1"
@@ -54,15 +54,15 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="00:00:00"
                     android:id="@+id/timer"
                     android:textColor="#fff"
                     android:background="@color/ff_red"
-                    android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
-                    android:padding="4dp" />
+                    android:padding="4dp"
+                    android:layout_gravity="top" />
 
             </LinearLayout>
 
@@ -72,7 +72,6 @@
                 android:layout_height="wrap_content"
                 android:text="Price: Rs."
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
-                android:layout_marginLeft="8dp"
                 android:padding="4dp" />
 
             <LinearLayout

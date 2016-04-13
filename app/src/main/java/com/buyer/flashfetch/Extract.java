@@ -71,6 +71,7 @@ public class Extract extends AppCompatActivity implements View.OnClickListener{
             case R.id.ok_extract:
                 BargainTask bt = new BargainTask();
                 bt.execute();
+
                 break;
             case R.id.exit_extract:
                 finish();

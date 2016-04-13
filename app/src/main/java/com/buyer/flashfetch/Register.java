@@ -235,7 +235,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
     }
 
     private boolean isConfirmValid(String a, String b){
-        return  a == b;
+        return  a.equals(b);
     }
 
     /**

@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
@@ -95,11 +96,16 @@ public class IE_GCMListenerService extends GcmListenerService {
 
         defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("FlashFetch")
                 .setContentText(email + " at price" +  price)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            notificationBuilder.setSmallIcon(R.mipmap.nav_transparent)
+            .setColor(getColor(R.color.ff_notif));
+        } else {
+            notificationBuilder.setSmallIcon(R.mipmap.nav);
+        }
 
         notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -122,11 +128,16 @@ public class IE_GCMListenerService extends GcmListenerService {
 
         defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            notificationBuilder.setSmallIcon(R.mipmap.nav_transparent)
+                    .setColor(getColor(R.color.ff_notif));
+        } else {
+            notificationBuilder.setSmallIcon(R.mipmap.nav);
+        }
 
         notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

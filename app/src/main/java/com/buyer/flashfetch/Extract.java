@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.buyer.flashfetch.Helper.DatabaseHelper;
 import com.buyer.flashfetch.Network.PostRequest;
 import com.buyer.flashfetch.Objects.PostParam;
+import com.buyer.flashfetch.Objects.UserProfile;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -146,8 +147,9 @@ public class Extract extends AppCompatActivity implements View.OnClickListener{
             iPostParams.add(postimg);
             iPostParams.add(new PostParam("cat", String.valueOf(cat)));
             iPostParams.add(new PostParam("time", String.valueOf(System.currentTimeMillis() + 10000000)));
-            iPostParams.add(new PostParam("cus_loc", "Chennai"));
-            iPostParams.add(new PostParam("name", "Mr.buyer"));
+            iPostParams.add(new PostParam("cus_loc", UserProfile.getLocation(Extract.this)));
+            iPostParams.add(new PostParam("name", UserProfile.getName(Extract.this)));
+            iPostParams.add(new PostParam("cus_email",UserProfile.getEmail(Extract.this)));
             ResponseJSON = PostRequest.execute("http://ec2-54-169-112-228.ap-southeast-1.compute.amazonaws.com/c2s/", iPostParams, null);
             Log.d("RESPONSE", ResponseJSON.toString());
             return null;

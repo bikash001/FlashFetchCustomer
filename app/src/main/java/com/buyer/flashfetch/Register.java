@@ -18,6 +18,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -26,7 +27,17 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+
+import com.buyer.flashfetch.Constants.URLConstants;
+import com.buyer.flashfetch.Network.PostRequest;
+import com.buyer.flashfetch.Objects.PostParam;
+import com.buyer.flashfetch.Objects.UserProfile;
+import com.buyer.flashfetch.Services.IE_RegistrationIntentService;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +59,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
     private String confirm_pass;
     private String personId;
 
-    private UserLoginTask mAuthTask = null;
+    private Signup mAuthTask = null;
 
     // UI references.
     private static final int REQUEST_READ_CONTACTS = 0;
@@ -197,8 +208,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            mAuthTask = new Signup();
+            mAuthTask.execute();
             Intent intent = new Intent(this,Main2Activity.class);
             startActivity(intent);
             finish();
@@ -355,56 +366,73 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    class Signup extends AsyncTask<String, Void, Void> {
+        //JSONObject data = new JSONObject();
+        JSONObject ResponseJSON;
 
-        private final String mEmail;
-        private final String mPassword;
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+        protected Void doInBackground(String... params) {
+            ArrayList<PostParam> instiPostParams = new ArrayList<PostParam>();
+            PostParam postUser = new PostParam("name", personName);
+            PostParam postEmail = new PostParam("email", personEmail);
+            PostParam postPass = new PostParam("pass", password);
+            instiPostParams.add(postUser);
+            instiPostParams.add(postEmail);
+            instiPostParams.add(postPass);
+            instiPostParams.add(new PostParam("mobile",String.valueOf(personPhone)));
 
+
+            ResponseJSON = PostRequest.execute(URLConstants.URLSignup, instiPostParams, null);
+            Log.d("RESPONSE", ResponseJSON.toString());
+
+             /*   JSONObject json = ImageUploader.execute( URLConstants.URLImage, selectedImageUri.toString(),null);
+                Log.d("IMAGE_RESPONSE", ResponseJSON.toString());*/
+
+
+
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            //tvv.setText(ResponseJSON.toString());
+            super.onPostExecute(aVoid);
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+                if(ResponseJSON.getJSONObject("data").getInt("result")==1){
+                    UserProfile.setName(personName, Register.this);
+                    UserProfile.setEmail(personEmail, Register.this);
+                    UserProfile.setPhone(String.valueOf(personPhone), Register.this);
+                    UserProfile.setPassword(password, Register.this);
+                    UserProfile.setToken(ResponseJSON.getJSONObject("data").getString("token"), Register.this);
+                    Intent intent = new Intent(Register.this,Main2Activity.class);
+                   /* intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("EXIT", true);*/
+                    startActivity(intent);
+                    intent = new Intent(Register.this, IE_RegistrationIntentService.class);
+                    startService(intent);
+                    finish();
+                }else if(ResponseJSON.getJSONObject("data").getInt("result")==0)
+                {
+                    Toast.makeText(Register.this, "Email is already registered", Toast.LENGTH_LONG).show();
+                    showProgress(false);
                 }
+                else{
+                    Toast.makeText(Register.this,"Server is not working",Toast.LENGTH_LONG).show();
+                    showProgress(false);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(Register.this,"Server is not working", Toast.LENGTH_LONG).show();
+                showProgress(false);
             }
 
-            // TODO: register the new account here.
-            return true;
+
         }
 
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
     }
 }

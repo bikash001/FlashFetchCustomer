@@ -28,6 +28,9 @@ import com.buyer.flashfetch.Helper.DatabaseHelper;
 import com.buyer.flashfetch.Network.PostRequest;
 import com.buyer.flashfetch.Objects.PostParam;
 import com.buyer.flashfetch.Objects.UserProfile;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,6 +57,7 @@ public class Extract extends AppCompatActivity implements View.OnClickListener, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_extract);
         Button okButton = (Button) findViewById(R.id.ok_extract);
         Button exitButton = (Button) findViewById(R.id.exit_extract);
@@ -171,6 +175,7 @@ public class Extract extends AppCompatActivity implements View.OnClickListener, 
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
 
     public class BargainTask extends AsyncTask<Void, Void, Boolean> {
 

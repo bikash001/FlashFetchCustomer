@@ -45,7 +45,7 @@ import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
-public class Register extends AppCompatActivity implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>,
+public class Register extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>,
         TextView.OnEditorActionListener{
 
     private static final String[] DUMMY_CREDENTIALS = new String[]{
@@ -279,29 +279,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener,
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.button_register:
-               /* EditText editText = (EditText)findViewById(R.id.name);
-                personName = editText.getText().toString();
-                AutoCompleteTextView view = (AutoCompleteTextView)findViewById(R.id.email_register);
-                personEmail = view.getText().toString();
-                editText = (EditText)findViewById(R.id.phone_number);
-                personPhone = Long.parseLong(editText.getText().toString());
-                editText = (EditText)findViewById(R.id.password_register);
-                password = editText.getText().toString();
-                editText = (EditText)findViewById(R.id.password_register_confirm);
-                confirm_pass = editText.getText().toString();
-                if(personName == null || personEmail==null || personPhone==0){
-
-                }
-                else if(password==null || confirm_pass==null || password!=confirm_pass){
-
-                }*/
-                break;
-        }
-    }
 
 
     @Override

@@ -101,10 +101,10 @@ public class IE_GCMListenerService extends GcmListenerService {
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            notificationBuilder.setSmallIcon(R.mipmap.nav_transparent)
-            .setColor(getColor(R.color.ff_notif));
+          //  notificationBuilder.setSmallIcon(R.mipmap.nav_transparent)
+            //.setColor(getColor(R.color.ff_notif));
         } else {
-            notificationBuilder.setSmallIcon(R.mipmap.nav);
+          //  notificationBuilder.setSmallIcon(R.mipmap.nav);
         }
 
         notificationManager =
@@ -133,10 +133,10 @@ public class IE_GCMListenerService extends GcmListenerService {
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            notificationBuilder.setSmallIcon(R.mipmap.nav_transparent)
-                    .setColor(getColor(R.color.ff_notif));
+          //  notificationBuilder.setSmallIcon(R.mipmap.nav_transparent)
+            //        .setColor(getColor(R.color.ff_notif));
         } else {
-            notificationBuilder.setSmallIcon(R.mipmap.nav);
+           // notificationBuilder.setSmallIcon(R.mipmap.nav);
         }
 
         notificationManager =

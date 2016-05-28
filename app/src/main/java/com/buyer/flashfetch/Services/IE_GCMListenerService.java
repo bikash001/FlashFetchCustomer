@@ -2,6 +2,7 @@ package com.buyer.flashfetch.Services;
 
 
 import com.buyer.flashfetch.Helper.DatabaseHelper;
+import com.buyer.flashfetch.Main2Activity;
 import com.buyer.flashfetch.MainActivity;
 import com.buyer.flashfetch.R;
 import com.google.android.gms.gcm.GcmListenerService;
@@ -18,11 +19,13 @@ import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 
 public class IE_GCMListenerService extends GcmListenerService {
@@ -49,18 +52,20 @@ public class IE_GCMListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
 
+        Log.d("gcm","GCM MESSAGE : " + data.toString());
         ContentValues cv = new ContentValues();
         cv.put("id",data.getString("cus_id"));
         cv.put("qid",data.getString("sel_id"));
         cv.put("qprice",data.getString("qprice"));
-        cv.put("type",data.getString("type"));
+        cv.put("type",data.getString("prtype"));
         cv.put("deltype",data.getString("deltype"));
         cv.put("comment",data.getString("comment"));
         cv.put("lat",data.getString("lat"));
-        cv.put("lon",data.getString("lon"));
+        cv.put("long",data.getString("lon"));
         cv.put("distance",data.getString("distance"));
         DatabaseHelper dh = new DatabaseHelper(IE_GCMListenerService.this);
         dh.addQuote(cv);
+        sendNotification("New Quote","You have a new quote for a product");
 
 
 
@@ -83,43 +88,12 @@ public class IE_GCMListenerService extends GcmListenerService {
      * message GCM message received.
      */
 
-    private void sendNotification(String email, String category, String price,String id, String time){
-        PendingIntent pendingIntent;
-        Uri defaultSoundUri;
-        NotificationCompat.Builder notificationBuilder;
-        Intent i = new Intent(IE_GCMListenerService.this, MainActivity.class);
-        NotificationManager notificationManager;
-        pendingIntent = PendingIntent.getActivity(this, 0, i,
-                PendingIntent.FLAG_ONE_SHOT);
 
-
-
-        defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        notificationBuilder = new NotificationCompat.Builder(this)
-                .setContentTitle("FlashFetch")
-                .setContentText(email + " at price" +  price)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-          //  notificationBuilder.setSmallIcon(R.mipmap.nav_transparent)
-            //.setColor(getColor(R.color.ff_notif));
-        } else {
-          //  notificationBuilder.setSmallIcon(R.mipmap.nav);
-        }
-
-        notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        android.app.Notification not = notificationBuilder.build();
-        not.flags = android.app.Notification.FLAG_AUTO_CANCEL;
-        notificationManager.notify((int) (Math.random() * 1000), not);
-
-
-    }
     private void sendNotification(String title, String message){
         PendingIntent pendingIntent;
         Uri defaultSoundUri;
         NotificationCompat.Builder notificationBuilder;
-        Intent i = new Intent(IE_GCMListenerService.this,MainActivity.class);
+        Intent i = new Intent(IE_GCMListenerService.this,Main2Activity.class);
         NotificationManager notificationManager;
         pendingIntent = PendingIntent.getActivity(this, 0, i,
                 PendingIntent.FLAG_ONE_SHOT);
@@ -133,10 +107,10 @@ public class IE_GCMListenerService extends GcmListenerService {
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-          //  notificationBuilder.setSmallIcon(R.mipmap.nav_transparent)
-            //        .setColor(getColor(R.color.ff_notif));
+            notificationBuilder.setSmallIcon(R.mipmap.ic_launcher)
+                    .setColor(Color.RED);
         } else {
-           // notificationBuilder.setSmallIcon(R.mipmap.nav);
+            notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
         }
 
         notificationManager =

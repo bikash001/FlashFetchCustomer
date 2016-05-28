@@ -58,6 +58,11 @@ public class Extract extends AppCompatActivity implements View.OnClickListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+       /* if((UserProfile.getEmail(Extract.this)=="")){
+            Intent intent = new Intent(this,MainActivity.class);
+            startActivity(intent);
+            finish();
+        }*/
         setContentView(R.layout.activity_extract);
         Button okButton = (Button) findViewById(R.id.ok_extract);
         Button exitButton = (Button) findViewById(R.id.exit_extract);
@@ -178,6 +183,7 @@ public class Extract extends AppCompatActivity implements View.OnClickListener, 
 
 
     public class BargainTask extends AsyncTask<Void, Void, Boolean> {
+        ArrayList<PostParam> iPostParams = new ArrayList<PostParam>();
 
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -191,6 +197,7 @@ public class Extract extends AppCompatActivity implements View.OnClickListener, 
             iPostParams.add(new PostParam("time", String.valueOf(System.currentTimeMillis() + 10000000)));
             iPostParams.add(new PostParam("cus_loc", UserProfile.getLocation(Extract.this)));
             iPostParams.add(new PostParam("name", UserProfile.getName(Extract.this)));
+            iPostParams.add(new PostParam("token",UserProfile.getToken(Extract.this)));
             iPostParams.add(new PostParam("cus_email",UserProfile.getEmail(Extract.this)));
             ResponseJSON = PostRequest.execute("http://ec2-54-169-112-228.ap-southeast-1.compute.amazonaws.com/c2s/", iPostParams, null);
             Log.d("RESPONSE", ResponseJSON.toString());
@@ -223,6 +230,7 @@ public class Extract extends AppCompatActivity implements View.OnClickListener, 
 
     }
     public class GetTask extends AsyncTask<Void, Void, Boolean> {
+        ArrayList<PostParam> iPostParams;
 
         @Override
         protected void onPreExecute() {

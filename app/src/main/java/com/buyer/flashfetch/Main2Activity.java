@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import com.buyer.flashfetch.Objects.Request;
 import com.buyer.flashfetch.Objects.UserProfile;
+import com.buyer.flashfetch.Services.IE_RegistrationIntentService;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -71,6 +72,7 @@ public class Main2Activity extends AppCompatActivity
             startActivity(intent);
             finish();
         }
+        startService(new Intent(Main2Activity.this, IE_RegistrationIntentService.class));
         setContentView(R.layout.activity_main2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -93,6 +95,7 @@ public class Main2Activity extends AppCompatActivity
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
     }
 
     @Override

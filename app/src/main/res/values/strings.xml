@@ -85,4 +85,9 @@
 
     <string name="verify_email">We have sent a verification code on your registered email. Please check and enter it
         here to verify your account.</string>
+
+    <string name="newestFirst">Newest First</string>
+    <string name="price_low_to_high">Price-Low to High</string>
+    <string name="price_high_to_low">Price-High to Low</string>
+    <string name="distance">Distance</string>
 </resources>

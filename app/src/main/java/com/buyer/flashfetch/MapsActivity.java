@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -17,21 +18,29 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.buyer.flashfetch.Objects.Quote;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener,
         GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
 
     private GoogleMap mMap;
+    private BottomSheetBehavior mBottomSheetBehavior;
     private LinearLayout filter,lisview,layout;
+    private List<Quote> list;
     private Handler_Dialog handlerDialog;
     private int height, width;
     private Dialog dialog;
@@ -56,6 +65,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        list = getIntent().getParcelableArrayListExtra("Quotes");
+        View bottomSheet = findViewById(R.id.bottom_sheet);
+        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
     }
 
     @Override
@@ -78,8 +91,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMarkerClickListener(this);
         mMap.setOnMapClickListener(this);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(gate));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
 
+        //Calculate the markers to get their position
+        LatLngBounds.Builder b = new LatLngBounds.Builder();
+        for (int i = 0; i<list.size(); i++) {
+            float lat = list.get(i).getLat();
+            float longt = list.get(i).getLongt();
+            LatLng latLng = new LatLng(lat,longt);
+            b.include(latLng);
+        }
+        LatLngBounds bounds = b.build();
+        //Change the padding as per needed
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 25,25,5);
+        mMap.animateCamera(cu);
     }
 
     @Override
@@ -87,6 +111,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         int id = v.getId();
         if (id == R.id.maps_filter){
 
+        }
+        else if(id == R.id.maps_sort){
+            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         }
         else if(id == R.id.maps_list){
             finish();

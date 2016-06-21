@@ -2,6 +2,8 @@ package com.buyer.flashfetch.Objects;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.buyer.flashfetch.Helper.DatabaseHelper;
 
@@ -13,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Created by kevinselvaprasanna on 4/13/16.
  */
-public class Quote {
+public class Quote implements Parcelable{
     public static final String TABLE_NAME = "Quotes" ;
     public String id,qid,qprice,comment,bgprice,name,distance;
     public long exptime,cat,bgexptime;
@@ -53,6 +55,40 @@ public class Quote {
         this.cuscon = cuscon;
         this.del = del;
     }
+
+    protected Quote(Parcel in) {
+        id = in.readString();
+        qid = in.readString();
+        qprice = in.readString();
+        comment = in.readString();
+        bgprice = in.readString();
+        name = in.readString();
+        distance = in.readString();
+        exptime = in.readLong();
+        cat = in.readLong();
+        bgexptime = in.readLong();
+        type = in.readInt();
+        deltype = in.readInt();
+        bargained = in.readInt();
+        cuscon = in.readInt();
+        selcon = in.readInt();
+        del = in.readInt();
+        lat = in.readFloat();
+        longt = in.readFloat();
+    }
+
+    public static final Creator<Quote> CREATOR = new Creator<Quote>() {
+        @Override
+        public Quote createFromParcel(Parcel in) {
+            return new Quote(in);
+        }
+
+        @Override
+        public Quote[] newArray(int size) {
+            return new Quote[size];
+        }
+    };
+
     public void setValid(boolean t){
         valid_layout = t;
     }
@@ -77,5 +113,40 @@ public class Quote {
     public static ArrayList<Quote> getAllQuotes(Context context, String id){
         DatabaseHelper data = new DatabaseHelper(context);
         return data.getAllQuotes(id);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(qid);
+        parcel.writeString(qprice);
+        parcel.writeString(comment);
+        parcel.writeString(bgprice);
+        parcel.writeString(name);
+        parcel.writeString(distance);
+        parcel.writeLong(exptime);
+        parcel.writeLong(cat);
+        parcel.writeLong(bgexptime);
+        parcel.writeInt(type);
+        parcel.writeInt(deltype);
+        parcel.writeInt(bargained);
+        parcel.writeInt(cuscon);
+        parcel.writeInt(selcon);
+        parcel.writeInt(del);
+        parcel.writeFloat(lat);
+        parcel.writeFloat(longt);
+    }
+
+    public float getLat(){
+        return lat;
+    }
+
+    public float getLongt(){
+        return longt;
     }
 }

@@ -9,6 +9,7 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -97,6 +98,7 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
         int id = v.getId();
         if(id == R.id.quotes_map){
             Intent intent = new Intent(this,MapsActivity.class);
+            intent.putParcelableArrayListExtra("Bundle", (ArrayList<? extends Parcelable>) mItems);
             startActivityForResult(intent,1);
         }
     }

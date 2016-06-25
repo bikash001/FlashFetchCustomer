@@ -92,9 +92,15 @@ public class DatabaseHelper {
     public long addQuote(ContentValues cv) {
         open();
         long id = ourDatabase.insert(Quote.TABLE_NAME, null, cv);
-        Log.d("dmydb","REQUEST ADDED");
+        Log.d("dmydb","QUOTE ADDED");
         close();
         return id;
+    }
+    public void updateQuote(String id,ContentValues cv){
+        open();
+        ourDatabase.update(Quote.TABLE_NAME, cv, "id" + " = ?", new String[]{id});
+        close();
+
     }
     public ArrayList<Quote> getAllQuotes (String id) {
         open();

@@ -182,7 +182,7 @@ public class Extract extends AppCompatActivity implements View.OnClickListener, 
     }
 
 
-    public class BargainTask extends AsyncTask<Void, Void, Boolean> {
+    private class BargainTask extends AsyncTask<Void, Void, Boolean> {
         ArrayList<PostParam> iPostParams = new ArrayList<PostParam>();
 
         @Override
@@ -195,7 +195,7 @@ public class Extract extends AppCompatActivity implements View.OnClickListener, 
             iPostParams.add(postimg);
             iPostParams.add(new PostParam("cat", String.valueOf(cat)));
             iPostParams.add(new PostParam("time", String.valueOf(System.currentTimeMillis() + 10000000)));
-            iPostParams.add(new PostParam("cus_loc", UserProfile.getLocation(Extract.this)));
+            iPostParams.add(new PostParam("cus_loc","(12.324225,80.234234)"));
             iPostParams.add(new PostParam("name", UserProfile.getName(Extract.this)));
             iPostParams.add(new PostParam("token",UserProfile.getToken(Extract.this)));
             iPostParams.add(new PostParam("cus_email",UserProfile.getEmail(Extract.this)));

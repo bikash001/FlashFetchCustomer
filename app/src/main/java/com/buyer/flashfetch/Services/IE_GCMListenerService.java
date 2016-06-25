@@ -52,20 +52,31 @@ public class IE_GCMListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
 
-        Log.d("gcm","GCM MESSAGE : " + data.toString());
-        ContentValues cv = new ContentValues();
-        cv.put("id",data.getString("cus_id"));
-        cv.put("qid",data.getString("sel_id"));
-        cv.put("qprice",data.getString("qprice"));
-        cv.put("type",data.getString("prtype"));
-        cv.put("deltype",data.getString("deltype"));
-        cv.put("comment",data.getString("comment"));
-        cv.put("lat",data.getString("lat"));
-        cv.put("long",data.getString("lon"));
-        cv.put("distance",data.getString("distance"));
-        DatabaseHelper dh = new DatabaseHelper(IE_GCMListenerService.this);
-        dh.addQuote(cv);
-        sendNotification("New Quote","You have a new quote for a product");
+        if(data.getInt("bargained")==1){
+            ContentValues cv = new ContentValues();
+            cv.put("selcon",data.getInt("selcon"));
+            cv.put("cuscon",data.getInt("cuscon"));
+            cv.put("qid",data.getString("selid"));
+            DatabaseHelper dh = new DatabaseHelper(this);
+            dh.updateQuote(data.getString("id"),cv);
+            sendNotification("Bargain", "bargain");
+        }else {
+
+            Log.d("gcm", "GCM MESSAGE : " + data.toString());
+            ContentValues cv = new ContentValues();
+            cv.put("id", data.getString("cus_id"));
+            cv.put("qid", data.getString("sel_id"));
+            cv.put("qprice", data.getString("qprice"));
+            cv.put("type", data.getString("prtype"));
+            cv.put("deltype", data.getString("deltype"));
+            cv.put("comment", data.getString("comment"));
+            cv.put("lat", data.getString("lat"));
+            cv.put("long", data.getString("lon"));
+            cv.put("distance", data.getString("distance"));
+            DatabaseHelper dh = new DatabaseHelper(IE_GCMListenerService.this);
+            dh.addQuote(cv);
+            sendNotification("New Quote", "You have a new quote for a product");
+        }
 
 
 

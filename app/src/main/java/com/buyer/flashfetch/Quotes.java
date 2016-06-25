@@ -2,6 +2,7 @@ package com.buyer.flashfetch;
 
 import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,8 +33,15 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.buyer.flashfetch.Helper.DatabaseHelper;
+import com.buyer.flashfetch.Network.PostRequest;
+import com.buyer.flashfetch.Objects.PostParam;
 import com.buyer.flashfetch.Objects.Quote;
 import com.buyer.flashfetch.Objects.Request;
+import com.buyer.flashfetch.Objects.UserProfile;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -50,6 +58,7 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
     private int height, width;
     private LinearLayout map;
     TextView pname,pprice;
+    Dialog dialog;
 
 
     @Override
@@ -144,7 +153,7 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
 
         final private List<Quote> list;
 
-        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public class ViewHolder extends RecyclerView.ViewHolder {
             private TextView sellerName, productPrice, timer, distance, bargain,comment,more;
             private TextView bargainButton, acceptButton;
             private boolean bargained;
@@ -162,9 +171,7 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
                 timer = (TextView) itemView.findViewById(R.id.timer);
                 distance = (TextView) itemView.findViewById(R.id.distance);
                 bargainButton = (TextView) itemView.findViewById(R.id.bargain);
-                bargainButton.setOnClickListener(this);
                 acceptButton = (TextView) itemView.findViewById(R.id.accept);
-                acceptButton.setOnClickListener(this);
                 layout = (LinearLayout) itemView.findViewById(R.id.button_layout);
                 Log.d(TAG, "ViewHolder");
 
@@ -184,63 +191,7 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
                 notifyDataSetChanged();
             }
 
-            @Override
-            public void onClick(View v) {
-                final Dialog dialog = new Dialog(v.getContext());
 
-                switch (v.getId()) {
-                    case R.id.accept:
-                        Intent intent = new Intent(v.getContext(),Delivery.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.bargain:
-                        dialog.setContentView(R.layout.dialog);
-                        dialog.getWindow().setLayout((int) (width * 0.8), height);
-                        final EditText priceText = (EditText) dialog.findViewById(R.id.new_price);
-                        priceText.setFilters(new InputFilter[]{new InputCheck(0, 10000000)});
-                        final EditText hourText = (EditText) dialog.findViewById(R.id.hour);
-                        hourText.setFilters(new InputFilter[]{new InputCheck(0, 23)});
-                        final EditText minText = (EditText) dialog.findViewById(R.id.min);
-                        minText.setFilters(new InputFilter[]{new InputCheck(0, 59)});
-                        Button button1 = (Button) dialog.findViewById(R.id.ok_dialog);
-                        button1.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String price = priceText.getText().toString();
-                                String hour = hourText.getText().toString();
-                                String min = minText.getText().toString();
-                                boolean error = false;
-                                if (hour.length() == 0) {
-                                    error = true;
-                                    hourText.setError("Set Hour");
-                                }
-                                if (min.length() == 0) {
-                                    error = true;
-                                    minText.setError("Set Min");
-                                }
-                                if (price.length() == 0) {
-                                    error = true;
-                                    priceText.setError("Set Price");
-                                }
-                                if (!error) {
-                                    bargainButton.setVisibility(View.GONE);
-                                    //list.get(getAdapterPosition()).setBargained(false);
-                                    bargain.setText(String.format("%s %s", "Bargained for ₹", price));
-                                    // tt.update(Long.valueOf(hour), Long.valueOf(min));
-                                    //timer.setText(hour+":"+min);
-                                    bargain.setVisibility(View.VISIBLE);
-                                    Toast toast = Toast.makeText(v.getContext(), "" + price, Toast.LENGTH_SHORT);
-                                    toast.show();
-                                    dialog.dismiss();
-                                }
-                            }
-                        });
-                        // set the custom dialog components - text, image and button
-                        dialog.show();
-
-                        break;
-                }
-            }
         }
 
         public void removeAt(int position) {
@@ -261,13 +212,17 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
         }
 
         @Override
-        public void onBindViewHolder(ProductAdapter.ViewHolder holder, int position) {
-            Quote object = list.get(position);
+        public void onBindViewHolder(final ProductAdapter.ViewHolder holder, int position) {
+            final Quote object = list.get(position);
             holder.sellerName.setText(object.name);
             //holder.timer.setText(object.);
             holder.distance.setText(object.distance);
             holder.productPrice.setText(object.qprice);
             holder.bargained = object.bargained >0;
+            if(object.selcon > 0){
+                holder.distance.setText("bargain accepted");
+                holder.bargainButton.setVisibility(View.GONE);
+            }
             Layout temp = holder.comment.getLayout();
             if(temp != null) {
                 int lines = temp.getLineCount();
@@ -286,6 +241,59 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
                 holder.layout.setVisibility(View.GONE);
             }
             Log.d(TAG, "bind" + position);
+            holder.acceptButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(),Delivery.class);
+                    intent.putExtra("qid",object.qid);
+                    startActivity(intent);
+                }
+            });
+            holder.bargainButton.setOnClickListener(new Button.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog = new Dialog(v.getContext());
+                    dialog.setContentView(R.layout.dialog);
+                    dialog.getWindow().setLayout((int) (width * 0.8), height);
+                    final EditText priceText = (EditText) dialog.findViewById(R.id.new_price);
+                    priceText.setFilters(new InputFilter[]{new InputCheck(0, 10000000)});
+                    final EditText hourText = (EditText) dialog.findViewById(R.id.hour);
+                    hourText.setFilters(new InputFilter[]{new InputCheck(0, 23)});
+                    final EditText minText = (EditText) dialog.findViewById(R.id.min);
+                    minText.setFilters(new InputFilter[]{new InputCheck(0, 59)});
+                    Button button1 = (Button) dialog.findViewById(R.id.ok_dialog);
+                    button1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String price = priceText.getText().toString();
+                            String hour = hourText.getText().toString();
+                            String min = minText.getText().toString();
+                            boolean error = false;
+                            if (hour.length() == 0) {
+                                error = true;
+                                hourText.setError("Set Hour");
+                            }
+                            if (min.length() == 0) {
+                                error = true;
+                                minText.setError("Set Min");
+                            }
+                            if (price.length() == 0) {
+                                error = true;
+                                priceText.setError("Set Price");
+                            }
+                            if (!error) {
+                                BargainTask bt =  new BargainTask(object, priceText.getText().toString());
+                                bt.execute();
+                                holder.bargainButton.setVisibility(View.GONE);
+                                holder.bargain.setText(String.format("%s %s", "Bargained for ₹", price));
+                                holder.bargain.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+                    // set the custom dialog components - text, image and button
+                    dialog.show();
+                }
+            });
         }
 
         @Override
@@ -293,5 +301,53 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
             return list.size();
         }
     }
+
+    private class BargainTask extends AsyncTask<Void, Void, Boolean> {
+        ArrayList<PostParam> iPostParams = new ArrayList<PostParam>();
+        Quote quote;
+        String bprice;
+        JSONObject ResponseJSON =  new JSONObject();
+
+        public BargainTask(Quote object, String s) {
+            quote = object;
+            bprice =s;
+
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            iPostParams.add(new PostParam("selid",quote.qid));
+            iPostParams.add(new PostParam("btime", String.valueOf(System.currentTimeMillis() + 10000000)));
+            iPostParams.add(new PostParam("bprice",bprice));
+            iPostParams.add(new PostParam("token",UserProfile.getToken(Quotes.this)));
+            iPostParams.add(new PostParam("email",UserProfile.getEmail(Quotes.this)));
+            ResponseJSON = PostRequest.execute("http://ec2-54-169-112-228.ap-southeast-1.compute.amazonaws.com/bargain/", iPostParams, null);
+            Log.d("RESPONSE", ResponseJSON.toString());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            ContentValues cv= new ContentValues();
+            try {
+                if (ResponseJSON.getJSONObject("data").getInt("result")==1){
+                    cv.put("bargained",1);
+                    cv.put("bgprice",bprice);
+                    cv.put("bgexptime",String.valueOf(System.currentTimeMillis() + 10000000));
+                    DatabaseHelper dh = new DatabaseHelper(Quotes.this);
+                    dh.updateQuote(quote.qid,cv);
+                    Toast toast = Toast.makeText(Quotes.this , bprice, Toast.LENGTH_SHORT);
+                    toast.show();
+                    dialog.dismiss();
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
 
 }

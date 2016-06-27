@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -27,6 +28,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -103,6 +105,8 @@ public class Register extends AppCompatActivity implements LoaderManager.LoaderC
 
         mLoginFormView = findViewById(R.id.register_loginform);
         mProgressView = findViewById(R.id.register_progress);
+        ProgressBar mProgressBar=(ProgressBar)mProgressView;
+        mProgressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#3F51B5"),android.graphics.PorterDuff.Mode.SRC_ATOP);
     }
 
     private void populateAutoComplete() {

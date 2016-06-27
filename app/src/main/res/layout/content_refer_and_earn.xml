@@ -80,7 +80,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="@android:drawable/btn_star_big_on" />
+                        android:background="@drawable/whatsapp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -100,7 +100,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="@android:drawable/sym_action_email" />
+                        android:background="@drawable/gmail" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -120,7 +120,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="@android:drawable/sym_action_chat" />
+                        android:background="@drawable/hangouts" />
 
                     <TextView
                         android:layout_width="wrap_content"

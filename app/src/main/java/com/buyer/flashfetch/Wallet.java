@@ -27,6 +27,7 @@ public class Wallet extends AppCompatActivity implements View.OnClickListener{
                         .setAction("Action", null).show();
             }
         });
+        fab.setVisibility(View.GONE);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         button = (Button) findViewById(R.id.wallet_share);
         button.setOnClickListener(this);

@@ -27,6 +27,7 @@ public class ReferAndEarn extends AppCompatActivity implements View.OnClickListe
                         .setAction("Action", null).show();
             }
         });
+        fab.setVisibility(View.GONE);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         whatsapp = (ImageView) findViewById(R.id.whatsapp);
         whatsapp.setOnClickListener(this);

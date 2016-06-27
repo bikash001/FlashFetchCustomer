@@ -90,4 +90,7 @@
     <string name="price_low_to_high">Price-Low to High</string>
     <string name="price_high_to_low">Price-High to Low</string>
     <string name="distance">Distance</string>
+    <string name="title_activity_max_response">MaxResponse</string>
+    <string name="title_activity_feedback1">Feedback1</string>
+    <string name="title_activity_feedback2">Feedback2</string>
 </resources>

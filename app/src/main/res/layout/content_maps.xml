@@ -173,6 +173,7 @@
         android:baselineAligned="false"
         android:fitsSystemWindows="true"
         android:orientation="horizontal"
+        android:background="#fff"
         android:weightSum="3">
 
         <LinearLayout
@@ -193,6 +194,7 @@
                 android:layout_gravity="right"
                 android:gravity="center_vertical"
                 android:text="Sort"
+                android:paddingLeft="8dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </LinearLayout>
 
@@ -213,6 +215,7 @@
                 android:layout_gravity="right"
                 android:gravity="center_vertical"
                 android:text="Filter"
+                android:paddingLeft="8dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </LinearLayout>
 
@@ -225,7 +228,8 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:src="@drawable/list"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -233,6 +237,7 @@
                 android:layout_gravity="right"
                 android:gravity="center_vertical"
                 android:text="List"
+                android:paddingLeft="8dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </LinearLayout>
 

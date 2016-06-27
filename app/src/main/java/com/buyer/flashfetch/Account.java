@@ -43,6 +43,7 @@ public class Account extends AppCompatActivity implements View.OnClickListener{
                         .setAction("Action", null).show();
             }
         });
+        fab.setVisibility(View.GONE);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         height = WindowManager.LayoutParams.WRAP_CONTENT;
         Display display = getWindowManager().getDefaultDisplay();

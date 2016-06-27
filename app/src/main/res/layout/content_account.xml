@@ -19,7 +19,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Profile" />
+        android:text="Profile"
+        android:textSize="25sp"
+        android:layout_marginBottom="10dp"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,14 +33,16 @@
             android:id="@+id/profile_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:drawable/ic_menu_gallery" />
+            android:background="@drawable/ic_person_black" />
         <TextView
             android:id="@+id/profile_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/profile_icon"
-            android:text="Name" />
+            android:text="Name"
+            android:textSize="18sp"
+            android:layout_marginLeft="8dp"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -50,21 +54,24 @@
             android:id="@+id/phone_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:drawable/stat_sys_phone_call" />
+            android:background="@drawable/ic_call_black" />
         <TextView
             android:id="@+id/phone_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/phone_icon"
-            android:text="785213213" />
+            android:text="785213213"
+            android:textSize="18sp"
+            android:paddingLeft="8dp" />
     </RelativeLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
-        android:layout_marginTop="3dp"
-        android:text="Address" />
+        android:layout_marginTop="15dp"
+        android:text="Address"
+        android:textSize="25sp" />
     <LinearLayout
         android:id="@+id/layout_address"
         android:layout_width="match_parent"
@@ -72,12 +79,26 @@
         android:orientation="vertical">
 
     </LinearLayout>
-
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp">
+            <ImageView
+                android:id="@+id/add_address_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_add_location_blackdp" />
     <TextView
         android:id="@+id/button_add_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00ff00"
-        android:text="Add Address" />
+        android:text="Add Address"
+        android:paddingTop="13dp"
+        android:layout_toRightOf="@id/add_address_icon"
+        android:textSize="18sp"
+        android:textColor="#000" />
+        </RelativeLayout>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

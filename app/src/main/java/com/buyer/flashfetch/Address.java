@@ -28,6 +28,7 @@ public class Address extends AppCompatActivity implements View.OnClickListener{
                         .setAction("Action", null).show();
             }
         });
+        fab.setVisibility(View.GONE);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         addressline = (EditText) findViewById(R.id.addressline);
         pin = (EditText) findViewById(R.id.postal_code);

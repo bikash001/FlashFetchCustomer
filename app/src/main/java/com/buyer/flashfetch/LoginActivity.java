@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -29,6 +30,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.buyer.flashfetch.Constants.URLConstants;
@@ -115,6 +117,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        ProgressBar mProgressBar=(ProgressBar)mProgressView;
+        mProgressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#3F51B5"),android.graphics.PorterDuff.Mode.SRC_ATOP);
     }
 
 

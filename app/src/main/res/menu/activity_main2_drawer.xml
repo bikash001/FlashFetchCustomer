@@ -3,7 +3,7 @@
     <group>
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_home_black"
             android:title="Home" />
         <item
             android:id="@+id/nav_deals"
@@ -11,17 +11,18 @@
             android:title="Deals Nearby" />
         <item
             android:id="@+id/nav_wallet"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_wallet_black"
             android:title="Wallet" />
         <item
             android:id="@+id/nav_account"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_person_black"
             android:title="Account" />
     </group>
 
     <group>
         <item
             android:id="@+id/nav_notification"
+            android:icon="@drawable/ic_notifications_black"
             android:title="Notifications" />
         <item
             android:id="@+id/nav_refer"
@@ -29,7 +30,7 @@
             android:title="@string/nav_refer" />
         <item
             android:id="@+id/nav_help"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/ic_chat_black"
             android:title="Help Us Improve" />
     </group>
 

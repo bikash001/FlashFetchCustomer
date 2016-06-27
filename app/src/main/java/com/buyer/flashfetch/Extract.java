@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -21,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -70,6 +72,8 @@ public class Extract extends AppCompatActivity implements View.OnClickListener, 
         tvname = (TextView) findViewById(R.id.name_extract);
         iv = (ImageView) findViewById(R.id.image_extract);
         tvprice = (TextView) findViewById(R.id.price_extract);
+        ProgressBar mProgressBar=(ProgressBar)mProgressView;
+        mProgressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#3F51B5"),android.graphics.PorterDuff.Mode.SRC_ATOP);
         Intent intent = getIntent();
         text = intent.getStringExtra(Intent.EXTRA_TEXT);
         if (text != null) {

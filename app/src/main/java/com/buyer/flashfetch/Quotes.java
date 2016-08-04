@@ -10,7 +10,7 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -29,13 +29,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.buyer.flashfetch.Helper.Comparators;
 import com.buyer.flashfetch.Helper.DatabaseHelper;
 import com.buyer.flashfetch.Network.PostRequest;
 import com.buyer.flashfetch.Objects.PostParam;
+import com.buyer.flashfetch.Helper.Comparators;
 import com.buyer.flashfetch.Objects.Quote;
 import com.buyer.flashfetch.Objects.Request;
 import com.buyer.flashfetch.Objects.UserProfile;
@@ -44,14 +45,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Quotes extends AppCompatActivity implements View.OnClickListener {
-    private static final String TAG = "QUOTES";
-    private String url,id;
+
+    private static final String TAG = "Quotes";
+    private String url,id,expTime;
     private List<Quote> mItems = new ArrayList<>();
     private RecyclerView recyclerView;
     private ProductAdapter mAdapter;
@@ -60,29 +64,38 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
     TextView pname,pprice;
     Dialog dialog;
 
+    private BottomSheetBehavior mBottomSheetBehavior;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_quotes);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         height = WindowManager.LayoutParams.WRAP_CONTENT;
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         width = size.x;
+
         pname = (TextView)findViewById(R.id.product_name_quotes);
         pprice = (TextView)findViewById(R.id.price_quotes);
 
         url = getIntent().getStringExtra("URL");
         id= getIntent().getStringExtra("id");
         mItems = Quote.getAllQuotes(Quotes.this,id);
-        pname.setText(Request.getRequest(Quotes.this, id).get(0).pname);
-        pprice.setText("Price: Rs." + Request.getRequest(Quotes.this, id).get(0).pprice);
+        pname.setText(Request.getRequest(Quotes.this, id).get(0).productName);
+        pprice.setText("Price: Rs." + Request.getRequest(Quotes.this, id).get(0).productPrice);
+
         CollapsingToolbarLayout layout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         new Download(layout).execute(url);
+
+        View bottomSheet = findViewById(R.id.bottomSheet);
+        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_quotes);
         map = (LinearLayout) findViewById(R.id.quotes_map);
@@ -107,13 +120,27 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
         int id = v.getId();
         if(id == R.id.quotes_map){
             Intent intent = new Intent(this,MapsActivity.class);
-            intent.putParcelableArrayListExtra("Bundle", (ArrayList<? extends Parcelable>) mItems);
+            intent.putExtra("Bundle", (Serializable) mItems);
             startActivityForResult(intent,1);
+        }
+        else if(id == R.id.quotes_sort){
+            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        }
+        else if(id == R.id.sort_newest){
+            Collections.sort(mItems, new Comparators.NewestComparator());
+        }
+        else if(id == R.id.sort_low_high){
+            Collections.sort(mItems, new Comparators.LowToHighComparator());
+        }
+        else if(id == R.id.sort_high_low){
+            Collections.sort(mItems, new Comparators.HighToLowComparator());
+        }
+        else if(id == R.id.distance){
+            Collections.sort(mItems, new Comparators.DistaneComparator());
         }
     }
 
-
-    private class Download extends AsyncTask<String, Void, Bitmap> {
+    public class Download extends AsyncTask<String, Void, Bitmap> {
         CollapsingToolbarLayout mylayout;
         ImageView view;
 
@@ -148,6 +175,7 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
             mylayout.setBackground(bitmapDrawable);
         }
     }
+
 
     public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
 

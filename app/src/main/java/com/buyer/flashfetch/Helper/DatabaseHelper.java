@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class DatabaseHelper {
 
-    private static String LOG_TAG = "DatabaseHelper";
+    private static String TAG = "DatabaseHelper";
 
     private static final String DATABASE_NAME = "FlashFetch";
     private static final int DATABASE_VERSION = 2;
@@ -24,9 +24,6 @@ public class DatabaseHelper {
     private DbHelper ourHelper;
     private final Context ourContext;
     private SQLiteDatabase ourDatabase;
-
-
-
 
     private static class DbHelper extends SQLiteOpenHelper {
 
@@ -41,14 +38,11 @@ public class DatabaseHelper {
             db.execSQL("CREATE TABLE Requests( id VARCHAR PRIMARY KEY, url VARCHAR, pname VARCHAR, pprice VARCHAR , pimg VARCHAR,cat BIGINT,exptime BIGINT, cuscon INT DEFAULT 0,del INT DEFAULT 0)");
             db.execSQL("CREATE TABLE Quotes( id VARCHAR , qid VARCHAR PRIMARY KEY,name VARCHAR, qprice VARCHAR, type INT, deltype INT, comment VARCHAR ,lat DECIMAL(9,6),long DECIMAL(9,6),distance VARCHAR,bargained INT, bgprice VARCHAR DEFAULT '', bgexptime BIGINT DEFAULT 0,selcon INT DEFAULT 0,cuscon INT DEFAULT 0,del INT DEFAULT 0 )");
            /* db.execSQL(" DROP TABLE IF EXISTS " + Notification.TABLE_NAME);*/
-
         }
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             // TODO Auto-generated method stub
-
         }
-
     }
 
     public DatabaseHelper(Context c){

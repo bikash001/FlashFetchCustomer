@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:id="@+id/bottomSheet"
     android:layout_marginBottom="8dp"
     android:layout_marginTop="8dp"
     android:layout_height="wrap_content"
@@ -15,7 +17,7 @@
     <TextView
         android:padding="8dp"
         android:id="@+id/sort_newest"
-        android:text="Newest"
+        android:text="Sort by Newest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
@@ -27,7 +29,13 @@
     <TextView
         android:padding="8dp"
         android:id="@+id/sort_high_low"
-        android:text="Newest"
+        android:text="Price High to Low"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:padding="8dp"
+        android:id="@+id/sort_distance"
+        android:text="Sort by Distance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

@@ -32,13 +32,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener,
         GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
 
     private GoogleMap mMap;
-    private BottomSheetBehavior mBottomSheetBehavior;
     private LinearLayout filter,lisview,layout;
     private List<Quote> list;
     private Handler_Dialog handlerDialog;
@@ -66,9 +67,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        list = getIntent().getParcelableArrayListExtra("Quotes");
-        View bottomSheet = findViewById(R.id.bottom_sheet);
-        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        list = (List<Quote>) getIntent().getSerializableExtra("Quotes");
     }
 
     @Override
@@ -112,9 +111,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (id == R.id.maps_filter){
 
         }
-        else if(id == R.id.maps_sort){
-            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        }
         else if(id == R.id.maps_list){
             finish();
         }
@@ -144,6 +140,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             button1.setOnClickListener(handlerDialog);
             // set the custom dialog components - text, image and button
             dialog.show();
+        }
+        else if(id == R.id.newestFirst){
+            Collections.sort(list,new NewestComparator());
+        }
+        else if(id == R.id.lowToHigh){
+            Collections.sort(list,new LowToHighComparator());
+        }
+        else if(id == R.id.highToLow){
+            Collections.sort(list,new HighToLowComparator());
+        }
+        else if(id == R.id.distance){
+            Collections.sort(list,new DistanceComparator());
         }
     }
 
@@ -222,4 +230,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
     }
+
+    public class NewestComparator implements Comparator<Quote> {
+        public int compare(Quote quote1, Quote quote2) {
+            return 1;
+        }
+    }
+
+    public class LowToHighComparator implements Comparator<Quote> {
+        public int compare(Quote quote1, Quote quote2) {
+            return quote1.getQPrice().compareTo(quote2.getQPrice());
+        }
+    }
+
+    public class HighToLowComparator implements Comparator<Quote> {
+        public int compare(Quote quote1, Quote quote2) {
+            return quote2.getQPrice().compareTo(quote1.getQPrice());
+        }
+    }
+
+    public class DistanceComparator implements Comparator<Quote> {
+        public int compare(Quote quote1, Quote quote2) {
+            return quote1.getDistance().compareTo(quote2.getDistance());
+        }
+    }
+
 }

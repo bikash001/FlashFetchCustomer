@@ -20,7 +20,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.LongSparseArray;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -219,7 +218,7 @@ public class Register extends AppCompatActivity implements LoaderManager.LoaderC
             showProgress(true);
             mAuthTask = new Signup();
             mAuthTask.execute();
-            Intent intent = new Intent(this,Main2Activity.class);
+            Intent intent = new Intent(this,MainActivity.class);
             startActivity(intent);
             finish();
         }
@@ -374,7 +373,7 @@ public class Register extends AppCompatActivity implements LoaderManager.LoaderC
             instiPostParams.add(new PostParam("mobile",String.valueOf(personPhone)));
 
 
-            ResponseJSON = PostRequest.execute(URLConstants.URLSignup, instiPostParams, null);
+            ResponseJSON = PostRequest.execute(URLConstants.URL_SIGN_UP, instiPostParams, null);
             Log.d("RESPONSE", ResponseJSON.toString());
 
              /*   JSONObject json = ImageUploader.execute( URLConstants.URLImage, selectedImageUri.toString(),null);
@@ -395,7 +394,7 @@ public class Register extends AppCompatActivity implements LoaderManager.LoaderC
                     UserProfile.setPhone(String.valueOf(personPhone), Register.this);
                     UserProfile.setPassword(password, Register.this);
                     UserProfile.setToken(ResponseJSON.getJSONObject("data").getString("token"), Register.this);
-                    Intent intent = new Intent(Register.this,Main2Activity.class);
+                    Intent intent = new Intent(Register.this,MainActivity.class);
                    /* intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("EXIT", true);*/
                     startActivity(intent);

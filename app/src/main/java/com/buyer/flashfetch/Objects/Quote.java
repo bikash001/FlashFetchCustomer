@@ -10,15 +10,17 @@ import com.buyer.flashfetch.Helper.DatabaseHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by kevinselvaprasanna on 4/13/16.
  */
-public class Quote implements Parcelable{
+public class Quote implements Serializable{
+
     public static final String TABLE_NAME = "Quotes" ;
     public String id,qid,qprice,comment,bgprice,name,distance;
-    public long exptime,cat,bgexptime;
+    public long expTime,cat,bgexptime;
     Boolean valid_layout;
     public int type,deltype,bargained,cuscon,selcon,del;
     public float lat,longt;
@@ -35,11 +37,11 @@ public class Quote implements Parcelable{
         }
     }*/
 
-    public static String[] columns = {"id", "qid","name", "qprice", "type", "deltype","comment","lat","long","distance","bargained","bgprice","bgexptime","selcon","cuscon","del"};
+    public static String[] columns = {"id", "qid","name", "qprice", "type", "deltype","comment","lat","long","distance","bargained","bgprice","bgexptime","selcon","cuscon","del","expTime","cat"};
 
     public Quote(String id, String qid ,String name, String qprice, int type, int deltype, String comment, float lat, float longt, String distance, int bargained, String bgprice, long bgexptime, int selcon, int cuscon, int del) {
         this.id = id;
-       this.qid = qid;
+        this.qid = qid;
         this.valid_layout = true;
         this.qprice = qprice;
         this.type = type;
@@ -64,7 +66,7 @@ public class Quote implements Parcelable{
         bgprice = in.readString();
         name = in.readString();
         distance = in.readString();
-        exptime = in.readLong();
+        expTime = in.readLong();
         cat = in.readLong();
         bgexptime = in.readLong();
         type = in.readInt();
@@ -76,18 +78,6 @@ public class Quote implements Parcelable{
         lat = in.readFloat();
         longt = in.readFloat();
     }
-
-    public static final Creator<Quote> CREATOR = new Creator<Quote>() {
-        @Override
-        public Quote createFromParcel(Parcel in) {
-            return new Quote(in);
-        }
-
-        @Override
-        public Quote[] newArray(int size) {
-            return new Quote[size];
-        }
-    };
 
     public void setValid(boolean t){
         valid_layout = t;
@@ -115,38 +105,19 @@ public class Quote implements Parcelable{
         return data.getAllQuotes(id);
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(id);
-        parcel.writeString(qid);
-        parcel.writeString(qprice);
-        parcel.writeString(comment);
-        parcel.writeString(bgprice);
-        parcel.writeString(name);
-        parcel.writeString(distance);
-        parcel.writeLong(exptime);
-        parcel.writeLong(cat);
-        parcel.writeLong(bgexptime);
-        parcel.writeInt(type);
-        parcel.writeInt(deltype);
-        parcel.writeInt(bargained);
-        parcel.writeInt(cuscon);
-        parcel.writeInt(selcon);
-        parcel.writeInt(del);
-        parcel.writeFloat(lat);
-        parcel.writeFloat(longt);
-    }
-
     public float getLat(){
         return lat;
     }
 
     public float getLongt(){
         return longt;
+    }
+
+    public String getQPrice(){
+        return qprice;
+    }
+
+    public String getDistance(){
+        return distance;
     }
 }

@@ -1,36 +1,67 @@
 package com.buyer.flashfetch;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.view.PagerAdapter;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+
+import com.buyer.flashfetch.Adapters.DealsViewPagerAdapter;
+import com.buyer.flashfetch.Constants.DealsConstants;
+import com.buyer.flashfetch.Fragments.DealsNearByFragment;
+
+import java.util.ArrayList;
 
 public class Offer extends AppCompatActivity {
 
-    private static final int PAGES = 5;
-    private ViewPager mViewPager;
-    private PagerAdapter mPagerAdapter;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private DealsViewPagerAdapter dealsViewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        fab.setVisibility(View.GONE);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle("NearBy Deals");
+
+        setUpDataModel();
+
+        tabLayout = (TabLayout)findViewById(R.id.deal_nearby_tab_layout);
+        viewPager = (ViewPager)findViewById(R.id.deals_nearby_view_pager);
+
+        if(tabLayout != null){
+            tabLayout.setTabTextColors(R.color.secondary_text,R.color.icons);
+        }
+
+        viewPager.setAdapter(dealsViewPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+
+    }
+
+    private void setUpDataModel() {
+        String[] tabTitles = {"TRENDING","SHOPPING","FOOD","ENTERTAINMENT","SERVICES"};
+
+        if(viewPager != null && viewPager.getAdapter() != null){
+            viewPager.removeAllViews();
+        }
+
+        FragmentManager fm = getSupportFragmentManager();
+        dealsViewPagerAdapter = new DealsViewPagerAdapter(fm,tabTitles);
+
+        ArrayList<Fragment> fragmentsList = new ArrayList<>();
+        fragmentsList.add(DealsNearByFragment.getInstance(DealsConstants.TAB_TRENDING));
+        fragmentsList.add(DealsNearByFragment.getInstance(DealsConstants.TAB_SHOPPING));
+        fragmentsList.add(DealsNearByFragment.getInstance(DealsConstants.TAB_FOOD));
+        fragmentsList.add(DealsNearByFragment.getInstance(DealsConstants.TAB_ENTERTAINMENT));
+        fragmentsList.add(DealsNearByFragment.getInstance(DealsConstants.TAB_SERVICES));
+
+        dealsViewPagerAdapter.setFragmentList(fragmentsList);
     }
 }

@@ -11,7 +11,6 @@ import com.buyer.flashfetch.Constants.URLConstants;
 import com.buyer.flashfetch.Network.PostRequest;
 import com.buyer.flashfetch.Objects.PostParam;
 import com.buyer.flashfetch.Objects.UserProfile;
-import com.buyer.flashfetch.R;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
@@ -27,7 +26,7 @@ import java.util.ArrayList;
  */
 
 public class IE_RegistrationIntentService extends IntentService {
-    private static final String TAG = "RegIntentService";
+    private static final String TAG = "RegistrationIntentService";
     private static final String[] TOPICS = {"global"};
     String Old_ID,token;
     Boolean senttokentoserver;
@@ -49,9 +48,10 @@ public class IE_RegistrationIntentService extends IntentService {
                 // are local.
                 // [START get_token]
                 token ="no  token";
+
                 InstanceID instanceID = InstanceID.getInstance(this);
-                String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
-                        GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+                /*String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
+                        GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);*/
 
                 token = instanceID.getToken("475795801819", GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
                 if((!token.equals(Old_ID)))
@@ -82,7 +82,7 @@ public class IE_RegistrationIntentService extends IntentService {
             sharedPreferences.edit().putBoolean("sentTokenToServer", false).apply();
         }
         // Notify UI that registration has completed, so the progress indicator can be hidden.
-Intent registrationComplete = new Intent("registrationComplete");
+        Intent registrationComplete = new Intent("registrationComplete");
         LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
 
     }
@@ -104,7 +104,7 @@ Intent registrationComplete = new Intent("registrationComplete");
         PostParams.add(postgcmid);
         PostParams.add(new PostParam("token",UserProfile.getToken(IE_RegistrationIntentService.this)));
 
-        JSONObject ResponseJSON = PostRequest.execute(URLConstants.URLGCM_Register, PostParams, null);
+        JSONObject ResponseJSON = PostRequest.execute(URLConstants.URL_GCM_REGISTER, PostParams, null);
         Log.d("RESPONSE",ResponseJSON.toString());
     }
 

@@ -35,7 +35,7 @@ public class Refer extends AppCompatActivity implements View.OnClickListener{
             case R.id.enter_button:
                 break;
             case R.id.skip_button:
-                Intent intent = new Intent(this,Main2Activity.class);
+                Intent intent = new Intent(this,MainActivity.class);
                 startActivity(intent);
                 finish();
                 break;

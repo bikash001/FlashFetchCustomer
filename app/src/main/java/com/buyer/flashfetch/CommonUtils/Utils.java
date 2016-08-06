@@ -43,10 +43,18 @@ public class Utils {
     }
 
     public static boolean isValidPassword(String password) {
-        if (password.length() > 4) {
+        if (password.length() > 8) {
             return true;
         }
         return false;
+    }
+
+    public static boolean isPhoneValid(String number){
+        return number.length() == 10;
+    }
+
+    public static boolean isNameValid(String name){
+        return name.length() >= 3;
     }
 
     public static boolean checkSamePassword(String newPassword, String confirmPassword) {

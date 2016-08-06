@@ -23,6 +23,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:name = "android.support.multidex.MultiDexApplication"
         android:theme="@style/AppTheme">
 
         <meta-data
@@ -62,8 +63,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/app_name"
+            android:name=".SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -73,7 +73,13 @@
         </activity>
 
         <activity
-            android:name=".Register"
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".RegisterActivity"
             android:label="@string/title_activity_register"
             android:parentActivityName=".LoginActivity"
             android:screenOrientation="portrait"
@@ -83,13 +89,13 @@
                 android:value=".LoginActivity" />
         </activity>
 
-        <!--<activity-->
-            <!--android:name=".LoginActivity"-->
-            <!--android:label="@string/title_activity_login"-->
-            <!--android:parentActivityName=".MainActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:theme="@style/AppTheme.NoActionBar" />-->
+        <activity android:name=".ForgotPassword"/>
 
+        <activity android:name=".PasswordVerification"/>
+
+        <activity android:name=".ChangePassword"/>
+
+        <activity android:name=".MainActivity"/>
 
         <activity
             android:name=".Quotes"
@@ -231,11 +237,11 @@
         <activity
             android:name=".VerifyEmail"
             android:label="@string/title_activity_verify_email"
-            android:parentActivityName=".Register"
+            android:parentActivityName=".RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.buyer.flashfetch.Register" />
+                android:value=".RegisterActivity" />
         </activity>
 
         <activity

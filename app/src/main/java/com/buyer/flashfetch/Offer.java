@@ -9,12 +9,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.buyer.flashfetch.Adapters.DealsViewPagerAdapter;
-import com.buyer.flashfetch.Constants.DealsConstants;
 import com.buyer.flashfetch.Fragments.DealsNearByFragment;
 
 import java.util.ArrayList;
 
 public class Offer extends AppCompatActivity {
+
+    public static int TAB_TRENDING = 1000;
+    public static int TAB_SHOPPING = 1001;
+    public static int TAB_FOOD = 1002;
+    public static int TAB_ENTERTAINMENT = 1003;
+    public static int TAB_SERVICES = 1004;
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -56,11 +61,11 @@ public class Offer extends AppCompatActivity {
         dealsViewPagerAdapter = new DealsViewPagerAdapter(fm,tabTitles);
 
         ArrayList<Fragment> fragmentsList = new ArrayList<>();
-        fragmentsList.add(DealsNearByFragment.getInstance(DealsConstants.TAB_TRENDING));
-        fragmentsList.add(DealsNearByFragment.getInstance(DealsConstants.TAB_SHOPPING));
-        fragmentsList.add(DealsNearByFragment.getInstance(DealsConstants.TAB_FOOD));
-        fragmentsList.add(DealsNearByFragment.getInstance(DealsConstants.TAB_ENTERTAINMENT));
-        fragmentsList.add(DealsNearByFragment.getInstance(DealsConstants.TAB_SERVICES));
+        fragmentsList.add(DealsNearByFragment.getInstance(TAB_TRENDING));
+        fragmentsList.add(DealsNearByFragment.getInstance(TAB_SHOPPING));
+        fragmentsList.add(DealsNearByFragment.getInstance(TAB_FOOD));
+        fragmentsList.add(DealsNearByFragment.getInstance(TAB_ENTERTAINMENT));
+        fragmentsList.add(DealsNearByFragment.getInstance(TAB_SERVICES));
 
         dealsViewPagerAdapter.setFragmentList(fragmentsList);
     }

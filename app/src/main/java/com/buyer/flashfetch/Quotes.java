@@ -120,27 +120,13 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
         int id = v.getId();
         if(id == R.id.quotes_map){
             Intent intent = new Intent(this,MapsActivity.class);
-            intent.putExtra("Bundle", (Serializable) mItems);
+//            intent.putParcelableArrayListExtra("Bundle", (ArrayList<? extends Parcelable>) mItems);
             startActivityForResult(intent,1);
-        }
-        else if(id == R.id.quotes_sort){
-            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        }
-        else if(id == R.id.sort_newest){
-            Collections.sort(mItems, new Comparators.NewestComparator());
-        }
-        else if(id == R.id.sort_low_high){
-            Collections.sort(mItems, new Comparators.LowToHighComparator());
-        }
-        else if(id == R.id.sort_high_low){
-            Collections.sort(mItems, new Comparators.HighToLowComparator());
-        }
-        else if(id == R.id.distance){
-            Collections.sort(mItems, new Comparators.DistaneComparator());
         }
     }
 
-    public class Download extends AsyncTask<String, Void, Bitmap> {
+
+    private class Download extends AsyncTask<String, Void, Bitmap> {
         CollapsingToolbarLayout mylayout;
         ImageView view;
 
@@ -175,7 +161,6 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
             mylayout.setBackground(bitmapDrawable);
         }
     }
-
 
     public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
 

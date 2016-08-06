@@ -17,6 +17,7 @@ import java.util.ArrayList;
  * Created by kevinselvaprasanna on 4/9/16.
  */
 public class Request implements Serializable{
+
     public static final String TABLE_NAME = "Requests" ;
     public static String[] columns = {"productId", "productName", "productPrice","imageURL","productCategory","expiryTime"};
 

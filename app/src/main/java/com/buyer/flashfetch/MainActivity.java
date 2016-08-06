@@ -22,13 +22,12 @@ import android.widget.LinearLayout;
 import com.buyer.flashfetch.Adapters.SectionsPagerAdapter;
 import com.buyer.flashfetch.CommonUtils.Utils;
 import com.buyer.flashfetch.Constants.Constants;
-import com.buyer.flashfetch.Fragments.RequestedFragment;
+import com.buyer.flashfetch.Fragments.Requested;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String TAG = "MainActivity";
     private Context context;
-
     private ViewPager mViewPager;
 
     @Override
@@ -93,8 +92,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(this,LoginActivity.class);
             startActivity(intent);
 
-            if(!RequestedFragment.refTask.isCancelled()){
-                RequestedFragment.refTask.cancel(true);
+            if(!Requested.refTask.isCancelled()){
+                Requested.refTask.cancel(true);
             }
 
             finish();

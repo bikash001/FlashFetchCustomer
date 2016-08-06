@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.buyer.flashfetch.Constants.URLConstants;
@@ -17,6 +18,7 @@ import com.buyer.flashfetch.Objects.PostParam;
 import com.buyer.flashfetch.Objects.UserProfile;
 import com.buyer.flashfetch.R;
 import com.buyer.flashfetch.ServiceResponseObjects.ProductDetailsResponse;
+import com.buyer.flashfetch.Services.IE_RegistrationIntentService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,9 +30,87 @@ import java.util.ArrayList;
  */
 public class ServiceManager {
 
+    public static UserSignUpTask userSignUpTask;
     public static UserLoginTask userLoginTask;
     public static ProductFetchTask productFetchTask;
     public static BargainTask bargainTask;
+
+    public static void callUserRegisterService(Context context, String personName, String personEmail, String phoneNumber, String password, final UIListener uiListener){
+
+    }
+
+    class UserSignUpTask extends AsyncTask<String, Void, Void> {
+
+        private JSONObject response;
+        private String personName;
+        private String personEmail;
+        private String phoneNumber;
+        private String password;
+        private UIListener uiListener;
+        private Context context;
+
+        public UserSignUpTask(Context context, String personName, String personEmail, String phoneNumber, String password, final UIListener uiListener){
+            this.context = context;
+            this.personName = personName;
+            this.personEmail = personEmail;
+            this.phoneNumber = phoneNumber;
+            this.password = password;
+            this.uiListener = uiListener;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+
+            ArrayList<PostParam> postParams = new ArrayList<PostParam>();
+
+            postParams.add(new PostParam("name", personName));
+            postParams.add(new PostParam("email", personEmail));
+            postParams.add(new PostParam("pass", password));
+            postParams.add(new PostParam("mobile",String.valueOf(phoneNumber)));
+
+            response = PostRequest.execute(URLConstants.URL_SIGN_UP, postParams, null);
+            Log.d("RESPONSE", response.toString());
+
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            try {
+                if(response.getJSONObject("data").getInt("result") == 1){
+
+                    UserProfile.setName(personName, context);
+                    UserProfile.setEmail(personEmail, context);
+                    UserProfile.setPhone(String.valueOf(phoneNumber), context);
+                    UserProfile.setPassword(password, context);
+
+                    UserProfile.setToken(response.getJSONObject("data").getString("token"), context);
+
+                    uiListener.onSuccess();
+
+                } else if(response.getJSONObject("data").getInt("result") == 0) {
+                    uiListener.onFailure();
+                }
+                else{
+                    uiListener.onConnectionError();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                uiListener.onConnectionError();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            uiListener.onCancelled();
+        }
+    }
 
     public static void callUserLoginService(Context context, String email, String password, final UIListener uiListener){
 
@@ -92,6 +172,7 @@ public class ServiceManager {
         @Override
         protected void onCancelled() {
             userLoginTask = null;
+            userSignUpTask.cancel(true);
             uiListener.onCancelled();
         }
     }

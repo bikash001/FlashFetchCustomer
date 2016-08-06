@@ -21,16 +21,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.buyer.flashfetch.CommonUtils.Toasts;
 import com.buyer.flashfetch.CommonUtils.Utils;
 import com.buyer.flashfetch.Helper.DatabaseHelper;
-import com.buyer.flashfetch.Interfaces.UIListener;
 import com.buyer.flashfetch.Interfaces.UIResponseListener;
 import com.buyer.flashfetch.Network.PostRequest;
 import com.buyer.flashfetch.Network.ServiceManager;
-import com.buyer.flashfetch.Objects.BargainObject;
 import com.buyer.flashfetch.Objects.PostParam;
 import com.buyer.flashfetch.Objects.UserProfile;
 import com.buyer.flashfetch.ServiceResponseObjects.ProductDetailsResponse;
@@ -46,12 +44,13 @@ import java.util.ArrayList;
 public class ExtractActivity extends BaseActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private Context context;
+
     private Button okButton,exitButton;
-    private String productPrice, productName, imageURL, text;
-    private long productCategory;
+    private String price, name, url, text, category;
     private ProgressDialog progressDialog;
     private TextView tvname, tvprice;
-    private ImageView imageView;
+    private ImageView iv;
+    private int cat;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
 
@@ -67,7 +66,7 @@ public class ExtractActivity extends BaseActivity implements GoogleApiClient.Con
         exitButton = (Button) findViewById(R.id.exit_extract);
 
         tvname = (TextView) findViewById(R.id.name_extract);
-        imageView = (ImageView) findViewById(R.id.image_extract);
+        iv = (ImageView) findViewById(R.id.image_extract);
         tvprice = (TextView) findViewById(R.id.price_extract);
 
         progressDialog = getProgressDialog(context);
@@ -79,31 +78,29 @@ public class ExtractActivity extends BaseActivity implements GoogleApiClient.Con
 
             if(Utils.isInternetAvailable(context)){
 
-                progressDialog.show();
-
                 ServiceManager.callProductFetchService(context,text, new UIResponseListener<ProductDetailsResponse>() {
                     @Override
                     public void onSuccess(ProductDetailsResponse responseObj) {
-                        progressDialog.dismiss();
+
                     }
 
                     @Override
                     public void onFailure() {
-                        progressDialog.dismiss();
+
                     }
 
                     @Override
                     public void onConnectionError() {
-                        progressDialog.dismiss();
+
                     }
 
                     @Override
                     public void onCancelled() {
-                        progressDialog.dismiss();
+
                     }
                 });
             }else{
-                Toast.makeText(context,"Please Check your internet connection",Toast.LENGTH_SHORT).show();
+
             }
         } else {
             tvname.setText(R.string.prompt_extract);
@@ -118,48 +115,14 @@ public class ExtractActivity extends BaseActivity implements GoogleApiClient.Con
 
                     progressDialog.show();
 
-                    BargainObject bargainObject  = new BargainObject();
-
-                    bargainObject.setProductName(productName);
-                    bargainObject.setProductPrice(productPrice);
-                    bargainObject.setImageURL(imageURL);
-                    bargainObject.setProductCategory(productCategory);
-                    bargainObject.setExpiryTime("");
-                    bargainObject.setCustomerLocation(UserProfile.getLocation(context));
-                    bargainObject.setCustomerEmail(UserProfile.getEmail(context));
-//                    bargainObject.setCustomerName(UserProfile.get);
-
-                    ServiceManager.callBargainService(context, bargainObject, new UIListener() {
-                        @Override
-                        public void onSuccess() {
-                            progressDialog.dismiss();
-
-                            Intent intent = new Intent(ExtractActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-
-                        @Override
-                        public void onFailure() {
-
-                        }
-
-                        @Override
-                        public void onFailure(int result) {
-
-                        }
-
-                        @Override
-                        public void onConnectionError() {
-
-                        }
-
-                        @Override
-                        public void onCancelled() {
-
-                        }
-                    });
+//                    ServiceManager.callBargainService(context,ba);
+                }else{
+                    Toasts.internetUnavailableToast(context);
                 }
+
+                Intent intent = new Intent(ExtractActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
         exitButton.setOnClickListener(new View.OnClickListener() {
@@ -218,4 +181,54 @@ public class ExtractActivity extends BaseActivity implements GoogleApiClient.Con
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
+
+//    private class BargainTask extends AsyncTask<Void, Void, Boolean> {
+//        ArrayList<PostParam> iPostParams = new ArrayList<PostParam>();
+//
+//        @Override
+//        protected Boolean doInBackground(Void... params) {
+//            PostParam postname = new PostParam("pname", name);
+//            PostParam postprice = new PostParam("price", price);
+//            PostParam postimg = new PostParam("img", url);
+//            iPostParams.add(postname);
+//            iPostParams.add(postprice);
+//            iPostParams.add(postimg);
+//            iPostParams.add(new PostParam("cat", String.valueOf(cat)));
+//            iPostParams.add(new PostParam("time", String.valueOf(System.currentTimeMillis() + 10000000)));
+//            iPostParams.add(new PostParam("cus_loc","(12.324225,80.234234)"));
+//            iPostParams.add(new PostParam("name", UserProfile.getName(ExtractActivity.this)));
+//            iPostParams.add(new PostParam("token",UserProfile.getToken(ExtractActivity.this)));
+//            iPostParams.add(new PostParam("cus_email",UserProfile.getEmail(ExtractActivity.this)));
+//            ResponseJSON = PostRequest.execute("http://ec2-54-169-112-228.ap-southeast-1.compute.amazonaws.com/c2s/", iPostParams, null);
+//            Log.d("RESPONSE", ResponseJSON.toString());
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Boolean aBoolean) {
+//            super.onPostExecute(aBoolean);
+//            ContentValues cv= new ContentValues();
+//            try {
+//                if (ResponseJSON.getJSONObject("data").getInt("result")==1){
+//                    cv.put("id",ResponseJSON.getJSONObject("data").getString("id"));
+//                    cv.put("pname",name);
+//                    cv.put("pprice",price);
+//                    cv.put("pimg",url);
+//                    cv.put("url",text);
+//                    cv.put("exptime",String.valueOf(System.currentTimeMillis() + 10000000));
+//                    cv.put("cat",cat);
+//                    DatabaseHelper dh = new DatabaseHelper(ExtractActivity.this);
+//                    dh.addRequest(cv);
+//                    Intent intent = new Intent(ExtractActivity.this,MainActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//    }
+
 }

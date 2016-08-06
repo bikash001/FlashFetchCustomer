@@ -38,6 +38,8 @@ import com.buyer.flashfetch.Services.IE_RegistrationIntentService;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;*/
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +53,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
     private EditText mPasswordView;
     private View mLoginFormView;
     private Button mEmailSignInButton;
+    private TextView registerHere, forgotPassword;
     private ProgressDialog progressDialog;
     private Context context;
 
@@ -71,14 +74,16 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle("FlashFetch Customer");
+        getSupportActionBar().setTitle("Login");
+
+        progressDialog = getProgressDialog(context);
 
         mLoginFormView = findViewById(R.id.login_form);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email_login);
         mPasswordView = (EditText) findViewById(R.id.password);
         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-
-        progressDialog = getProgressDialog(context);
+        registerHere = (TextView)findViewById(R.id.login_register);
+        forgotPassword = (TextView)findViewById(R.id.login_forgot_password);
 
         populateAutoComplete();
 
@@ -97,6 +102,22 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             @Override
             public void onClick(View view) {
                 attemptLogin();
+            }
+        });
+
+        registerHere.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        forgotPassword.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,ForgotPassword.class);
+                startActivity(intent);
             }
         });
     }

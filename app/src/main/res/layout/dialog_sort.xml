@@ -8,6 +8,7 @@
     android:layout_marginTop="8dp"
     android:layout_height="wrap_content"
     app:layout_behavior="@string/bottom_sheet_behavior">
+
     <TextView
         android:padding="8dp"
         android:background="#a00a00"

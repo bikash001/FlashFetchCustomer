@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".Register">
+    tools:context=".RegisterActivity">
 
     <include layout="@layout/toolbar"/>
 
@@ -60,10 +60,10 @@
 
             <Button
                 android:id="@+id/email_sign_in_button"
-                style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_height="40dp"
+                android:textColor="@color/icons"
+                android:layout_marginTop="24dp"
                 android:background="@color/ff_green"
                 android:text="@string/action_sign_in_short"
                 android:textStyle="bold" />
@@ -71,7 +71,7 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:gravity="center_horizontal"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginLeft="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

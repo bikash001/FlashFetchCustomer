@@ -15,28 +15,33 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Response Time"
-            android:layout_margin="4dp"
-            android:textSize="14sp"/>
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            android:text="Set the time in which you wish to receive quotes"/>
 
-        <LinearLayout
-            android:orientation="vertical"
+        <Button
+            android:id="@+id/place_request_time"
+            android:text="SET TIME"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/ff_green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="Delivery Location"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp">
-            
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:text="Set the time in which you wish to receive quotes"/>
+            android:layout_height="wrap_content" />
 
-            <TimePicker
-                android:layout_gravity="center_horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></TimePicker>
-            
-        </LinearLayout>
+        <Spinner
+            android:id="@+id/places_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </Spinner>
 
     </LinearLayout>
 

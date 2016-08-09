@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_home) {
 
         } else if (id == R.id.nav_deals) {
-            Intent intent = new Intent(this,Offer.class);
+            Intent intent = new Intent(this,OfferNearByActivity.class);
             startActivity(intent);
             return true;
 

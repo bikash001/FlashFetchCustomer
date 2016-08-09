@@ -3,12 +3,11 @@ package com.buyer.flashfetch;
 import android.os.CountDownTimer;
 import android.widget.TextView;
 
-/**
- * Created by bikash on 03-04-2016.
- */
 public class TimerClass{
+
     private TextView textView;
     private CountDownTimer tt;
+
     public TimerClass(long hour,long min, final TextView textView) {
         this.textView = textView;
         tt = new CountDownTimer(hour * 3600000+min * 60000,60000) {
@@ -23,12 +22,14 @@ public class TimerClass{
             }
         };
     }
+
     public void start(){
         tt.start();
     }
     public void cancel(){
         tt.cancel();
     }
+
     public void update(long hour,long min){
         tt.cancel();
         tt = new CountDownTimer(hour * 3600000+min * 60000,60000) {

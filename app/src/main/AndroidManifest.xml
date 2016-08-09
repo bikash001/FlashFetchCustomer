@@ -139,7 +139,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".Offer"
+            android:name=".OfferNearByActivity"
             android:label="@string/title_activity_offer"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">

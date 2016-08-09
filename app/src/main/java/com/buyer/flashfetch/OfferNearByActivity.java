@@ -13,7 +13,7 @@ import com.buyer.flashfetch.Fragments.DealsNearByFragment;
 
 import java.util.ArrayList;
 
-public class Offer extends AppCompatActivity {
+public class OfferNearByActivity extends BaseActivity {
 
     public static int TAB_TRENDING = 1000;
     public static int TAB_SHOPPING = 1001;

@@ -10,13 +10,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class Fill_Address extends AppCompatActivity implements View.OnClickListener{
+public class Fill_Address extends BaseActivity implements View.OnClickListener{
+
     private EditText addressline,street,pin,area,tag,phone;
     private Button button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_fill__address);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

@@ -10,7 +10,16 @@ import com.google.gson.Gson;
 public class ProductDetailsResponse implements Serializable{
 
     @SerializedName("result")
-    public String data;
+    public String productName;
+
+    @SerializedName("category")
+    public String productCategory;
+
+    @SerializedName("price")
+    public String productPrice;
+
+    @SerializedName("img")
+    public String imageURL;
 
     public String toJson(){
         return new Gson().toJson(this);

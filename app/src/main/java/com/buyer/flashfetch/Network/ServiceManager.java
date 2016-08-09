@@ -19,6 +19,7 @@ import com.buyer.flashfetch.Objects.UserProfile;
 import com.buyer.flashfetch.R;
 import com.buyer.flashfetch.ServiceResponseObjects.ProductDetailsResponse;
 import com.buyer.flashfetch.Services.IE_RegistrationIntentService;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -205,7 +206,7 @@ public class ServiceManager {
         @Override
         protected Void doInBackground(Void... params) {
 
-            ArrayList<PostParam> postParams = new ArrayList<PostParam>();
+            ArrayList<PostParam> postParams = new ArrayList<>();
 
             postParams.add(new PostParam("item", productText));
             response = PostRequest.execute(URLConstants.URL_FETCH_PRODUCT, postParams, null);
@@ -218,30 +219,15 @@ public class ServiceManager {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-//            try {
-//                JSONObject data = response.getJSONObject("data");
-//
-//                name = data.getString("result");
-//                price = data.getString("price");
-//                url = data.getString("img");
-//                category = data.getString("category");
-//                name = name + " (" + category + ")";
-//                cat = data.getInt("cat");
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
-//            tvname.setText(name);
-//            tvprice.setText("Price: " + price);
-//
-//            Glide
-//                    .with(ExtractActivity.this)
-//                    .load(url)
-//                    .placeholder(R.mipmap.ic_launcher)
-//                    .into(iv);
-//
-//            showProgress(false);
+            try {
+                JSONObject data = response.getJSONObject("data");
+
+                ProductDetailsResponse productDetailsResponse = new Gson().fromJson(data.toString(),ProductDetailsResponse.class);
+                uiResponseListener.onSuccess(productDetailsResponse);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 

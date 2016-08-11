@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.buyer.flashfetch.CommonUtils.Toasts;
 import com.buyer.flashfetch.CommonUtils.Utils;
+import com.buyer.flashfetch.Constants.Constants;
 import com.buyer.flashfetch.Helper.DatabaseHelper;
 import com.buyer.flashfetch.Interfaces.UIListener;
 import com.buyer.flashfetch.Interfaces.UIResponseListener;
@@ -106,11 +107,16 @@ public class ExtractActivity extends BaseActivity implements GoogleApiClient.Con
                     public void onSuccess(ProductDetailsResponse responseObj) {
                         progressDialog.dismiss();
 
-                        tvname.setText(responseObj.productName + " (" + responseObj.productCategory + ")");
-                        tvprice.setText("Price: " + responseObj.productPrice);
+                        productName = responseObj.productName;
+                        productPrice = responseObj.productPrice;
+                        imageURL = responseObj.imageURL;
+                        productCategory = responseObj.productCategory;
 
-                        Glide.with(ExtractActivity.this).load(responseObj.imageURL).placeholder(R.mipmap.ic_launcher).into(iv);
-                    }
+                        tvname.setText(productName + " (" + productCategory + ")");
+                        tvprice.setText("Price: " + productPrice);
+
+                        Glide.with(ExtractActivity.this).load(imageURL).placeholder(R.mipmap.ic_launcher).into(iv);
+                }
 
                     @Override
                     public void onFailure() {
@@ -143,58 +149,15 @@ public class ExtractActivity extends BaseActivity implements GoogleApiClient.Con
             @Override
             public void onClick(View v) {
 
-                if(Utils.isInternetAvailable(context)){
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.PRODUCT_NAME,productName);
+                bundle.putString(Constants.PRODUCT_PRICE,productPrice);
+                bundle.putString(Constants.PRODUCT_IMAGE_URL,imageURL);
+                bundle.putLong(Constants.PRODUCT_CATEGORY,productCategory);
 
-                    progressDialog.show();
-
-                    BargainObject bargainObject  = new BargainObject();
-
-                    bargainObject.setProductName(productName);
-                    bargainObject.setProductPrice(productPrice);
-                    bargainObject.setImageURL(imageURL);
-                    bargainObject.setProductCategory(productCategory);
-                    bargainObject.setExpiryTime("");
-                    bargainObject.setCustomerLocation(UserProfile.getLocation(context));
-                    bargainObject.setCustomerEmail(UserProfile.getEmail(context));
-//                    bargainObject.setCustomerName(UserProfile.get);
-
-                    ServiceManager.callBargainService(context, bargainObject, new UIListener() {
-                        @Override
-                        public void onSuccess() {
-                            progressDialog.dismiss();
-
-                            if(UserProfile.getEmail(context) != ""){
-                                Intent intent = new Intent(context,MainActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }else{
-                                Intent intent = new Intent(context,LoginActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure() {
-
-                        }
-
-                        @Override
-                        public void onFailure(int result) {
-
-                        }
-
-                        @Override
-                        public void onConnectionError() {
-
-                        }
-
-                        @Override
-                        public void onCancelled() {
-
-                        }
-                    });
-                }
+                Intent intent = new Intent(context,PlaceRequestActivity.class);
+                intent.putExtra(Constants.BARGAIN_BUNDLE,bundle);
+                startActivity(intent);
             }
         });
 

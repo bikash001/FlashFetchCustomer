@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import com.buyer.flashfetch.Adapters.AcceptedDealsAdapter;
 import com.buyer.flashfetch.Adapters.RequestedDealsAdapter;
-import com.buyer.flashfetch.Network.BackGroundTask.DownloadImageTask;
 import com.buyer.flashfetch.Objects.Request;
 import com.buyer.flashfetch.R;
 

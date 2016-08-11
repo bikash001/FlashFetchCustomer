@@ -11,32 +11,37 @@
 
     <TextView
         android:padding="8dp"
-        android:background="#a00a00"
         android:text="SORT"
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <TextView
         android:padding="8dp"
         android:id="@+id/sort_newest"
         android:text="Sort by Newest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <TextView
         android:padding="8dp"
         android:id="@+id/sort_low_high"
         android:text="Price low to high"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <TextView
         android:padding="8dp"
         android:id="@+id/sort_high_low"
         android:text="Price High to Low"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <TextView
         android:padding="8dp"
         android:id="@+id/sort_distance"
         android:text="Sort by Distance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
 </LinearLayout>

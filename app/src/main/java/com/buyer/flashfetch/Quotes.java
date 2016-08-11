@@ -3,6 +3,7 @@ package com.buyer.flashfetch;
 import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -54,6 +55,7 @@ import java.util.List;
 
 public class Quotes extends AppCompatActivity implements View.OnClickListener {
 
+    private Context context;
     private static final String TAG = "Quotes";
     private String url,id,expTime;
     private List<Quote> mItems = new ArrayList<>();
@@ -70,11 +72,17 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        context = Quotes.this;
+
         setContentView(R.layout.activity_quotes);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         height = WindowManager.LayoutParams.WRAP_CONTENT;
         Display display = getWindowManager().getDefaultDisplay();
@@ -82,8 +90,8 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
         display.getSize(size);
         width = size.x;
 
-        pname = (TextView)findViewById(R.id.product_name_quotes);
-        pprice = (TextView)findViewById(R.id.price_quotes);
+//        pname = (TextView)findViewById(R.id.product_name_quotes);
+        pprice = (TextView)findViewById(R.id.quote_product_price);
 
         url = getIntent().getStringExtra("URL");
         id= getIntent().getStringExtra("id");
@@ -171,8 +179,6 @@ public class Quotes extends AppCompatActivity implements View.OnClickListener {
             private TextView bargainButton, acceptButton;
             private boolean bargained;
             private LinearLayout layout;
-
-            TimerClass tt;
 
             public ViewHolder(View itemView) {
                 super(itemView);

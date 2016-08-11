@@ -1,7 +1,6 @@
 package com.buyer.flashfetch.Fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -13,26 +12,13 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.buyer.flashfetch.Adapters.RequestedDealsAdapter;
-import com.buyer.flashfetch.Adapters.SectionsPagerAdapter;
-import com.buyer.flashfetch.Network.BackGroundTask.DownloadImageTask;
 import com.buyer.flashfetch.Objects.Request;
-import com.buyer.flashfetch.Quotes;
 import com.buyer.flashfetch.R;
 
 import java.util.ArrayList;
 
 public class Requested extends Fragment {
-
-    private int rank=0;
-    private String url;
-
-    public static DownloadImageTask refTask;
 
     private Context context;
     private SwipeRefreshLayout swipeRefreshLayout;

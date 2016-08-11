@@ -22,6 +22,7 @@
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -30,10 +31,126 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
+
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/quotes_content" />
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <include layout="@layout/dialog_sort" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@color/material_grey"
+            android:baselineAligned="false"
+            android:paddingTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--<TextView-->
+                <!--android:id="@+id/product_name_quotes"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center"-->
+                <!--android:paddingLeft="@dimen/activity_horizontal_margin"-->
+                <!--android:paddingRight="@dimen/activity_horizontal_margin"-->
+                <!--android:text="Product Name" />-->
+
+            <TextView
+                android:id="@+id/quote_product_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_margin="4dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="Original Price of the product is : ₹ 50,000" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_quotes"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="16dp"
+                android:layout_above="@+id/toolbar_bottom"
+                android:scrollbars="vertical" />
+
+            <LinearLayout
+                android:id="@+id/toolbar_bottom"
+                android:layout_width="match_parent"
+                android:layout_gravity="bottom"
+                android:layout_height="?attr/actionBarSize"
+                android:orientation="horizontal"
+                android:baselineAligned="false">
+
+                <LinearLayout
+                    android:layout_marginLeft="3dp"
+                    android:id="@+id/quotes_sort"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:src="@drawable/sort"
+                        android:layout_height="match_parent"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Sort"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="right" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/quotes_filter"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:src="@drawable/filter"
+                        android:layout_height="match_parent"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Filter"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="right" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:orientation="horizontal"
+                    android:id="@+id/quotes_map"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Map"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="right" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

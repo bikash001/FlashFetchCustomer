@@ -5,6 +5,16 @@ package com.buyer.flashfetch.Constants;
  */
 public class Constants {
 
+    public static final String PRODUCT_NAME = "productName";
+
+    public static final String PRODUCT_PRICE = "productPrice";
+
+    public static final String PRODUCT_IMAGE_URL = "imageURL";
+
+    public static final String PRODUCT_CATEGORY = "productCategory";
+
+    public static final String BARGAIN_BUNDLE = "bargainBundle";
+
     public static final int REQUEST_READ_CONTACTS = 0;
 
     public static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;

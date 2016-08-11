@@ -13,7 +13,7 @@ public class ProductDetailsResponse implements Serializable{
     public String productName;
 
     @SerializedName("category")
-    public String productCategory;
+    public long productCategory;
 
     @SerializedName("price")
     public String productPrice;

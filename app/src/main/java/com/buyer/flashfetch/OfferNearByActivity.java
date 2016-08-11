@@ -32,7 +32,11 @@ public class OfferNearByActivity extends BaseActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
         toolbar.setTitle("NearBy Deals");
 
         setUpDataModel();
@@ -57,8 +61,8 @@ public class OfferNearByActivity extends BaseActivity {
             viewPager.removeAllViews();
         }
 
-        FragmentManager fm = getSupportFragmentManager();
-        dealsViewPagerAdapter = new DealsViewPagerAdapter(fm,tabTitles);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        dealsViewPagerAdapter = new DealsViewPagerAdapter(fragmentManager,tabTitles);
 
         ArrayList<Fragment> fragmentsList = new ArrayList<>();
         fragmentsList.add(DealsNearByFragment.getInstance(TAB_TRENDING));

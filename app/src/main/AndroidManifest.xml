@@ -98,16 +98,6 @@
         <activity android:name=".MainActivity"/>
 
         <activity
-            android:name=".Quotes"
-            android:label=""
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-
-        <activity
             android:name=".ExtractActivity"
             android:noHistory="true"
             android:screenOrientation="portrait">
@@ -118,6 +108,17 @@
 
                 <data android:mimeType="text/plain" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".PlaceRequestActivity"/>
+
+        <activity
+            android:name=".Quotes"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
 
         <activity
@@ -169,13 +170,13 @@
         </activity>
 
         <activity
-            android:name=".Fill_Address"
+            android:name=".FillAddressActivity"
             android:label="@string/title_activity_fill__address"
-            android:parentActivityName=".Account"
+            android:parentActivityName=".AccountInfoActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.buyer.flashfetch.Account" />
+                android:value=".AccountInfoActivity" />
         </activity>
 
         <activity
@@ -199,7 +200,7 @@
         </activity>
 
         <activity
-            android:name=".feedback"
+            android:name=".FeedbackActivity"
             android:label="Feedback"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -209,7 +210,7 @@
         </activity>
 
         <activity
-            android:name=".Account"
+            android:name=".AccountInfoActivity"
             android:label="@string/title_activity_account"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -218,15 +219,15 @@
                 android:value=".MainActivity" />
         </activity>
 
-        <activity
-            android:name=".Address"
-            android:label="@string/title_activity_address"
-            android:parentActivityName=".HomeDelivery"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.buyer.flashfetch.HomeDelivery" />
-        </activity>
+        <!--<activity-->
+            <!--android:name=".Address"-->
+            <!--android:label="@string/title_activity_address"-->
+            <!--android:parentActivityName=".HomeDelivery"-->
+            <!--android:theme="@style/AppTheme.NoActionBar">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value="com.buyer.flashfetch.HomeDelivery" />-->
+        <!--</activity>-->
 
         <activity
             android:name=".Delivery"

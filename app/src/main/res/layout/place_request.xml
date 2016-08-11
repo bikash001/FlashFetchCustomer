@@ -22,9 +22,11 @@
             android:layout_marginBottom="8dp"
             android:text="Set the time in which you wish to receive quotes"/>
 
-        <Button
+        <TextView
             android:id="@+id/place_request_time"
             android:text="SET TIME"
+            android:padding="8dp"
+            android:textStyle="bold"
             android:layout_marginBottom="16dp"
             android:layout_gravity="center_horizontal"
             android:background="@color/ff_green"

@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Fill_Address"
+    tools:context=".FillAddressActivity"
     tools:showIn="@layout/activity_fill__address">
 
     <EditText
@@ -19,39 +19,46 @@
         android:hint="Address line"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <EditText
         android:id="@+id/street"
         android:inputType="text"
         android:hint="Street/Lane"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <EditText
         android:id="@+id/area"
         android:inputType="text"
         android:hint="Area"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <EditText
         android:hint="Pin"
         android:id="@+id/postal_code"
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <EditText
         android:id="@+id/phone_address"
         android:inputType="phone"
         android:hint="Phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <EditText
         android:hint="Tag"
         android:id="@+id/tag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/submit"
         android:text="Submit"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
 </LinearLayout>

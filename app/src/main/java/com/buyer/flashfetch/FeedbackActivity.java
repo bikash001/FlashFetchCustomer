@@ -7,27 +7,36 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class feedback extends AppCompatActivity {
+public class FeedbackActivity extends AppCompatActivity {
 
-    EditText feedback_text;
-    Button submit;
-    String text;
+    private EditText feedback_text;
+    private Button submit;
+    private String feedbackText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_feedback);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setTitle("General Feedback");
+
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         feedback_text = (EditText)findViewById(R.id.feedback);
+
         submit = (Button)findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                text = feedback_text.getText().toString();
+                feedbackText = feedback_text.getText().toString();
             }
         });
+
 
     }
 }

@@ -1,4 +1,4 @@
-package com.buyer.flashfetch;
+package com.buyer.flashfetch.Objects;
 
 /**
  * Created by bikash on 03-04-2016.

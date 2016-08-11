@@ -12,7 +12,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.buyer.flashfetch.CommonUtils.Utils;
 import com.buyer.flashfetch.Constants.Constants;
@@ -30,7 +32,8 @@ public class PlaceRequestActivity extends BaseActivity {
 
     private Context context;
     private ProgressDialog progressDialog;
-    private Button setTimeButton,placeRequestButton;
+    private Button placeRequestButton;
+    private TextView setTimeButton;
     private String productPrice, productName, imageURL, customerLocation;
     private long productCategory;
     private int minTime;
@@ -75,7 +78,7 @@ public class PlaceRequestActivity extends BaseActivity {
         });
 
         Spinner spinner = (Spinner)findViewById(R.id.places_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.places_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.places_array, android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -90,7 +93,7 @@ public class PlaceRequestActivity extends BaseActivity {
             }
         });
 
-        setTimeButton = (Button)findViewById(R.id.place_request_time);
+        setTimeButton = (TextView)findViewById(R.id.place_request_time);
         setTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,7 +102,7 @@ public class PlaceRequestActivity extends BaseActivity {
                 int hour = calendar.get(Calendar.HOUR_OF_DAY);
                 int minute = calendar.get(Calendar.MINUTE);
 
-                if(hour <10 && hour >= 20){
+                if(hour < 10 || hour <= 20){
                     hour = 11;
                     minute = 0;
                 }else{
@@ -109,6 +112,7 @@ public class PlaceRequestActivity extends BaseActivity {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        Toast.makeText(context,"You have set to receive offers before" + selectedHour + ": " + selectedMinute,Toast.LENGTH_SHORT).show();
                     }
                 },hour,minute,false);
 

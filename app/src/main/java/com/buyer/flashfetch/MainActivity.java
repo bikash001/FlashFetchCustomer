@@ -22,7 +22,6 @@ import android.widget.LinearLayout;
 import com.buyer.flashfetch.Adapters.SectionsPagerAdapter;
 import com.buyer.flashfetch.CommonUtils.Utils;
 import com.buyer.flashfetch.Constants.Constants;
-import com.buyer.flashfetch.Fragments.Requested;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -164,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
             return true;
         } else if (id == R.id.nav_account) {
-            Intent intent = new Intent(this,Account.class);
+            Intent intent = new Intent(this,AccountInfoActivity.class);
             startActivity(intent);
             return true;
 
@@ -175,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
             return true;
         } else if(id == R.id.nav_help){
-            startActivity(new Intent(this,feedback.class));
+            startActivity(new Intent(this,FeedbackActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

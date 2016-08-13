@@ -15,6 +15,10 @@ public class Constants {
 
     public static final String BARGAIN_BUNDLE = "bargainBundle";
 
+    public static final String QUOTES_LIST = "quotesList";
+
+    public static final String QUOTES_LIST_BUNDLE = "quotesListBundle";
+
     public static final int REQUEST_READ_CONTACTS = 0;
 
     public static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;

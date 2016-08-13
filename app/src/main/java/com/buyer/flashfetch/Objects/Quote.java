@@ -13,9 +13,6 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- * Created by kevinselvaprasanna on 4/13/16.
- */
 public class Quote implements Serializable{
 
     public static final String TABLE_NAME = "Quotes" ;
@@ -88,21 +85,21 @@ public class Quote implements Serializable{
 
     public static ArrayList<Quote> getArrayList(Cursor c) {
         ArrayList<Quote> arrayList = new ArrayList<>();
+
         while (c.moveToNext()) {
             arrayList.add(parseEvent(c));
         }
         return arrayList;
     }
 
-    public static Quote parseEvent(Cursor c) {
-        //Gson gson = new Gson();
-        Quote not = new Quote(c.getString(0), c.getString(1), c.getString(2),c.getString(3), c.getInt(4),c.getInt(5),c.getString(6),c.getFloat(7),c.getFloat(8), c.getString(9),c.getInt(10),c.getString(11),c.getLong(12),c.getInt(13),c.getInt(14),c.getInt(15));
-        return not;
+    public static ArrayList<Quote> getAllQuotes(Context context, String id){
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        return databaseHelper.getAllQuotes(id);
     }
 
-    public static ArrayList<Quote> getAllQuotes(Context context, String id){
-        DatabaseHelper data = new DatabaseHelper(context);
-        return data.getAllQuotes(id);
+    public static Quote parseEvent(Cursor c) {
+        Quote quote = new Quote(c.getString(0), c.getString(1), c.getString(2),c.getString(3), c.getInt(4),c.getInt(5),c.getString(6),c.getFloat(7),c.getFloat(8), c.getString(9),c.getInt(10),c.getString(11),c.getLong(12),c.getInt(13),c.getInt(14),c.getInt(15));
+        return quote;
     }
 
     public float getLat(){

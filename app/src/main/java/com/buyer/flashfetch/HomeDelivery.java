@@ -43,6 +43,7 @@ public class HomeDelivery extends BaseActivity{
                 onBackPressed();
             }
         });
+        });
 
         addAddress = (TextView) findViewById(R.id.button_add_address);
         confirmButton = (Button)findViewById(R.id.button_confirm);
@@ -50,6 +51,7 @@ public class HomeDelivery extends BaseActivity{
         addAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(context,FillAddressActivity.class);
                 Intent intent = new Intent(context,FillAddressActivity.class);
                 startActivityForResult(intent,STATUS);
             }

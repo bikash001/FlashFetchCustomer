@@ -1,6 +1,7 @@
 package com.buyer.flashfetch;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -36,35 +37,41 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener,
-        GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
 
+    private Context context;
     private GoogleMap mMap;
-    private LinearLayout filter,lisview,layout;
+    private LinearLayout filter, lisview, layout;
     private List<Quote> list;
     private Handler_Dialog handlerDialog;
     private int height, width;
     private Dialog dialog;
-    private RadioButton home,shop;
-    private EditText minText,hourText,priceText;
-    private TextView bargain,bargained,accept;
+    private RadioButton home, shop;
+    private EditText minText, hourText, priceText;
+    private TextView bargain, bargained, accept;
+    private Marker marker1, marker2, marker3, marker4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        context = MapsActivity.this;
+
         setContentView(R.layout.activity_maps);
+
         height = WindowManager.LayoutParams.WRAP_CONTENT;
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         width = size.x;
-        filter = (LinearLayout) findViewById(R.id.maps_filter);
-        filter.setOnClickListener(this);
+
         lisview = (LinearLayout) findViewById(R.id.maps_list);
+        filter = (LinearLayout) findViewById(R.id.maps_filter);
+
+        filter.setOnClickListener(this);
         lisview.setOnClickListener(this);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         list = (List<Quote>) getIntent().getSerializableExtra("Quotes");
@@ -75,46 +82,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         IconGenerator ui = new IconGenerator(this);
-        Bitmap mp = ui.makeIcon("₹500");
 
-        // Add a marker in Sydney and move the camera
         LatLng research = new LatLng(12.988082, 80.246662);
-        Marker marker1,marker2,marker3,marker4;
-        marker1 = mMap.addMarker(new MarkerOptions().position(research).title("IIT Research Park").icon(BitmapDescriptorFactory.fromBitmap(mp)));
-        LatLng iit = new LatLng(12.988082,80.2368);
-        marker2 = mMap.addMarker(new MarkerOptions().position(iit).title("IIT Madras").icon(BitmapDescriptorFactory.fromBitmap(ui.makeIcon("₹700"))));
-        LatLng hostel = new LatLng(12.986843,85.239006);
-        marker3 = mMap.addMarker(new MarkerOptions().position(hostel).title("Ganga Hostel").icon(BitmapDescriptorFactory.fromBitmap(ui.makeIcon("₹550"))));
-        LatLng gate = new LatLng(12.9880820,83.239353);
-        marker4 = mMap.addMarker(new MarkerOptions().position(gate).title("Taramani Gate").icon(BitmapDescriptorFactory.fromBitmap(ui.makeIcon("₹600"))));
+        LatLng iit = new LatLng(12.988082, 80.2368);
+        LatLng hostel = new LatLng(12.986843, 85.239006);
+        LatLng gate = new LatLng(12.9880820, 83.239353);
+
+        mMap.addMarker(new MarkerOptions().position(research).title("IIT Research Park").icon(BitmapDescriptorFactory.fromBitmap(ui.makeIcon("₹500"))));
+        mMap.addMarker(new MarkerOptions().position(iit).title("IIT Madras").icon(BitmapDescriptorFactory.fromBitmap(ui.makeIcon("₹700"))));
+        mMap.addMarker(new MarkerOptions().position(hostel).title("Ganga Hostel").icon(BitmapDescriptorFactory.fromBitmap(ui.makeIcon("₹550"))));
+        mMap.addMarker(new MarkerOptions().position(gate).title("Taramani Gate").icon(BitmapDescriptorFactory.fromBitmap(ui.makeIcon("₹600"))));
+
         mMap.setOnMarkerClickListener(this);
         mMap.setOnMapClickListener(this);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(gate));
 
-        //Calculate the markers to get their position
         LatLngBounds.Builder b = new LatLngBounds.Builder();
-        for (int i = 0; i<list.size(); i++) {
-            float lat = list.get(i).getLat();
-            float longt = list.get(i).getLongt();
-            LatLng latLng = new LatLng(lat,longt);
+
+        for (int i = 0; i < list.size(); i++) {
+            float latitude = list.get(i).getLat();
+            float longitude = list.get(i).getLongt();
+            LatLng latLng = new LatLng(latitude, longitude);
             b.include(latLng);
         }
+
         LatLngBounds bounds = b.build();
-        //Change the padding as per needed
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 25,25,5);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 25, 25, 5);
         mMap.animateCamera(cu);
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.maps_filter){
 
-        }
-        else if(id == R.id.maps_list){
+        if (id == R.id.maps_filter) {
+
+        } else if (id == R.id.maps_list) {
             finish();
-        }
-        else if(id == R.id.accept){
+        } else if (id == R.id.accept) {
+
             dialog = new Dialog(this);
             dialog.setContentView(R.layout.dialog_accept);
             dialog.getWindow().setLayout((int) (width * 0.8), height);
@@ -124,8 +130,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Button button = (Button) dialog.findViewById(R.id.ok);
             button.setOnClickListener(handlerDialog);
             dialog.show();
-        }
-        else if(id == R.id.bargain){
+        } else if (id == R.id.bargain) {
+
             dialog = new Dialog(this);
             dialog.setContentView(R.layout.dialog);
             dialog.getWindow().setLayout((int) (width * 0.8), height);
@@ -140,34 +146,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             button1.setOnClickListener(handlerDialog);
             // set the custom dialog components - text, image and button
             dialog.show();
-        }
-        else if(id == R.id.newestFirst){
-            Collections.sort(list,new NewestComparator());
-        }
-        else if(id == R.id.lowToHigh){
-            Collections.sort(list,new LowToHighComparator());
-        }
-        else if(id == R.id.highToLow){
-            Collections.sort(list,new HighToLowComparator());
-        }
-        else if(id == R.id.distance){
-            Collections.sort(list,new DistanceComparator());
+
+        } else if (id == R.id.newestFirst) {
+            Collections.sort(list, new NewestComparator());
+        } else if (id == R.id.lowToHigh) {
+            Collections.sort(list, new LowToHighComparator());
+        } else if (id == R.id.highToLow) {
+            Collections.sort(list, new HighToLowComparator());
+        } else if (id == R.id.distance) {
+            Collections.sort(list, new DistanceComparator());
         }
     }
-
 
     @Override
     public boolean onMarkerClick(Marker marker) {
         String title = marker.getTitle();
-        if (true){
-            layout = (LinearLayout) findViewById(R.id.map_layout);
-            bargained = (TextView) layout.findViewById(R.id.bargained);
-            bargain = (TextView) layout.findViewById(R.id.bargain);
-            bargain.setOnClickListener(this);
-            accept = (TextView) layout.findViewById(R.id.accept);
-            accept.setOnClickListener(this);
-            layout.setVisibility(View.VISIBLE);
-        }
+
+        layout = (LinearLayout) findViewById(R.id.map_layout);
+        bargained = (TextView) layout.findViewById(R.id.bargained);
+        bargain = (TextView) layout.findViewById(R.id.bargain);
+        accept = (TextView) layout.findViewById(R.id.accept);
+
+        bargain.setOnClickListener(this);
+        accept.setOnClickListener(this);
+
+        layout.setVisibility(View.VISIBLE);
 
         return true;
     }
@@ -177,14 +180,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         layout.setVisibility(View.GONE);
     }
 
-    private class Handler_Dialog implements View.OnClickListener{
+    private class Handler_Dialog implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
             int id = v.getId();
-            if (id == R.id.ok){
+            if (id == R.id.ok) {
                 if (home.isChecked()) {
-                    Intent intent = new Intent(v.getContext(),HomeDelivery.class);
+                    Intent intent = new Intent(v.getContext(), HomeDelivery.class);
                     startActivity(intent);
                     dialog.dismiss();
                 } else if (shop.isChecked()) {
@@ -196,8 +199,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Toast toast = Toast.makeText(v.getContext(), "Select delivery type", Toast.LENGTH_SHORT);
                     toast.show();
                 }
-            }
-            else if(id == R.id.ok_dialog) {
+            } else if (id == R.id.ok_dialog) {
                 String price = priceText.getText().toString();
                 String hour = hourText.getText().toString();
                 String min = minText.getText().toString();

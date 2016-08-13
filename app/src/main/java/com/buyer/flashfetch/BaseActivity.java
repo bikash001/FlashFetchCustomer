@@ -19,4 +19,9 @@ public class BaseActivity extends AppCompatActivity {
 
         return progressDialog;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

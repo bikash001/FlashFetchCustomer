@@ -1,5 +1,6 @@
 package com.buyer.flashfetch;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -17,36 +18,38 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.buyer.flashfetch.R;
+public class FeedbackActivity1 extends AppCompatActivity {
 
-public class Feedback1 extends AppCompatActivity {
-
+    private Context context;
     ImageButton sad,happy,neutral;
     Button submit;
     TextView unsatisfied_text,satisfied_text,neutral_text,htext,htext1,comment_text,comment_text1;
     LinearLayout hlayout;Button hrefer;
     EditText comment,comment1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        context = FeedbackActivity1.this;
+
         setContentView(R.layout.activity_feedback1);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        fab.setVisibility(View.GONE);
+        toolbar.setTitle("Tell Us About your Delivery Experience");
+
+        if(getSupportActionBar() != null){
+
+        }
+
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
         int height = size.y;
+
         sad=(ImageButton)findViewById(R.id.sad);
         neutral=(ImageButton)findViewById(R.id.neutral);
         happy=(ImageButton)findViewById(R.id.happy);
@@ -177,6 +180,6 @@ public class Feedback1 extends AppCompatActivity {
         submit.setVisibility(View.VISIBLE);
     }
     public void submit(View v){
-        startActivity(new Intent(this, Feedback1.class));
+        startActivity(new Intent(this, FeedbackActivity1.class));
     }
 }

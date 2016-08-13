@@ -11,7 +11,7 @@ import android.widget.RatingBar;
 
 import com.buyer.flashfetch.R;
 
-public class Feedback2 extends AppCompatActivity {
+public class FeedbackActivity2 extends AppCompatActivity {
 
     boolean app=true,del=true,serv=true;
     @Override

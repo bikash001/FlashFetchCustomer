@@ -15,6 +15,8 @@ import com.buyer.flashfetch.Interfaces.UIResponseListener;
 import com.buyer.flashfetch.MainActivity;
 import com.buyer.flashfetch.Objects.BargainObject;
 import com.buyer.flashfetch.Objects.PostParam;
+import com.buyer.flashfetch.Objects.Quote;
+import com.buyer.flashfetch.Objects.SignUpObject;
 import com.buyer.flashfetch.Objects.UserProfile;
 import com.buyer.flashfetch.R;
 import com.buyer.flashfetch.ServiceResponseObjects.ProductDetailsResponse;
@@ -35,12 +37,15 @@ public class ServiceManager {
     public static UserLoginTask userLoginTask;
     public static ProductFetchTask productFetchTask;
     public static BargainTask bargainTask;
+    public static QuoteBargainTask quoteBargainTask;
 
-    public static void callUserRegisterService(Context context, String personName, String personEmail, String phoneNumber, String password, final UIListener uiListener){
+    public static void callUserRegisterService(Context context, SignUpObject signUpObject, final UIListener uiListener){
 
+        userSignUpTask = new UserSignUpTask(context,signUpObject,uiListener);
+        userSignUpTask.execute();
     }
 
-    class UserSignUpTask extends AsyncTask<String, Void, Void> {
+    public static class UserSignUpTask extends AsyncTask<String, Void, Void> {
 
         private JSONObject response;
         private String personName;
@@ -50,12 +55,12 @@ public class ServiceManager {
         private UIListener uiListener;
         private Context context;
 
-        public UserSignUpTask(Context context, String personName, String personEmail, String phoneNumber, String password, final UIListener uiListener){
+        public UserSignUpTask(Context context, SignUpObject signUpObject, final UIListener uiListener){
             this.context = context;
-            this.personName = personName;
-            this.personEmail = personEmail;
-            this.phoneNumber = phoneNumber;
-            this.password = password;
+            this.personName = signUpObject.getPersonName();
+            this.personEmail = signUpObject.getPersonEmail();
+            this.phoneNumber = signUpObject.getPhoneNumber();
+            this.password = signUpObject.getPassword();
             this.uiListener = uiListener;
         }
 
@@ -291,6 +296,73 @@ public class ServiceManager {
                     dh.addRequest(cv);
 
                     uiListener.onSuccess();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                uiListener.onFailure();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            uiListener.onCancelled();
+        }
+    }
+
+    public static void callQuoteBargainService(Context context, Quote quote, String bargainPrice, final UIListener uiListener){
+
+        QuoteBargainTask quoteBargainTask = new QuoteBargainTask(context,quote,bargainPrice,uiListener);
+        quoteBargainTask.execute();
+    }
+
+    public static class QuoteBargainTask extends AsyncTask<Void, Void, Void> {
+
+        private JSONObject response;
+        private Context context;
+        private Quote quote;
+        private String bargainPrice;
+        private UIListener uiListener;
+
+        public QuoteBargainTask(Context context, Quote quote, String bargainPrice, final UIListener uiListener) {
+            this.context = context;
+            this.quote = quote;
+            this.bargainPrice = bargainPrice;
+            this.uiListener = uiListener;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<PostParam> postParams = new ArrayList<>();
+
+            postParams.add(new PostParam("selid",quote.qid));
+            postParams.add(new PostParam("btime", String.valueOf(System.currentTimeMillis() + 10000000)));
+            postParams.add(new PostParam("bprice",bargainPrice));
+            postParams.add(new PostParam("token",UserProfile.getToken(context)));
+            postParams.add(new PostParam("email",UserProfile.getEmail(context)));
+
+            response = PostRequest.execute(URLConstants.QUOTE_BARGAIN_URL, postParams, null);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            try {
+                if (response.getJSONObject("data").getInt("result") == 1){
+
+                    ContentValues cv= new ContentValues();
+
+                    cv.put("bargained",1);
+                    cv.put("bgprice",bargainPrice);
+                    cv.put("bgexptime",String.valueOf(System.currentTimeMillis() + 10000000));
+
+                    DatabaseHelper dh = new DatabaseHelper(context);
+                    dh.updateQuote(quote.qid,cv);
+                }else{
+                    //TODO: handle failure condition
+                    uiListener.onConnectionError();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

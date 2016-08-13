@@ -11,40 +11,44 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 public class ReferAndEarn extends AppCompatActivity implements View.OnClickListener{
-    private ImageView whatsapp,gmail,hangout,more;
+
+    private ImageView whatsApp,gMail,hangout,more;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_refer_and_earn);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        fab.setVisibility(View.GONE);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        whatsapp = (ImageView) findViewById(R.id.whatsapp);
-        whatsapp.setOnClickListener(this);
-        gmail = (ImageView) findViewById(R.id.gmail);
-        gmail.setOnClickListener(this);
+        toolbar.setTitle("Refer and Earn");
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        whatsApp = (ImageView) findViewById(R.id.whatsapp);
+        gMail = (ImageView) findViewById(R.id.gmail);
         hangout = (ImageView) findViewById(R.id.hangout);
-        hangout.setOnClickListener(this);
         more = (ImageView) findViewById(R.id.more);
+
+        hangout.setOnClickListener(this);
+        whatsApp.setOnClickListener(this);
+        gMail.setOnClickListener(this);
         more.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
+
         Intent intent;
         intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, "your code");
+
         switch (v.getId()){
             case R.id.whatsapp:
                 intent.setPackage("com.whatsapp");

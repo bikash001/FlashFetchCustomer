@@ -20,15 +20,21 @@ public class ReferAndEarn extends AppCompatActivity implements View.OnClickListe
 
         setContentView(R.layout.activity_refer_and_earn);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
         setSupportActionBar(toolbar);
 
-        toolbar.setTitle("Refer and Earn");
-
         if(getSupportActionBar() != null){
+            getSupportActionBar().setTitle("Refer and Earn");
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         whatsApp = (ImageView) findViewById(R.id.whatsapp);
         gMail = (ImageView) findViewById(R.id.gmail);
@@ -55,7 +61,7 @@ public class ReferAndEarn extends AppCompatActivity implements View.OnClickListe
                 try {
                     startActivity(intent);
                 } catch (Exception ex) {
-                    Toast toast = Toast.makeText(this, "Whatsapp Not Installed", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(this, "WhatsApp Not Installed", Toast.LENGTH_SHORT);
                     toast.show();
                 }
                 break;

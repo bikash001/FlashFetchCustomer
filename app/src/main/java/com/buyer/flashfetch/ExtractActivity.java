@@ -56,7 +56,6 @@ public class ExtractActivity extends BaseActivity implements GoogleApiClient.Con
     private ProgressDialog progressDialog;
     private TextView tvname, tvprice;
     private ImageView iv;
-    private int cat;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
 
@@ -68,7 +67,7 @@ public class ExtractActivity extends BaseActivity implements GoogleApiClient.Con
 
         setContentView(R.layout.activity_extract);
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.app_toolbar);
         setSupportActionBar(toolbar);
 
         if(getSupportActionBar() != null){
@@ -109,7 +108,7 @@ public class ExtractActivity extends BaseActivity implements GoogleApiClient.Con
 
                         productName = responseObj.productName;
                         productPrice = responseObj.productPrice;
-                        imageURL = responseObj.imageURL;
+//                        imageURL = responseObj.imageURL;
                         productCategory = responseObj.productCategory;
 
                         tvname.setText(productName + " (" + productCategory + ")");

@@ -1,23 +1,20 @@
 package com.buyer.flashfetch.Adapters;
 
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-
-import com.buyer.flashfetch.Fragments.DealsNearByFragment;
 
 import java.util.List;
 
 /**
  * Created by kranthikumar_b on 7/1/2016.
  */
-public class DealsViewPagerAdapter extends FragmentStatePagerAdapter {
+public class NearByDealsViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private String[] tabTitles;
     private List<Fragment> dealsNearByFragmentList;
 
-    public DealsViewPagerAdapter(FragmentManager fm, String[] tabTitles) {
+    public NearByDealsViewPagerAdapter(FragmentManager fm, String[] tabTitles) {
         super(fm);
         this.tabTitles = tabTitles;
     }
@@ -36,7 +33,7 @@ public class DealsViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return dealsNearByFragmentList.size();
+        return tabTitles.length;
     }
 
     @Override

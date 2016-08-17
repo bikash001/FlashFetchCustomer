@@ -8,23 +8,28 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class ContactUs extends AppCompatActivity implements View.OnClickListener{
+public class ContactUs extends BaseActivity implements View.OnClickListener{
 
     private EditText subject,message;
     private Button button;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_contact_us);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         subject = (EditText) findViewById(R.id.contact_subject);
         message = (EditText) findViewById(R.id.contact_message);
         button = (Button) findViewById(R.id.contact_submit);
+
         button.setOnClickListener(this);
     }
 

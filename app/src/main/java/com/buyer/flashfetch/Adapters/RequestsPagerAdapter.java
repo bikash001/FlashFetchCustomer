@@ -10,11 +10,11 @@ import com.buyer.flashfetch.Objects.Request;
 
 import java.util.ArrayList;
 
-public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+public class RequestsPagerAdapter extends FragmentStatePagerAdapter {
 
     private String[] titles = {"Requested", "Accepted"};
 
-    public SectionsPagerAdapter(FragmentManager fm) {
+    public RequestsPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 

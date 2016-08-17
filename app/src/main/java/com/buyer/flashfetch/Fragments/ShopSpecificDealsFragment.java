@@ -10,9 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.buyer.flashfetch.Adapters.DealsAdapter;
-import com.buyer.flashfetch.Objects.DealsDataModel;
-import com.buyer.flashfetch.Objects.NearByDealsDataModel;
+import com.buyer.flashfetch.Adapters.ShopSpecificDealsAdapter;
+import com.buyer.flashfetch.Objects.SpecificDealsDataModel;
 import com.buyer.flashfetch.R;
 
 import java.util.List;
@@ -20,17 +19,16 @@ import java.util.List;
 /**
  * Created by kranthikumar_b on 7/1/2016.
  */
-public class DealsFragment extends Fragment {
+public class ShopSpecificDealsFragment extends Fragment {
 
     private int uniqueID;
-
     private RecyclerView recyclerView;
-    private DealsAdapter dealsAdapter;
-    private List<DealsDataModel> list;
+    private ShopSpecificDealsAdapter dealsAdapter;
+    private List<SpecificDealsDataModel> specificDealsDataModelList;
 
-    public static DealsFragment getInstance(int tabId) {
+    public static ShopSpecificDealsFragment getInstance(int tabId) {
 
-        DealsFragment fragment = new DealsFragment();
+        ShopSpecificDealsFragment fragment = new ShopSpecificDealsFragment();
         fragment.setUniqueID(tabId);
 
         return fragment;
@@ -65,7 +63,7 @@ public class DealsFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        dealsAdapter = new DealsAdapter(list);
+        dealsAdapter = new ShopSpecificDealsAdapter(getContext(),specificDealsDataModelList);
         recyclerView.setAdapter(dealsAdapter);
 
         recyclerView.setOnClickListener(new View.OnClickListener() {

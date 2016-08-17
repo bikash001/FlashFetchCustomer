@@ -74,7 +74,7 @@
     <string name="title_activity_contact_us">ContactUs</string>
     <string name="title_activity_fill__address">Fill_Address</string>
     <string name="title_activity_wallet">Wallet</string>
-    <string name="total_credit">Total Credit: ₹</string>
+    <string name="total_credit">Total Credits</string>
     <string name="invite_text">INVITE FRIENDS TO EARN MORE</string>
     <string name="message">Your friend will get ₹50 for downloading the app and you will receive... </string>
     <string name="chooser_title">Share Your Code</string>
@@ -93,4 +93,7 @@
     <string name="title_activity_max_response">MaxResponse</string>
     <string name="title_activity_feedback1">Feedback1</string>
     <string name="title_activity_feedback2">Feedback2</string>
+
+    <string name="profile">Profile</string>
+    <string name="delivery_address">Delivery Address</string>
 </resources>

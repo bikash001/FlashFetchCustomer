@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -12,6 +13,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:paddingTop="16dp"
         android:orientation="vertical">
 
@@ -41,7 +43,7 @@
             android:id="@+id/button_add_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Address"
+            android:text="Add New Delivery Address"
             android:textSize="16sp"
             android:padding="8dp"
             android:background="#fff"

@@ -10,8 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.buyer.flashfetch.Adapters.DealsAdapter;
-import com.buyer.flashfetch.Objects.DealsDataModel;
+import com.buyer.flashfetch.Adapters.ShopSpecificDealsAdapter;
+import com.buyer.flashfetch.Adapters.NearByDealsAdapter;
+import com.buyer.flashfetch.CommonUtils.Toasts;
+import com.buyer.flashfetch.CommonUtils.Utils;
+import com.buyer.flashfetch.Objects.NearByDealsDataModel;
 import com.buyer.flashfetch.R;
 
 import java.util.List;
@@ -19,17 +22,17 @@ import java.util.List;
 /**
  * Created by kranthikumar_b on 7/1/2016.
  */
-public class DealsNearByFragment extends Fragment {
+public class NearByDealsFragment extends Fragment {
 
     private int uniqueID;
 
     private RecyclerView recyclerView;
-    private DealsAdapter dealsAdapter;
-    private List<DealsDataModel> list;
+    private NearByDealsAdapter nearByDealsAdapter;
+    private List<NearByDealsDataModel> list;
 
-    public static DealsNearByFragment getInstance(int tabId) {
+    public static NearByDealsFragment getInstance(int tabId) {
 
-        DealsNearByFragment fragment = new DealsNearByFragment();
+        NearByDealsFragment fragment = new NearByDealsFragment();
         fragment.setUniqueID(tabId);
 
         return fragment;
@@ -64,11 +67,16 @@ public class DealsNearByFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        dealsAdapter = new DealsAdapter(list);
-        recyclerView.setAdapter(dealsAdapter);
+        nearByDealsAdapter = new NearByDealsAdapter(getContext(),list);
+        recyclerView.setAdapter(nearByDealsAdapter);
     }
 
     private void setUpDataModel(){
-        //TODO: make service call and attach data to the dataModel
+
+        if(Utils.isInternetAvailable(getContext())){
+            //TODO: make service call and attach data to the dataModel
+        }else{
+            Toasts.internetUnavailableToast(getContext());
+        }
     }
 }

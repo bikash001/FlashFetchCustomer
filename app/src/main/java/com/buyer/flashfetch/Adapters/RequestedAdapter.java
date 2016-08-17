@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.buyer.flashfetch.Objects.Request;
@@ -15,13 +16,12 @@ import java.util.ArrayList;
 /**
  * Created by kranthikumar_b on 8/5/2016.
  */
-
-public class AcceptedDealsAdapter  extends RecyclerView.Adapter<AcceptedDealsAdapter.ViewHolder>{
+public class RequestedAdapter extends RecyclerView.Adapter<RequestedAdapter.ViewHolder>{
 
     private Context context;
     private ArrayList<Request> requests = new ArrayList<>();
 
-    public AcceptedDealsAdapter(Context context, ArrayList<Request> requests){
+    public RequestedAdapter(Context context, ArrayList<Request> requests) {
 
         this.context = context;
         this.requests = requests;
@@ -29,25 +29,27 @@ public class AcceptedDealsAdapter  extends RecyclerView.Adapter<AcceptedDealsAda
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView productName, productPrice, priceOffered;
+        public ImageView imageView;
+        public TextView productName, timer, productPrice;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            productName = (TextView)itemView.findViewById(R.id.product_name_accepted);
-            productPrice = (TextView)itemView.findViewById(R.id.price_from_store);
-            priceOffered = (TextView)itemView.findViewById(R.id.price_offered);
+            imageView = (ImageView)itemView.findViewById(R.id.image_view_requested);
+            productName = (TextView)itemView.findViewById(R.id.requested_product_name);
+            timer = (TextView)itemView.findViewById(R.id.requested_timer);
+            productPrice = (TextView)itemView.findViewById(R.id.requested_price);
         }
     }
 
     @Override
-    public AcceptedDealsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_accepted,parent,false);
+    public RequestedAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_requested,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(AcceptedDealsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(RequestedAdapter.ViewHolder holder, int position) {
 
     }
 

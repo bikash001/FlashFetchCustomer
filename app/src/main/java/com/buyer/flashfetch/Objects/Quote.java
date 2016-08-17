@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class Quote implements Serializable{
 
     public static final String TABLE_NAME = "Quotes" ;
+
     public String id,qid,qprice,comment,bgprice,name,distance;
     public long expTime,cat,bgexptime;
     Boolean valid_layout;

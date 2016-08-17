@@ -60,7 +60,7 @@ public class PlaceRequestActivity extends BaseActivity {
 
         progressDialog = getProgressDialog(context);
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.app_toolbar);
         setSupportActionBar(toolbar);
 
         if(getSupportActionBar() != null){
@@ -76,6 +76,9 @@ public class PlaceRequestActivity extends BaseActivity {
                 finish();
             }
         });
+
+        setTimeButton = (TextView)findViewById(R.id.place_request_time);
+        placeRequestButton = (Button)findViewById(R.id.place_request_button);
 
         Spinner spinner = (Spinner)findViewById(R.id.places_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.places_array, android.R.layout.simple_spinner_dropdown_item);
@@ -93,7 +96,6 @@ public class PlaceRequestActivity extends BaseActivity {
             }
         });
 
-        setTimeButton = (TextView)findViewById(R.id.place_request_time);
         setTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,7 +123,7 @@ public class PlaceRequestActivity extends BaseActivity {
             }
         });
 
-        placeRequestButton = (Button)findViewById(R.id.place_request_button);
+
         placeRequestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

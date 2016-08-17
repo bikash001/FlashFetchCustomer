@@ -8,6 +8,8 @@ import java.io.Serializable;
 public class NearByDealsDataModel implements Serializable {
 
     private String shopName,imageUrl,shopDistance,itemDescription;
+    private boolean isDeliverable;
+    private int shopId;
 
     public String getImageUrl() {
         return imageUrl;
@@ -39,5 +41,21 @@ public class NearByDealsDataModel implements Serializable {
 
     public void setItemDescription(String itemDescription) {
         this.itemDescription = itemDescription;
+    }
+
+    public boolean isDeliverable() {
+        return isDeliverable;
+    }
+
+    public void setDeliverable(boolean deliverable) {
+        isDeliverable = deliverable;
+    }
+
+    public int getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
     }
 }

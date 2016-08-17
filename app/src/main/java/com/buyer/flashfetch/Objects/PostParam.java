@@ -3,14 +3,12 @@ package com.buyer.flashfetch.Objects;
 
 public class PostParam {
 
-    String key;
+    private String key, value;
 
     public PostParam(String key, String value) {
         this.key = key;
         this.value = value;
     }
-
-    String value;
 
     public String getKey() {
         return key;

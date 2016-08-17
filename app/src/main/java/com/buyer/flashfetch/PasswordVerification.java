@@ -1,6 +1,7 @@
 package com.buyer.flashfetch;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -12,12 +13,14 @@ import android.widget.LinearLayout;
 
 import com.buyer.flashfetch.CommonUtils.Toasts;
 import com.buyer.flashfetch.CommonUtils.Utils;
+import com.buyer.flashfetch.Network.ServiceManager;
 
 /**
  * Created by KRANTHI on 03-07-2016.
  */
 public class PasswordVerification extends BaseActivity {
 
+    private Context context;
     private String email;
     private EditText verificationEditText;
     private Button submitButton;
@@ -28,6 +31,8 @@ public class PasswordVerification extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        context = PasswordVerification.this;
+
         setContentView(R.layout.password_verification);
 
         Bundle bundle =getIntent().getExtras();
@@ -35,24 +40,24 @@ public class PasswordVerification extends BaseActivity {
             email = bundle.getString("EMAIL");
         }
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.app_toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle("Password Verification");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Password Verification");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(PasswordVerification.this,ForgotPassword.class);
-//                startActivity(intent);
                 onBackPressed();
             }
         });
 
         passwordVerificationLayout = (LinearLayout)findViewById(R.id.password_verification_layout);
-        progressDialog = getProgressDialog(PasswordVerification.this);
+        progressDialog = getProgressDialog(context);
         verificationEditText = (EditText)findViewById(R.id.verification_edit_text);
         submitButton = (Button)findViewById(R.id.submit_verification_button);
 
@@ -62,17 +67,19 @@ public class PasswordVerification extends BaseActivity {
 
                 if(!TextUtils.isEmpty(verificationEditText.getText().toString())){
 
-                    if(Utils.isInternetAvailable(PasswordVerification.this)) {
+                    if(Utils.isInternetAvailable(context)) {
 
                         progressDialog.show();
 
-//                        ServiceManager.callPasswordVerificationService(PasswordVerification.this, email, verificationEditText.getText().toString(), new UIListener() {
+                        //TODO: integrate service call
+
+//                        ServiceManager.callPasswordVerificationService(context, email, verificationEditText.getText().toString(), new UIListener() {
 //                            @Override
 //                            public void onSuccess() {
-//                                Toasts.verificationCodeSuccessfullyVerified(PasswordVerification.this);
+//                                Toasts.verificationCodeSuccessfullyVerified(context);
 //                                progressDialog.dismiss();
 //
-//                                Intent intent = new Intent(PasswordVerification.this, ChangePassword.class);
+//                                Intent intent = new Intent(context, ChangePassword.class);
 //                                intent.putExtra("EMAIL", email);
 //                                intent.putExtra("FROM_PASSWORD_VERIFICATION_FLOW", Constants.IS_FROM_PASSWORD_VERIFICATION);
 //                                startActivity(intent);
@@ -80,13 +87,13 @@ public class PasswordVerification extends BaseActivity {
 //
 //                            @Override
 //                            public void onFailure() {
-//                                Toasts.enterValidVerificationCode(PasswordVerification.this);
+//                                Toasts.enterValidVerificationCode(context);
 //                                progressDialog.dismiss();
 //                            }
 //
 //                            @Override
 //                            public void onConnectionError() {
-//                                Toasts.serverBusyToast(PasswordVerification.this);
+//                                Toasts.serverBusyToast(context);
 //                                progressDialog.dismiss();
 //                            }
 //
@@ -96,17 +103,12 @@ public class PasswordVerification extends BaseActivity {
 //                            }
 //                        });
                     }else{
-                        Toasts.internetUnavailableToast(PasswordVerification.this);
+                        Toasts.internetUnavailableToast(context);
                     }
                 }else{
-                    Toasts.enterVerificationCode(PasswordVerification.this);
+                    Toasts.enterVerificationCode(context);
                 }
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
     }
 }

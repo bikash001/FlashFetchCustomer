@@ -8,7 +8,7 @@ public class URLConstants {
 
     public static String BARGAIN_URL = SERVER + "c2s/";
 
-    public static String QUOTE_BARGAIN_URL = "http://ec2-54-169-112-228.ap-southeast-1.compute.amazonaws.com/bargain/";
+    public static String QUOTE_BARGAIN_URL = SERVER + "bargain/";
 
     public static String URL_SIGN_UP = SERVER + "cussignup/";
 
@@ -16,4 +16,5 @@ public class URLConstants {
 
     public static String URL_GCM_REGISTER = SERVER + "cusgcm/";
 
+    public static String URL_PLACE_ORDER = SERVER + "del/";
 }

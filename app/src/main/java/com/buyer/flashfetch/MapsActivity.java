@@ -49,7 +49,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private RadioButton home, shop;
     private EditText minText, hourText, priceText;
     private TextView bargain, bargained, accept;
-    private Marker marker1, marker2, marker3, marker4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

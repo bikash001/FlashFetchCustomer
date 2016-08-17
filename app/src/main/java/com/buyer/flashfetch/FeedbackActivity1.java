@@ -59,9 +59,9 @@ public class FeedbackActivity1 extends AppCompatActivity {
         comment=(EditText)findViewById(R.id.commentString);
         submit=(Button)findViewById(R.id.submit);
         comment_text=(TextView)findViewById(R.id.commentText);
-        htext=(TextView)findViewById(R.id.htext);
+//        htext=(TextView)findViewById(R.id.htext);
         htext1=(TextView)findViewById(R.id.htext1);
-        hlayout=(LinearLayout)findViewById(R.id.hlayout);
+//        hlayout=(LinearLayout)findViewById(R.id.hlayout);
         hrefer=(Button)findViewById(R.id.hrefer);
         htext.setVisibility(View.GONE);
         htext1.setVisibility(View.GONE);

@@ -57,7 +57,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:weightSum="2"
         android:orientation="horizontal"
@@ -67,6 +66,9 @@
         <Button
             android:id="@+id/exit_extract"
             android:text="NO"
+            android:textStyle="bold"
+            android:background="@color/ff_black"
+            android:textColor="@color/icons"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
@@ -74,6 +76,9 @@
         <Button
             android:id="@+id/ok_extract"
             android:text="YES"
+            android:background="@color/ff_green"
+            android:textColor="@color/icons"
+            android:textStyle="bold"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />

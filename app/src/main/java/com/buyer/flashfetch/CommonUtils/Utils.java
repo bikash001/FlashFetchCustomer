@@ -53,6 +53,10 @@ public class Utils {
         return number.length() == 10;
     }
 
+    public static boolean isPinCodeValid(String number){
+        return number.length() == 6;
+    }
+
     public static boolean isNameValid(String name){
         return name.length() >= 3;
     }

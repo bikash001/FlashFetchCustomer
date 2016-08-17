@@ -6,13 +6,14 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.buyer.flashfetch.Adapters.RequestedDealsAdapter;
+import com.buyer.flashfetch.Adapters.RequestedAdapter;
 import com.buyer.flashfetch.Objects.Request;
 import com.buyer.flashfetch.R;
 
@@ -23,7 +24,7 @@ public class Requested extends Fragment {
     private Context context;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
-    private RequestedDealsAdapter requestedDealsAdapter;
+    private RequestedAdapter requestedDealsAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Request> requests;
 
@@ -70,12 +71,12 @@ public class Requested extends Fragment {
         swipeRefreshLayout.setProgressViewEndTarget(true, actionBarHeight);
 
         recyclerView = (RecyclerView)view.findViewById(R.id.requested_requests);
-//        recyclerView.setItemAnimator(new ScaleInOutItemAnimator(recyclerView));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         layoutManager = new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
 
         recyclerView.setLayoutManager(layoutManager);
 
-        requestedDealsAdapter = new RequestedDealsAdapter(context, requests);
+        requestedDealsAdapter = new RequestedAdapter(context, requests);
 
         recyclerView.setAdapter(requestedDealsAdapter);
 
@@ -95,46 +96,6 @@ public class Requested extends Fragment {
 //            reqText.setText("You will receive product requests after FlashFetch Buyer App is launched. Meanwhile get familiarized with the features of your App. Stay tuned!");
 //        }
         return view;
-
-////        url = SectionsPagerAdapter.reqs.get(rank-1).pimg;
-//        TextView textView = (TextView) view.findViewById(R.id.product_name);
-//        textView.setText(SectionsPagerAdapter.reqs.get(rank-1).productName);
-//        textView = (TextView) view.findViewById(R.id.set_price);
-//        textView.setText(SectionsPagerAdapter.reqs.get(rank-1).productPrice);
-//        ImageView imageView = (ImageView) view.findViewById(R.id.image_view_requested);
-//        refTask = new DownloadImageTask(imageView);
-//        refTask.execute(url);
-//        return view;
     }
-
-//    @Override
-//    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//        Button button = (Button) getView().findViewById(R.id.button_detail);
-//        CharSequence tag = "button_detail"+rank;
-//        button.setTag(tag);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast toast = Toast.makeText(getContext(), ""+v.getTag(), Toast.LENGTH_SHORT);
-//                toast.show();
-//            }
-//        });
-//        Button button_quote = (Button) getView().findViewById(R.id.button_quote);
-//        tag = "button_quote"+rank;
-//        button_quote.setTag(tag);
-//        button_quote.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getContext(),Quotes.class);
-//                intent.putExtra("URL",url);
-//                   /* Bundle bundle = new Bundle();
-//                    bundle.putString("id", reqs.get(rank-1).id);*/
-//                intent.putExtra("id",SectionsPagerAdapter.reqs.get(rank-1).productId);
-//                startActivity(intent);
-//            }
-//        });
-//    }
-
 }
 

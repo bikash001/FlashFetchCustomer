@@ -71,10 +71,12 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
         setContentView(R.layout.login);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle("Login");
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setTitle("Login");
+        }
 
         progressDialog = getProgressDialog(context);
 

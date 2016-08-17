@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ff_gray"
-    android:fillViewport="false">
+    android:orientation="vertical">
+
+    <include layout="@layout/app_bar"/>
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="16dp">
 
         <TextView
             android:id="@+id/delivery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="12dp"
+            android:textSize="16sp"
+            android:textColor="@color/ff_green"
+            android:textStyle="bold"
             android:text="Delivery" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:orientation="horizontal">
 
             <RadioButton
@@ -33,9 +37,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/ff_green"
                 android:checked="true"
-                android:padding="8dp"
+                android:padding="12dp"
                 android:text="Visit Shop"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -44,7 +47,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#fff"
                 android:padding="8dp"
                 android:text="Home Delivery"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -55,17 +57,18 @@
             android:id="@+id/price_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="Price Details:" />
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:textColor="@color/ff_green"
+            android:textStyle="bold"
+            android:text="Price Details :" />
 
         <LinearLayout
             android:id="@+id/ll_product_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="#fff"
+            android:layout_marginTop="16dp"
             android:orientation="horizontal"
             android:padding="6dp">
 
@@ -74,10 +77,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textStyle="bold"
                 android:text="Price of Product" />
 
             <TextView
                 android:id="@+id/product_price"
+                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text" />
@@ -88,9 +93,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="#fff"
             android:orientation="horizontal"
             android:padding="6dp"
             android:visibility="visible">
@@ -100,10 +102,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textStyle="bold"
                 android:text="Vouchers" />
 
             <TextView
                 android:id="@+id/voucher_price"
+                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text" />
@@ -114,9 +118,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="#fff"
             android:orientation="horizontal"
             android:padding="6dp"
             android:visibility="visible">
@@ -127,10 +128,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textStyle="bold"
                 android:text="Delivery by" />
 
             <TextView
                 android:id="@+id/del_by"
+                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text" />
@@ -141,9 +144,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="#fff"
             android:orientation="horizontal"
             android:padding="6dp"
             android:visibility="visible">
@@ -154,10 +154,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textStyle="bold"
                 android:text="Delivery Cost" />
 
             <TextView
                 android:id="@+id/del_cost"
+                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text" />
@@ -168,9 +170,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="#fff"
             android:orientation="horizontal"
             android:padding="6dp"
             android:visibility="visible">
@@ -180,10 +179,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textStyle="bold"
                 android:text="Wallet" />
 
             <TextView
                 android:id="@+id/wallet_price"
+                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text" />
@@ -194,10 +195,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="1dp"
-            android:background="#fff"
             android:orientation="horizontal"
             android:padding="6dp">
 
@@ -206,10 +203,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textStyle="bold"
                 android:text="Total Payable" />
 
             <TextView
                 android:id="@+id/total_price"
+                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text" />
@@ -219,23 +218,20 @@
             android:id="@+id/tandc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="#fff"
+            android:layout_marginTop="16dp"
             android:ellipsize="end"
+            android:textStyle="bold"
             android:singleLine="false"
-            android:text="I accept the Terms and Conditions\n and the Return Policy" />
-
-        <Button
-            android:id="@+id/place_order"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:background="@color/ff_green"
-            android:text="Place Order"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#fff" />
+            android:text="I accept the Terms and Conditions and the Return Policy" />
 
     </LinearLayout>
-</ScrollView>
+
+    <Button
+        android:id="@+id/place_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/ff_green"
+        android:text="Place Order"
+        android:textColor="#fff" />
+
+</LinearLayout>

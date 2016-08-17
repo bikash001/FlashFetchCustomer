@@ -18,16 +18,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.buyer.flashfetch.Adapters.SectionsPagerAdapter;
+import com.buyer.flashfetch.Adapters.RequestsPagerAdapter;
+import com.buyer.flashfetch.Animations.DepthPageTransformer;
+import com.buyer.flashfetch.Animations.ZoomOutPageTransformer;
 import com.buyer.flashfetch.CommonUtils.Utils;
 import com.buyer.flashfetch.Constants.Constants;
+import com.buyer.flashfetch.Objects.UserProfile;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String TAG = "MainActivity";
     private Context context;
     private ViewPager mViewPager;
+    private TabLayout tabLayout;
+    private TextView personName, personEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setContentView(R.layout.activity_main2);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_activity_toolbar);
         setSupportActionBar(toolbar);
 
         if(getSupportActionBar() != null){
@@ -54,15 +60,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        if (navigationView != null) {
+            navigationView.setNavigationItemSelectedListener(this);
+        }
 
-        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        personName = (TextView)navigationView.getHeaderView(0).findViewById(R.id.navigation_person_name);
+        personEmail = (TextView)navigationView.getHeaderView(0).findViewById(R.id.navigation_person_email);
 
+        personName.setText(UserProfile.getName(context));
+        personEmail.setText(UserProfile.getEmail(context));
+
+        RequestsPagerAdapter requestsPagerAdapter = new RequestsPagerAdapter(getSupportFragmentManager());
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
         mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+        if (mViewPager != null) {
+            mViewPager.setAdapter(requestsPagerAdapter);
+            mViewPager.setPageTransformer(false,new ZoomOutPageTransformer());
+            tabLayout.setupWithViewPager(mViewPager);
+        }
     }
 
     @Override
@@ -91,19 +108,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(this,LoginActivity.class);
             startActivity(intent);
 
-//            if(!Requested.refTask.isCancelled()){
-//                Requested.refTask.cancel(true);
-//            }
+            //TODO: clear all databases
 
             finish();
             return true;
 
         } else if (id == R.id.action_contact){
+
             Intent intent = new Intent(this,ContactUs.class);
             startActivity(intent);
             return true;
         }
-        else if(id==R.id.action_connect) {
+        else if(id == R.id.action_connect) {
 
             Dialog dialog = new Dialog(this);
             dialog.setTitle("Connect with Us");
@@ -159,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
 
         } else if (id == R.id.nav_wallet) {
-            Intent intent = new Intent(this,Wallet.class);
+            Intent intent = new Intent(this,RewardsActivity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.nav_account) {

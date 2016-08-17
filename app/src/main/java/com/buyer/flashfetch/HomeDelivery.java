@@ -17,7 +17,7 @@ public class HomeDelivery extends BaseActivity{
     private int count = 0;
     private TextView addAddress, tag, address;
     private Button confirmButton;
-    final static int STATUS = 1;
+    final static int REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,7 @@ public class HomeDelivery extends BaseActivity{
 
         setContentView(R.layout.activity_home_delivery);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
         setSupportActionBar(toolbar);
 
         toolbar.setTitle("Delivery Address");
@@ -43,7 +43,6 @@ public class HomeDelivery extends BaseActivity{
                 onBackPressed();
             }
         });
-        });
 
         addAddress = (TextView) findViewById(R.id.button_add_address);
         confirmButton = (Button)findViewById(R.id.button_confirm);
@@ -52,8 +51,7 @@ public class HomeDelivery extends BaseActivity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context,FillAddressActivity.class);
-                Intent intent = new Intent(context,FillAddressActivity.class);
-                startActivityForResult(intent,STATUS);
+                startActivityForResult(intent,REQUEST_CODE);
             }
         });
 
@@ -67,7 +65,7 @@ public class HomeDelivery extends BaseActivity{
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == STATUS){
+        if(requestCode == REQUEST_CODE){
 //            View view = getLayoutInflater().inflate(R.layout.address,layout,false);
 //            tag = (TextView) view.findViewById(R.id.address_tag);
 //            address = (TextView) view.findViewById(R.id.address_content);

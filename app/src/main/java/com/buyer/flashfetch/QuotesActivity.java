@@ -1,64 +1,33 @@
 package com.buyer.flashfetch;
 
-import android.annotation.TargetApi;
 import android.app.Dialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.InputFilter;
-import android.text.Layout;
-import android.util.Log;
 import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.buyer.flashfetch.Adapters.QuotesAdapter;
 import com.buyer.flashfetch.Constants.Constants;
-import com.buyer.flashfetch.Helper.Comparators;
-import com.buyer.flashfetch.Helper.DatabaseHelper;
-import com.buyer.flashfetch.Network.PostRequest;
-import com.buyer.flashfetch.Objects.PostParam;
-import com.buyer.flashfetch.Helper.Comparators;
 import com.buyer.flashfetch.Objects.Quote;
 import com.buyer.flashfetch.Objects.Request;
-import com.buyer.flashfetch.Objects.UserProfile;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.InputStream;
-import java.io.Serializable;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class Quotes extends BaseActivity {
+public class QuotesActivity extends BaseActivity {
 
     private static final String TAG = "Quotes";
 
@@ -74,15 +43,11 @@ public class Quotes extends BaseActivity {
 
     private List<Quote> quoteList = new ArrayList<>();
 
-    private int height, width;
-
-    Dialog dialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        context = Quotes.this;
+        context = QuotesActivity.this;
 
         setContentView(R.layout.activity_quotes);
 
@@ -96,9 +61,8 @@ public class Quotes extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        toolbar.setTitle("Quotes");
-
         if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Quotes");
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -110,13 +74,7 @@ public class Quotes extends BaseActivity {
             }
         });
 
-        height = WindowManager.LayoutParams.WRAP_CONTENT;
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        width = size.x;
-
-        quoteList = Quote.getAllQuotes(Quotes.this,productID);
+        quoteList = Quote.getAllQuotes(QuotesActivity.this,productID);
 
         nestedScrollView = (NestedScrollView)findViewById(R.id.quote_nested_scroll_view);
         nestedScrollView.setFillViewport(true);
@@ -129,10 +87,10 @@ public class Quotes extends BaseActivity {
         Glide.with(context).load(imageURL).centerCrop().into(productImageView);
 
         productName.setText(Request.getRequest(context, productID).get(0).productName);
-        productPrice.setText("Price: Rs." + Request.getRequest(Quotes.this, productID).get(0).productPrice);
+        productPrice.setText("Price: Rs." + Request.getRequest(QuotesActivity.this, productID).get(0).productPrice);
 
-        View bottomSheet = findViewById(R.id.bottomSheet);
-        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+//        View bottomSheet = findViewById(R.id.bottomSheet);
+//        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
 
         quotesAdapter = new QuotesAdapter(context,quoteList);
 
@@ -147,7 +105,7 @@ public class Quotes extends BaseActivity {
             public void onClick(View view) {
 
                 Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList(Constants.QUOTES_LIST, (ArrayList<? extends Parcelable>) quoteList);
+//                bundle.putParcelableArrayList(Constants.QUOTES_LIST, (ArrayList<? extends Parcelable>) quoteList);
 
                 Intent intent = new Intent(context,MapsActivity.class);
                 intent.putExtra(Constants.QUOTES_LIST_BUNDLE,bundle);

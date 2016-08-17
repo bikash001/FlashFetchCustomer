@@ -9,7 +9,7 @@ import com.google.gson.Gson;
  */
 public class ProductDetailsResponse implements Serializable{
 
-    @SerializedName("result")
+    @SerializedName("product")
     public String productName;
 
     @SerializedName("category")
@@ -18,8 +18,8 @@ public class ProductDetailsResponse implements Serializable{
     @SerializedName("price")
     public String productPrice;
 
-    @SerializedName("img")
-    public String imageURL;
+//    @SerializedName("img")
+//    public String imageURL;
 
     public String toJson(){
         return new Gson().toJson(this);

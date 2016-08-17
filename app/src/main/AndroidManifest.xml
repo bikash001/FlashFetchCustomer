@@ -64,31 +64,35 @@
             android:exported="false" />
 
         <activity
-            android:name=".MapsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".ExtractActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+
+        <!--<activity-->
+            <!--android:name=".LoginActivity">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
+
+        <activity
+            android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".LoginActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+        <activity android:name=".MainActivity"/>
 
-        <activity
-            android:name=".RegisterActivity"
-            android:label="@string/title_activity_register"
-            android:parentActivityName=".LoginActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".LoginActivity" />
-        </activity>
+        <activity android:name=".RegisterActivity"/>
 
         <activity android:name=".ForgotPassword"/>
 
@@ -96,162 +100,37 @@
 
         <activity android:name=".ChangePassword"/>
 
-        <activity android:name=".MainActivity"/>
-
-        <activity
-            android:name=".ExtractActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="text/plain" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".AccountInfoActivity"/>
 
         <activity android:name=".PlaceRequestActivity"/>
 
-        <activity
-            android:name=".Quotes"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
+        <activity android:name=".QuotesActivity"/>
 
-        <!--<activity-->
-            <!--android:name=".MapsActivity"-->
-            <!--android:label="@string/title_activity_maps"-->
-            <!--android:parentActivityName=".Quotes"-->
-            <!--android:screenOrientation="portrait">-->
-            <!--<meta-data-->
-                <!--android:name="android.support.PARENT_ACTIVITY"-->
-                <!--android:value=".Quotes" />-->
-        <!--</activity>-->
+        <activity android:name=".MapsActivity" />
 
-        <activity
-            android:name=".OfferNearByActivity"
-            android:label="@string/title_activity_offer"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
+        <activity android:name=".OfferNearByActivity"/>
 
-        <activity
-            android:name=".HomeDelivery"
-            android:label="@string/title_activity_home_delivery"
-            android:parentActivityName=".Quotes"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Quotes" />
-        </activity>
+        <activity android:name=".HomeDelivery"/>
 
-        <activity
-            android:name=".ContactUs"
-            android:label="@string/title_activity_contact_us"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
+        <activity android:name=".ContactUs" />
 
-        <activity
-            android:name=".FillAddressActivity"
-            android:label="@string/title_activity_fill__address"
-            android:parentActivityName=".AccountInfoActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".AccountInfoActivity" />
-        </activity>
+        <activity android:name=".FillAddressActivity"/>
 
-        <activity
-            android:name=".Wallet"
-            android:label="@string/title_activity_wallet"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
+        <activity android:name=".RewardsActivity"/>
 
-        <activity
-            android:name=".ReferAndEarn"
-            android:label="@string/title_activity_refer_and_earn"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
+        <activity android:name=".ReferAndEarn" />
 
-        <activity
-            android:name=".FeedbackActivity"
-            android:label="Feedback"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
+        <activity android:name=".FeedbackActivity" />
 
-        <!--<activity-->
-            <!--android:name=".AccountInfoActivity"-->
-            <!--android:label="@string/title_activity_account"-->
-            <!--android:parentActivityName=".MainActivity"-->
-            <!--android:theme="@style/AppTheme.NoActionBar">-->
-            <!--<meta-data-->
-                <!--android:name="android.support.PARENT_ACTIVITY"-->
-                <!--android:value=".MainActivity" />-->
-        <!--</activity>-->
+        <activity android:name=".FeedbackActivity1" />
 
-        <!--<activity-->
-            <!--android:name=".Address"-->
-            <!--android:label="@string/title_activity_address"-->
-            <!--android:parentActivityName=".HomeDelivery"-->
-            <!--android:theme="@style/AppTheme.NoActionBar">-->
-            <!--<meta-data-->
-                <!--android:name="android.support.PARENT_ACTIVITY"-->
-                <!--android:value="com.buyer.flashfetch.HomeDelivery" />-->
-        <!--</activity>-->
+        <activity android:name=".FeedbackActivity2"/>
 
-        <activity
-            android:name=".Delivery"
-            android:label="Delivery"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat" />
+        <activity android:name=".DeliveryActivity" />
 
-        <activity
-            android:name=".VerifyEmail"
-            android:label="@string/title_activity_verify_email"
-            android:parentActivityName=".RegisterActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".RegisterActivity" />
-        </activity>
+        <activity android:name=".VerifyEmail"/>
 
-        <activity
-            android:name=".MaxResponse"
-            android:label="@string/title_activity_max_response"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".FeedbackActivity1"
-            android:label="@string/title_activity_feedback1"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".FeedbackActivity2"
-            android:label="@string/title_activity_feedback2"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".MaxResponse" />
 
     </application>
 

@@ -1,33 +1,23 @@
 package com.buyer.flashfetch;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
-import android.view.Display;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class AccountInfoActivity extends AppCompatActivity implements View.OnClickListener{
+import com.buyer.flashfetch.Constants.Constants;
+
+public class AccountInfoActivity extends BaseActivity{
 
     private Context context;
-    private LinearLayout layout;
-    private LinearLayout.LayoutParams params;
-    private TextView button, tag, address,name,phone;
-    final static int STATUS = 1;
-    private int height, width;
-    private EditText input;
-    private TextView cancel,confirm,popup_text;
-    private Dialog dialog;
-    private DialogHandler handler;
+    private LinearLayout addressLayout;
+    private TextView profile,deliveryAddress,addAddress, tagText, address,name,phone;
+    final static int REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,96 +27,73 @@ public class AccountInfoActivity extends AppCompatActivity implements View.OnCli
 
         setContentView(R.layout.activity_account);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
         setSupportActionBar(toolbar);
 
         if(getSupportActionBar() != null){
+            getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Account Information");
         }
 
-        toolbar.setTitle("Account Info");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
-        height = WindowManager.LayoutParams.WRAP_CONTENT;
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        width = size.x;
+        addressLayout = (LinearLayout) findViewById(R.id.layout_address);
 
-        layout = (LinearLayout) findViewById(R.id.layout_address);
-        params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        button = (TextView) findViewById(R.id.button_add_address);
+        profile = (TextView)findViewById(R.id.profile_text);
+        deliveryAddress  = (TextView)findViewById(R.id.delivery_address_text);
+        addAddress = (TextView) findViewById(R.id.button_add_address);
         name = (TextView) findViewById(R.id.profile_name);
         phone = (TextView) findViewById(R.id.phone_profile);
 
-        button.setOnClickListener(this);
-        name.setOnClickListener(this);
-        phone.setOnClickListener(this);
+        SpannableString profileText = new SpannableString(getResources().getString(R.string.profile));
+        profileText.setSpan(new UnderlineSpan(),0,getResources().getString(R.string.profile).length(),0);
+
+        SpannableString deliveryText = new SpannableString(getResources().getString(R.string.delivery_address));
+        deliveryText.setSpan(new UnderlineSpan(),0,getResources().getString(R.string.delivery_address).length(),0);
+
+        profile.setText(profileText);
+        deliveryAddress.setText(deliveryText);
+
+        addAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,FillAddressActivity.class);
+                startActivityForResult(intent,REQUEST_CODE);
+            }
+        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == STATUS){
+        if(requestCode == REQUEST_CODE){
 
-            View view = getLayoutInflater().inflate(R.layout.address,layout,false);
-            tag = (TextView) view.findViewById(R.id.address_tag);
+            View view = getLayoutInflater().inflate(R.layout.address,addressLayout,false);
+
+            tagText = (TextView) view.findViewById(R.id.address_tag);
             address = (TextView) view.findViewById(R.id.address_content);
-            tag.setText(data.getStringExtra("TAG"));
-            String ss = String.format("%s, %s, %s, %s, %s",data.getStringExtra("ADDRESSLINE"),data.getStringExtra("AREA"),
-                    data.getStringExtra("CITY"),data.getStringExtra("STATE"),data.getStringExtra("PIN"));
-            address.setText(ss);
-            layout.addView(view);
-        }
-    }
 
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
+            String tag = data.getStringExtra(Constants.FLAT_TAG);
+            String flatNumber = data.getStringExtra(Constants.FLAT_NUMBER);
+            String flatStreet = data.getStringExtra(Constants.FLAT_STREET);
+            String flatArea = data.getStringExtra(Constants.FLAT_AREA);
+            String flatCity = data.getStringExtra(Constants.FLAT_CITY);
+            String flatState = data.getStringExtra(Constants.FLAT_STATE);
+            String flatPinCode = data.getStringExtra(Constants.FLAT_PIN_CODE);
+            String flatPhone = data.getStringExtra(Constants.FLAT_PHONE);
 
-        if(id == R.id.button_add_address) {
+            SpannableString spannableString = new SpannableString(tag);
+            spannableString.setSpan(new UnderlineSpan(),0,tag.length(),0);
 
-            Intent intent = new Intent(this,FillAddressActivity.class);
-            startActivityForResult(intent,STATUS);
+            tagText.setText(spannableString);
+            address.setText(flatNumber + "," + "\n" + flatStreet + "," + "\n" + flatArea + "," + "\n" + flatCity + "," + "\n" + flatState + " - " + flatPinCode + "," + "\n" + flatPhone);
 
-        } else if(id == R.id.profile_name || id == R.id.phone_profile){
-
-            dialog = new Dialog(v.getContext());
-            handler = new DialogHandler();
-            dialog.setContentView(R.layout.popup);
-            input = (EditText) dialog.findViewById(R.id.input_popup);
-            cancel = (TextView) dialog.findViewById(R.id.cancel_popup);
-            cancel.setOnClickListener(handler);
-            confirm = (TextView) dialog.findViewById(R.id.confirm_popup);
-            confirm.setOnClickListener(handler);
-            popup_text = (TextView) dialog.findViewById(R.id.text_popup);
-            dialog.getWindow().setLayout((int) (width * 0.8), height);
-            if(id == R.id.profile_name){
-                popup_text.setText("Enter your name");
-                input.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-            } else {
-                popup_text.setText("Enter your phone number");
-                input.setInputType(InputType.TYPE_CLASS_PHONE);
-            }
-            dialog.show();
-        }
-    }
-
-    public class DialogHandler implements View.OnClickListener{
-
-        @Override
-        public void onClick(View v) {
-            if(v.getId() == R.id.cancel_popup){
-                dialog.dismiss();
-            }
-            else{
-                if(input.getInputType()==InputType.TYPE_TEXT_VARIATION_PERSON_NAME) {
-                    name.setText(input.getText().toString());
-                }
-                else{
-                    phone.setText(input.getText().toString());
-                }
-                dialog.dismiss();
-            }
+            addressLayout.addView(view);
         }
     }
 }

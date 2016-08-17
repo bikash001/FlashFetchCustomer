@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.buyer.flashfetch.Constants.URLConstants;
+import com.buyer.flashfetch.DeliveryActivity;
 import com.buyer.flashfetch.Helper.DatabaseHelper;
 import com.buyer.flashfetch.Interfaces.UIListener;
 import com.buyer.flashfetch.Interfaces.UIResponseListener;
@@ -33,11 +34,12 @@ import java.util.ArrayList;
  */
 public class ServiceManager {
 
-    public static UserSignUpTask userSignUpTask;
-    public static UserLoginTask userLoginTask;
-    public static ProductFetchTask productFetchTask;
-    public static BargainTask bargainTask;
-    public static QuoteBargainTask quoteBargainTask;
+    public static UserSignUpTask userSignUpTask = null;
+    public static UserLoginTask userLoginTask = null;
+    public static ProductFetchTask productFetchTask = null;
+    public static BargainTask bargainTask = null;
+    public static QuoteBargainTask quoteBargainTask = null;
+    public static PlaceOrderTask placeOrderTask = null;
 
     public static void callUserRegisterService(Context context, SignUpObject signUpObject, final UIListener uiListener){
 
@@ -227,12 +229,22 @@ public class ServiceManager {
             try {
                 JSONObject data = response.getJSONObject("data");
 
-                ProductDetailsResponse productDetailsResponse = new Gson().fromJson(data.toString(),ProductDetailsResponse.class);
-                uiResponseListener.onSuccess(productDetailsResponse);
+                if (data.getInt("result") == 1) {
+                    ProductDetailsResponse productDetailsResponse = new Gson().fromJson(data.toString(), ProductDetailsResponse.class);
+                    uiResponseListener.onSuccess(productDetailsResponse);
+                }else {
+                    uiResponseListener.onFailure();
+                }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            uiResponseListener.onCancelled();
         }
     }
 
@@ -312,7 +324,7 @@ public class ServiceManager {
 
     public static void callQuoteBargainService(Context context, Quote quote, String bargainPrice, final UIListener uiListener){
 
-        QuoteBargainTask quoteBargainTask = new QuoteBargainTask(context,quote,bargainPrice,uiListener);
+        quoteBargainTask = new QuoteBargainTask(context,quote,bargainPrice,uiListener);
         quoteBargainTask.execute();
     }
 
@@ -375,5 +387,63 @@ public class ServiceManager {
             super.onCancelled();
             uiListener.onCancelled();
         }
+    }
+
+    public static void callPlaceOrderService(Context context, int deliveryType, String qId, final UIListener uiListener){
+
+        placeOrderTask = new PlaceOrderTask(context,deliveryType,qId,uiListener);
+        placeOrderTask.execute();
+    }
+
+    public static class PlaceOrderTask extends AsyncTask<Void, Void, Boolean> {
+
+        private JSONObject response;
+        private Context context;
+        private int deliveryType;
+        private String qId;
+        private UIListener uiListener;
+
+        public PlaceOrderTask(Context context, int deliveryType, String qId, final UIListener uiListener){
+
+            this.context = context;
+            this.deliveryType = deliveryType;
+            this.qId = qId;
+            this.uiListener = uiListener;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            ArrayList<PostParam> postParams = new ArrayList<>();
+
+            postParams.add(new PostParam("Sel_id",qId));
+            postParams.add(new PostParam("delivery",Integer.toString(deliveryType)));
+            postParams.add(new PostParam("token", UserProfile.getToken(context)));
+            postParams.add(new PostParam("email",UserProfile.getEmail(context)));
+
+            response = PostRequest.execute(URLConstants.URL_PLACE_ORDER, postParams, null);
+
+            Log.d("RESPONSE", response.toString());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+
+            try {
+                if (response.getJSONObject("data").getInt("result") == 1){
+                    ContentValues cv= new ContentValues();
+
+                    cv.put("cuscon",1);
+                    cv.put("del",deliveryType);
+
+                    DatabaseHelper dh = new DatabaseHelper(context);
+                    dh.updateQuote(qId,cv);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

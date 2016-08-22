@@ -44,12 +44,14 @@ public class RegisterActivity extends BaseActivity {
             getSupportActionBar().setHomeButtonEnabled(true);
         }
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        if (toolbar != null) {
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+        }
 
         progressDialog = getProgressDialog(context);
 
@@ -165,7 +167,7 @@ public class RegisterActivity extends BaseActivity {
                     @Override
                     public void onConnectionError() {
                         progressDialog.dismiss();
-                        Toast.makeText(RegisterActivity.this,"Server is not working",Toast.LENGTH_LONG).show();
+                        Toasts.serverBusyToast(context);
                     }
 
                     @Override

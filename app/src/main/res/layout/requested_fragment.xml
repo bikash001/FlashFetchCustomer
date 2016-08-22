@@ -7,15 +7,14 @@
     android:orientation="vertical"
     android:background="#d5d6d9">
 
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:id="@+id/requestedtext"-->
-        <!--android:gravity="center|center_horizontal"-->
-        <!--android:padding="16dp"-->
-        <!--android:textSize="14sp"-->
-        <!--android:visibility="gone"-->
-        <!--android:text="No requests yet!! They are on the way!\nMeanwhile, check out the demo to get familiar with the app features."/>-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/no_requests_text"
+        android:gravity="center|center_horizontal"
+        android:padding="16dp"
+        android:textSize="14sp"
+        android:visibility="gone" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh_container"

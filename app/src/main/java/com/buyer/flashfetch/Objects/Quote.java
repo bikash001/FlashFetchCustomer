@@ -35,7 +35,7 @@ public class Quote implements Serializable{
         }
     }*/
 
-    public static String[] columns = {"id", "qid","name", "qprice", "type", "deltype","comment","lat","long","distance","bargained","bgprice","bgexptime","selcon","cuscon","del","expTime","cat"};
+    public static String[] columns = {"productId", "quoteId","productName", "quotePrice", "productType", "sellerDeliveryOptions","buyerDeliveryType","comments","latitude","longitude","distance","bargained","bgprice","bgexptime","selcon","cuscon","expTime","cat"};
 
     public Quote(String id, String qid ,String name, String qprice, int type, int deltype, String comment, float lat, float longt, String distance, int bargained, String bgprice, long bgexptime, int selcon, int cuscon, int del) {
         this.id = id;

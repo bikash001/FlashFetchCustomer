@@ -1,7 +1,6 @@
 package com.buyer.flashfetch;
 
 import android.app.ProgressDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,9 +12,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.buyer.flashfetch.CommonUtils.Utils;
 import com.buyer.flashfetch.Constants.Constants;
 import com.buyer.flashfetch.Interfaces.UIListener;
@@ -28,7 +28,7 @@ import java.util.Calendar;
 /**
  * Created by KRANTHI on 08-08-2016.
  */
-public class PlaceRequestActivity extends BaseActivity {
+public class PlaceRequestActivity extends BaseActivity implements TimePickerDialog.OnTimeSetListener{
 
     private Context context;
     private ProgressDialog progressDialog;
@@ -69,60 +69,70 @@ public class PlaceRequestActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-                finish();
-            }
-        });
+        if (toolbar != null) {
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                    finish();
+                }
+            });
+        }
 
         setTimeButton = (TextView)findViewById(R.id.place_request_time);
         placeRequestButton = (Button)findViewById(R.id.place_request_button);
 
         Spinner spinner = (Spinner)findViewById(R.id.places_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.places_array, android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                customerLocation = places[adapterView.getSelectedItemPosition()];
-            }
+        if (spinner != null) {
+            spinner.setAdapter(adapter);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    customerLocation = places[adapterView.getSelectedItemPosition()];
+                }
 
-            }
-        });
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+        }
 
         setTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
                 int hour = calendar.get(Calendar.HOUR_OF_DAY);
                 int minute = calendar.get(Calendar.MINUTE);
 
-                if(hour < 10 || hour <= 20){
+                if(hour < 10 || hour >= 21){
                     hour = 11;
                     minute = 0;
                 }else{
                     hour = hour + 1;
                 }
 
-                TimePickerDialog timePickerDialog = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        Toast.makeText(context,"You have set to receive offers before" + selectedHour + ": " + selectedMinute,Toast.LENGTH_SHORT).show();
-                    }
-                },hour,minute,false);
+                TimePickerDialog timePickerDialog = TimePickerDialog.newInstance((TimePickerDialog.OnTimeSetListener) context,hour,minute,true);
+
+                if(hour < 10 || hour >= 21){
+                    timePickerDialog.setMinTime(hour,minute,0);
+                }else{
+                   timePickerDialog.setMinTime(hour,minute,0);
+                }
 
                 timePickerDialog.setTitle("Select Time");
-                timePickerDialog.show();
+                timePickerDialog.setOkText("OK");
+                timePickerDialog.setCancelText("CANCEL");
+                timePickerDialog.show(getFragmentManager(),"TIME_PICKER_DIALOG");
             }
         });
-
 
         placeRequestButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,7 +149,7 @@ public class PlaceRequestActivity extends BaseActivity {
                     bargainObject.setProductCategory(productCategory);
                     //TODO: need to set this
                     bargainObject.setExpiryTime("");
-                    bargainObject.setCustomerName("");
+                    bargainObject.setCustomerName(UserProfile.getName(context));
                     bargainObject.setCustomerLocation(customerLocation);
                     bargainObject.setCustomerEmail(UserProfile.getEmail(context));
 
@@ -182,5 +192,10 @@ public class PlaceRequestActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
+        Toast.makeText(context,hourOfDay+minute+second+"",Toast.LENGTH_SHORT).show();
     }
 }

@@ -11,7 +11,7 @@ import android.widget.RatingBar;
 
 import com.buyer.flashfetch.R;
 
-public class FeedbackActivity2 extends AppCompatActivity {
+public class FeedbackActivity2 extends BaseActivity {
 
     boolean app=true,del=true,serv=true;
     @Override
@@ -21,15 +21,6 @@ public class FeedbackActivity2 extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        fab.setVisibility(View.GONE);
         RatingBar appbar=(RatingBar)findViewById(R.id.appRatingBar);
         RatingBar delbar=(RatingBar)findViewById(R.id.deliveryRatingBar);
         RatingBar servbar=(RatingBar)findViewById(R.id.serviceRatingBar);

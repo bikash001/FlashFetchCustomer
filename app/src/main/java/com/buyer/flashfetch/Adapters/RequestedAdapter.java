@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.buyer.flashfetch.Objects.Quote;
 import com.buyer.flashfetch.Objects.Request;
 import com.buyer.flashfetch.R;
 
@@ -20,6 +22,7 @@ public class RequestedAdapter extends RecyclerView.Adapter<RequestedAdapter.View
 
     private Context context;
     private ArrayList<Request> requests = new ArrayList<>();
+    private ArrayList<Quote> quotes = new ArrayList<>();
 
     public RequestedAdapter(Context context, ArrayList<Request> requests) {
 
@@ -30,7 +33,7 @@ public class RequestedAdapter extends RecyclerView.Adapter<RequestedAdapter.View
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
         public ImageView imageView;
-        public TextView productName, timer, productPrice;
+        public TextView productName, timer, productPrice, numberOfQuotes;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -39,6 +42,7 @@ public class RequestedAdapter extends RecyclerView.Adapter<RequestedAdapter.View
             productName = (TextView)itemView.findViewById(R.id.requested_product_name);
             timer = (TextView)itemView.findViewById(R.id.requested_timer);
             productPrice = (TextView)itemView.findViewById(R.id.requested_price);
+            numberOfQuotes = (TextView)itemView.findViewById(R.id.requested_quote_number);
         }
     }
 
@@ -50,11 +54,18 @@ public class RequestedAdapter extends RecyclerView.Adapter<RequestedAdapter.View
 
     @Override
     public void onBindViewHolder(RequestedAdapter.ViewHolder holder, int position) {
+        Request request = requests.get(position);
 
+        Glide.with(context).load(request.imageURL).centerCrop().into(holder.imageView);
+
+        holder.productName.setText(request.productName);
+        holder.productPrice.setText(request.productPrice);
+        //TODO: set timer and no of quotes here
     }
 
     @Override
     public int getItemCount() {
+        //TODO: change this
 //        return requests.size();
         return 1;
     }

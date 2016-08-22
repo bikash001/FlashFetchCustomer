@@ -60,10 +60,6 @@ public class OfferNearByActivity extends BaseActivity {
         tabLayout = (TabLayout)findViewById(R.id.deal_nearby_tab_layout);
         viewPager = (ViewPager)findViewById(R.id.deals_nearby_view_pager);
 
-        if(tabLayout != null){
-            tabLayout.setTabTextColors(R.color.ff_black,R.color.ff_green);
-        }
-
         if (viewPager != null) {
             viewPager.setAdapter(dealsViewPagerAdapter);
             viewPager.setPageTransformer(false,new ZoomOutPageTransformer());

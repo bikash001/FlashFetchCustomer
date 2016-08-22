@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/notif_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="16dp"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/notifications_heading"
+                    android:text="Sunny Side Up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
+                    android:id="@+id/notifications_description"
+                    android:text="Flat 40% Cashback today | Code : SUNNY | Experience a Culinary Delight"
+                    android:layout_marginRight="32dp"
+                    android:lineSpacingExtra="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:maxLines="4"/>
+
+                <TextView
+                    android:id="@+id/notifications_timer"
+                    android:text="4 hours ago"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/notifications_image_view"
+            android:src="@drawable/notif_image"
+            android:layout_width="match_parent"
+            android:layout_height="225dp" />
+
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+

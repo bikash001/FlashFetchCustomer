@@ -18,7 +18,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class FeedbackActivity1 extends AppCompatActivity {
+public class FeedbackActivity1 extends BaseActivity {
 
     private Context context;
     ImageButton sad,happy,neutral;
@@ -38,10 +38,8 @@ public class FeedbackActivity1 extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        toolbar.setTitle("Tell Us About your Delivery Experience");
-
         if(getSupportActionBar() != null){
-
+            getSupportActionBar().setTitle("Tell Us About your Delivery Experience");
         }
 
         Display display = getWindowManager().getDefaultDisplay();

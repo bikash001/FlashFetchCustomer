@@ -19,14 +19,6 @@ import com.buyer.flashfetch.MainActivity;
 import com.buyer.flashfetch.R;
 import com.google.android.gms.gcm.GcmListenerService;
 
-/*
-
-*
- * Created by kevin selva prasanna on 24-Aug-15.
-
-*/
-
-
 public class IE_GCMListenerService extends GcmListenerService {
 
     private static final String TAG = "GCMListenerService";
@@ -110,5 +102,4 @@ public class IE_GCMListenerService extends GcmListenerService {
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify((int) (Math.random() * 1000), notificationBuilder.build());
     }
-
 }

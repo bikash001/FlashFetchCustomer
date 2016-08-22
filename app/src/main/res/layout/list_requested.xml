@@ -102,16 +102,30 @@
                         android:text="More Details"
                         android:textColor="#fff" />
 
-                    <TextView
-                        android:id="@+id/requested_quote"
+                    <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="#0bc6a0"
                         android:gravity="center_horizontal"
-                        android:padding="5dp"
-                        android:text="Quotes"
-                        android:textColor="#fff" />
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/requested_quote"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="Quotes"
+                            android:textColor="#fff" />
+
+                        <TextView
+                            android:id="@+id/requested_quote_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="(5)"
+                            android:textColor="#fff" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

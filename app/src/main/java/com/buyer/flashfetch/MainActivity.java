@@ -1,39 +1,42 @@
 package com.buyer.flashfetch;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.buyer.flashfetch.Adapters.RequestsPagerAdapter;
-import com.buyer.flashfetch.Animations.DepthPageTransformer;
 import com.buyer.flashfetch.Animations.ZoomOutPageTransformer;
 import com.buyer.flashfetch.CommonUtils.Utils;
 import com.buyer.flashfetch.Constants.Constants;
 import com.buyer.flashfetch.Objects.UserProfile;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String TAG = "MainActivity";
     private Context context;
     private ViewPager mViewPager;
     private TabLayout tabLayout;
     private TextView personName, personEmail;
+    private int numberOfVisits;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         context = MainActivity.this;
 
         Utils.startPlayServices(this);
+
+        numberOfVisits = UserProfile.getVisits(context);
+        numberOfVisits++;
+        UserProfile.setVisits(numberOfVisits,context);
 
         setContentView(R.layout.activity_main2);
 
@@ -54,9 +61,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportActionBar().setHomeButtonEnabled(true);
         }
 
+        if (toolbar != null) {
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                }
+            });
+        }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
+        drawer.closeDrawers();
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -79,6 +96,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mViewPager.setAdapter(requestsPagerAdapter);
             mViewPager.setPageTransformer(false,new ZoomOutPageTransformer());
             tabLayout.setupWithViewPager(mViewPager);
+        }
+
+        if(numberOfVisits == 5){
+
+            View view = getLayoutInflater().inflate(R.layout.experience_layout,null);
+
+            final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setView(view);
+
+            ImageView imageView = (ImageView)view.findViewById(R.id.experience_clear_button);
+            ImageView sadImageView = (ImageView)view.findViewById(R.id.experience_sad);
+            ImageView neutralImageView = (ImageView)view.findViewById(R.id.experience_neutral);
+            ImageView happyImageView = (ImageView)view.findViewById(R.id.experience_happy);
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alertDialog.dismiss();
+                }
+            });
+
+            sadImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alertDialog.dismiss();
+                }
+            });
+
+            neutralImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alertDialog.dismiss();
+                }
+            });
+
+            happyImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alertDialog.dismiss();
+                }
+            });
+
+            alertDialog = builder.create();
+            alertDialog.show();
         }
     }
 

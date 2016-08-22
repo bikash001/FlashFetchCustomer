@@ -9,6 +9,13 @@ public class UserProfile {
     public static String name,email,token,text;
     public static int category;
 
+    public static void setVisits(int visits, Context context){
+        SharedPreferences preferences = context.getSharedPreferences("sp", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("visits", visits);
+        editor.commit();
+    }
+
     public static void setName(String name, Context context){
         SharedPreferences preferences = context.getSharedPreferences("sp", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -91,6 +98,10 @@ public class UserProfile {
         editor.commit();
     }
 
+    public static int getVisits(Context context){
+        SharedPreferences pref = context.getSharedPreferences("sp", Context.MODE_PRIVATE);
+        return pref.getInt("visits", 0);
+    }
 
     public static String getName(Context context) {
         SharedPreferences pref = context.getSharedPreferences("sp", Context.MODE_PRIVATE);

@@ -13,7 +13,10 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import com.buyer.flashfetch.Adapters.RequestedAdapter;
+import com.buyer.flashfetch.Helper.DatabaseHelper;
 import com.buyer.flashfetch.Objects.Request;
 import com.buyer.flashfetch.R;
 
@@ -27,6 +30,9 @@ public class Requested extends Fragment {
     private RequestedAdapter requestedDealsAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Request> requests;
+    private TextView noRequestText;
+
+    private static int numberOfRequests = -1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,8 @@ public class Requested extends Fragment {
         View view = inflater.inflate(R.layout.requested_fragment,container,false);
 
         context = getActivity();
+
+        requests = Request.getAllRequests(context);
 
         swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refresh_container);
 
@@ -73,28 +81,20 @@ public class Requested extends Fragment {
         recyclerView = (RecyclerView)view.findViewById(R.id.requested_requests);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         layoutManager = new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
-
         recyclerView.setLayoutManager(layoutManager);
 
         requestedDealsAdapter = new RequestedAdapter(context, requests);
 
         recyclerView.setAdapter(requestedDealsAdapter);
 
-//        if(isAccessed){
-//            if (requestedDealsAdapter.getItemCount() == 0) {
-//                reqText.setVisibility(View.VISIBLE);
-//                noOfRequests = 0;
-//            }else if (requestedDealsAdapter.getItemCount() == 1) {
-//                reqText.setText("No request yet!! They are on its way!");
-//                reqText.setVisibility(View.VISIBLE);
-//                noOfRequests = 1;
-//            }else{
-//                recyclerView.setVisibility(View.VISIBLE);
-//            }
-//        }else{
-//            reqText.setVisibility(View.VISIBLE);
-//            reqText.setText("You will receive product requests after FlashFetch Buyer App is launched. Meanwhile get familiarized with the features of your App. Stay tuned!");
-//        }
+        noRequestText = (TextView)view.findViewById(R.id.no_requests_text);
+
+        if(requests.size() == 0){
+            //TODO: need to edit
+            noRequestText.setText("Test");
+            noRequestText.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setVisibility(View.GONE);
+        }
         return view;
     }
 }

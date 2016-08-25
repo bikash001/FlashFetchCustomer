@@ -37,7 +37,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
             imageView = (ImageView)itemView.findViewById(R.id.notifications_image_view);
             heading = (TextView)itemView.findViewById(R.id.notifications_heading);
-            description = (TextView)itemView.findViewById(R.id.notifications_heading);
+            description = (TextView)itemView.findViewById(R.id.notifications_description);
             timer = (TextView)itemView.findViewById(R.id.notifications_timer);
         }
     }
@@ -52,7 +52,12 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         Notification notification = notificationArrayList.get(position);
 
-        Glide.with(context).load(notification.getImageURL()).centerCrop().into(holder.imageView);
+        if(notification.getImageURL() != null){
+            Glide.with(context).load(notification.getImageURL()).centerCrop().into(holder.imageView);
+        }else{
+            holder.imageView.setVisibility(View.GONE);
+        }
+
         holder.heading.setText(notification.getHeading());
         holder.description.setText(notification.getDescription());
 
@@ -63,7 +68,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         if(difference < 60){
             holder.timer.setText(difference + "ago");
         }else{
-            holder.timer.setText((difference%60) + "ago");
+            holder.timer.setText((difference/60) + "ago");
         }
     }
 

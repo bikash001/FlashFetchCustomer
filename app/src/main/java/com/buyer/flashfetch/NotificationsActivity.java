@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.buyer.flashfetch.Adapters.NotificationsAdapter;
+import com.buyer.flashfetch.Objects.Notification;
 
 /**
  * Created by KRANTHI on 21-08-2016.
@@ -47,7 +48,7 @@ public class NotificationsActivity extends BaseActivity{
             });
         }
 
-//        notificationsAdapter = new NotificationsAdapter(context,)
+        notificationsAdapter = new NotificationsAdapter(context, Notification.getAllNotifications(context));
 
         recyclerView = (RecyclerView)findViewById(R.id.notifications_recycler_view);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

@@ -5,6 +5,16 @@ package com.buyer.flashfetch.Constants;
  */
 public class Constants {
 
+    // social media URL's
+
+    public static String FACEBOOK_URL = "https://www.facebook.com/Flashfetch-140606842997095/";
+
+    public static String TWITTER_URL = "https://twitter.com/flashfetch";
+
+    public static String CONTACT_US = "+919940126973";
+
+    // product constants
+
     public static final String PRODUCT_NAME = "productName";
 
     public static final String PRODUCT_PRICE = "productPrice";
@@ -45,17 +55,17 @@ public class Constants {
 
     public static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
-    // delivery constants
+    // seller delivery options
 
-    public static final int HOME_DELIVERY = 99;
+    public static final int SELLER_HOME_DELIVERY = 99;
 
-    public static final int SHOP_VISIT = 100;
+    public static final int SELLER_SHOP_VISIT = 100;
 
-    // social media URL's
+    // buyer delivery options
 
-    public static String FACEBOOK_URL = "https://www.facebook.com/Flashfetch-140606842997095/";
+    public static final int DELIVERY_BY_SELLER = 101;
 
-    public static String TWITTER_URL = "https://twitter.com/flashfetch";
+    public static final int DELIVERY_BY_FLASH_FETCH = 102;
 
-    public static String CONTACT_US = "+919940126973";
+    public static final int BUYER_PICKUP = 103;
 }

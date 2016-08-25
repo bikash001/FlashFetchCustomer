@@ -17,105 +17,65 @@ public class Quote implements Serializable{
 
     public static final String TABLE_NAME = "Quotes" ;
 
-    public String id,qid,qprice,comment,bgprice,name,distance;
-    public long expTime,cat,bgexptime;
-    Boolean valid_layout;
-    public int type,deltype,bargained,cuscon,selcon,del;
-    public float lat,longt;
+    public String productId;
+    public String quoteId;
+    public String productName;
+    public String comments;
+    public String sellerName;
+    public long productCategory;
+    public long bargainExpTime;
+    public int bargainPrice;
+    public int quotePrice;
+    public int productType;
+    public int buyerDeliveryType;
+    public int sellerDeliveryOptions;
+    public boolean sellerConfirmation;
+    public boolean customerConfirmation;
+    public boolean bargained;
+    public float latitude;
+    public float longitude;
 
-   /* public Quote(JSONObject not) {
-        try {
-            this.pname = not.getString("email");
-            this.pprice = not.getString("price");
-            this.cat = not.getInt("category");
-            this.exptime = not.getLong("time");
-            this.id = not.getString("id");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }*/
+    public static String[] columns = {"quoteId","productId","productName","productCategory","productType","quotePrice","sellerDeliveryOptions",
+            "buyerDeliveryType","comments","latitude","longitude","bargained","bargainPrice","bargainExpTime",
+            "sellerConfirmation","customerConfirmation"};
 
-    public static String[] columns = {"productId", "quoteId","productName", "quotePrice", "productType", "sellerDeliveryOptions","buyerDeliveryType","comments","latitude","longitude","distance","bargained","bgprice","bgexptime","selcon","cuscon","expTime","cat"};
-
-    public Quote(String id, String qid ,String name, String qprice, int type, int deltype, String comment, float lat, float longt, String distance, int bargained, String bgprice, long bgexptime, int selcon, int cuscon, int del) {
-        this.id = id;
-        this.qid = qid;
-        this.valid_layout = true;
-        this.qprice = qprice;
-        this.type = type;
-        this.deltype = deltype;
-        this.comment = comment;
-        this.lat = lat;
-        this.longt = longt;
-        this.distance = distance;
+    public Quote(String quoteId, String productId, String productName, long productCategory, int productType,int quotePrice, String sellerName, int sellerDeliveryOptions,
+                    int buyerDeliveryType, String comments, float latitude, float longitude,
+                        boolean bargained, int bargainPrice, long bargainExpTime, boolean sellerConfirmation, boolean customerConfirmation) {
+        this.quoteId = quoteId;
+        this.productId = productId;
+        this.productName = productName;
+        this.productCategory = productCategory;
+        this.productType = productType;
+        this.quotePrice = quotePrice;
+        this.sellerName = sellerName;
+        this.sellerDeliveryOptions = sellerDeliveryOptions;
+        this.buyerDeliveryType = buyerDeliveryType;
+        this.comments = comments;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.bargained = bargained;
-        this.bgprice = bgprice;
-        this.bgexptime = bgexptime;
-        this.selcon = selcon;
-        this.cuscon = cuscon;
-        this.del = del;
-    }
-
-    protected Quote(Parcel in) {
-        id = in.readString();
-        qid = in.readString();
-        qprice = in.readString();
-        comment = in.readString();
-        bgprice = in.readString();
-        name = in.readString();
-        distance = in.readString();
-        expTime = in.readLong();
-        cat = in.readLong();
-        bgexptime = in.readLong();
-        type = in.readInt();
-        deltype = in.readInt();
-        bargained = in.readInt();
-        cuscon = in.readInt();
-        selcon = in.readInt();
-        del = in.readInt();
-        lat = in.readFloat();
-        longt = in.readFloat();
-    }
-
-    public void setValid(boolean t){
-        valid_layout = t;
-    }
-    public boolean getValid(){
-        return valid_layout;
+        this.bargainPrice = bargainPrice;
+        this.bargainExpTime = bargainExpTime;
+        this.sellerConfirmation = sellerConfirmation;
+        this.customerConfirmation = customerConfirmation;
     }
 
     public static ArrayList<Quote> getArrayList(Cursor c) {
         ArrayList<Quote> arrayList = new ArrayList<>();
-
         while (c.moveToNext()) {
             arrayList.add(parseEvent(c));
         }
         return arrayList;
     }
 
-    public static ArrayList<Quote> getAllQuotes(Context context, String id){
+    public static ArrayList<Quote> getAllQuotes(Context context, String productId){
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
-        return databaseHelper.getAllQuotes(id);
+        return databaseHelper.getAllQuotes(productId);
     }
 
     public static Quote parseEvent(Cursor c) {
-        Quote quote = new Quote(c.getString(0), c.getString(1), c.getString(2),c.getString(3), c.getInt(4),c.getInt(5),c.getString(6),c.getFloat(7),c.getFloat(8), c.getString(9),c.getInt(10),c.getString(11),c.getLong(12),c.getInt(13),c.getInt(14),c.getInt(15));
+        Quote quote = new Quote(c.getString(0), c.getString(1), c.getString(2),c.getLong(3), c.getInt(4),c.getInt(5),c.getString(6),c.getInt(7),c.getInt(8),c.getString(9), c.getFloat(10),c.getFloat(11),(c.getInt(12) == 1),c.getInt(13),c.getInt(14),(c.getInt(15) == 1),(c.getInt(16) == 1));
         return quote;
-    }
-
-    public float getLat(){
-        return lat;
-    }
-
-    public float getLongt(){
-        return longt;
-    }
-
-    public String getQPrice(){
-        return qprice;
-    }
-
-    public String getDistance(){
-        return distance;
     }
 }

@@ -1,14 +1,11 @@
 package com.buyer.flashfetch;
 
 import android.app.ProgressDialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -20,18 +17,8 @@ import android.widget.Toast;
 import com.buyer.flashfetch.CommonUtils.Toasts;
 import com.buyer.flashfetch.CommonUtils.Utils;
 import com.buyer.flashfetch.Constants.Constants;
-import com.buyer.flashfetch.Helper.DatabaseHelper;
 import com.buyer.flashfetch.Interfaces.UIListener;
-import com.buyer.flashfetch.Network.PostRequest;
 import com.buyer.flashfetch.Network.ServiceManager;
-import com.buyer.flashfetch.Objects.PostParam;
-import com.buyer.flashfetch.Objects.Quote;
-import com.buyer.flashfetch.Objects.UserProfile;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 public class DeliveryActivity extends BaseActivity {
 
@@ -124,7 +111,7 @@ public class DeliveryActivity extends BaseActivity {
                 lDeliveryPrice.setVisibility(View.GONE);
                 lWallet.setVisibility(View.GONE);
 
-                delivery = Constants.SHOP_VISIT;
+                delivery = Constants.SELLER_SHOP_VISIT;
             }
         });
 
@@ -145,7 +132,7 @@ public class DeliveryActivity extends BaseActivity {
                 lDeliveryPrice.setVisibility(View.VISIBLE);
                 lWallet.setVisibility(View.VISIBLE);
 
-                delivery = Constants.HOME_DELIVERY;
+                delivery = Constants.SELLER_HOME_DELIVERY;
             }
         });
 

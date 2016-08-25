@@ -39,6 +39,7 @@ public class IE_GCMListenerService extends GcmListenerService {
         if (data.getInt("bargained") == 1) {
 
             ContentValues cv = new ContentValues();
+
             cv.put("selcon", data.getInt("selcon"));
             cv.put("cuscon", data.getInt("cuscon"));
             cv.put("qid", data.getString("selid"));
@@ -47,16 +48,17 @@ public class IE_GCMListenerService extends GcmListenerService {
             dh.updateQuote(data.getString("id"), cv);
 
             sendNotification("Bargain", "bargain");
-        } else {
+        } else if(data.getInt("quoted") == 1){
             Log.d("gcm", "GCM MESSAGE : " + data.toString());
 
             ContentValues cv = new ContentValues();
-            cv.put("id", data.getString("cus_id"));
-            cv.put("qid", data.getString("sel_id"));
-            cv.put("qprice", data.getString("qprice"));
-            cv.put("type", data.getString("prtype"));
+
+            cv.put("quoteId", data.getString("sel_id"));
+            cv.put("productId", data.getString("cus_id"));
+            cv.put("quotePrice", data.getString("qprice"));
+            cv.put("productType", data.getString("prtype"));
             cv.put("deltype", data.getString("deltype"));
-            cv.put("comment", data.getString("comment"));
+            cv.put("comments", data.getString("comment"));
             cv.put("lat", data.getString("lat"));
             cv.put("long", data.getString("lon"));
             cv.put("distance", data.getString("distance"));

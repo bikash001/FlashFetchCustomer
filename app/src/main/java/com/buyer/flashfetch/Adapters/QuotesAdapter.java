@@ -54,20 +54,8 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
             bargainButton = (TextView) itemView.findViewById(R.id.bargain);
             acceptButton = (TextView) itemView.findViewById(R.id.accept);
 
-
             // tt = new TimerClass(0,15,timer);
             //tt.start();
-        }
-
-        public void changeView(int pos) {
-            int n = getItemCount();
-            for (int i = 0; i < pos; i++) {
-                quoteList.get(i).setValid(false);
-            }
-            for (int i = pos + 1; i < n; i++) {
-                quoteList.get(i).setValid(false);
-            }
-            notifyDataSetChanged();
         }
     }
 
@@ -77,24 +65,18 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
         return new ViewHolder(view);
     }
 
-    public void removeAt(int position) {
-        quoteList.remove(position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position, quoteList.size());
-    }
-
     @Override
     public void onBindViewHolder(final QuotesAdapter.ViewHolder holder, int position) {
 
         Quote quote = quoteList.get(position);
 
-        holder.sellerName.setText(quote.name);
+        holder.sellerName.setText(quote.sellerName);
         //holder.timer.setText(object.);
-        holder.distance.setText(quote.distance);
-        holder.productPrice.setText(quote.qprice);
-        holder.bargained = quote.bargained > 0;
+//        holder.distance.setText(quote.distance);
+        holder.productPrice.setText(quote.quotePrice);
+        holder.bargained = quote.bargained;
 
-        if (quote.selcon > 0) {
+        if (quote.sellerConfirmation) {
             holder.distance.setText("bargain accepted");
             holder.bargainButton.setVisibility(View.GONE);
         }

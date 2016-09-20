@@ -15,11 +15,11 @@ import com.buyer.flashfetch.Fragments.NearByDealsFragment;
 
 import java.util.ArrayList;
 
-public class OfferNearByActivity extends BaseActivity {
+public class DealsNearByActivity extends BaseActivity {
 
     private static final String TAG = "OfferNearByActivity";
 
-    public static int TAB_TRENDING = 1000;
+//    public static int TAB_TRENDING = 1000;
     public static int TAB_SHOPPING = 1001;
     public static int TAB_FOOD = 1002;
     public static int TAB_ENTERTAINMENT = 1003;
@@ -42,8 +42,8 @@ public class OfferNearByActivity extends BaseActivity {
 
         if(getSupportActionBar() != null) {
             getSupportActionBar().setTitle("NearBy Deals");
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            getSupportActionBar().setHomeButtonEnabled(true);
         }
 
         if (toolbar != null) {
@@ -68,7 +68,7 @@ public class OfferNearByActivity extends BaseActivity {
     }
 
     private void setUpDataModel() {
-        String[] tabTitles = {"TRENDING","SHOPPING","FOOD","ENTERTAINMENT","SERVICES"};
+        String[] tabTitles = {"SHOPPING","FOOD","ENTERTAINMENT","SERVICES"};
 
         if(viewPager != null && viewPager.getAdapter() != null){
             viewPager.removeAllViews();
@@ -76,7 +76,7 @@ public class OfferNearByActivity extends BaseActivity {
 
         ArrayList<Fragment> fragmentsList = new ArrayList<>();
 
-        fragmentsList.add(NearByDealsFragment.getInstance(TAB_TRENDING));
+//        fragmentsList.add(NearByDealsFragment.getInstance(TAB_TRENDING));
         fragmentsList.add(NearByDealsFragment.getInstance(TAB_SHOPPING));
         fragmentsList.add(NearByDealsFragment.getInstance(TAB_FOOD));
         fragmentsList.add(NearByDealsFragment.getInstance(TAB_ENTERTAINMENT));

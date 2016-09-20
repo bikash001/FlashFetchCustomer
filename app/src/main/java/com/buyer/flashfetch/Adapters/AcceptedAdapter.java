@@ -54,6 +54,7 @@ public class AcceptedAdapter extends RecyclerView.Adapter<AcceptedAdapter.ViewHo
     @Override
     public int getItemCount() {
 //        return requests.size();
-        return 1;
+        //TODO: edit here
+        return 0;
     }
 }

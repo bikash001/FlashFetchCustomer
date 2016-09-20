@@ -3,7 +3,6 @@ package com.buyer.flashfetch;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -165,13 +164,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         int id = item.getItemId();
 
         if (id == R.id.action_logout) {
-
-            Intent intent = new Intent(this,LoginActivity.class);
-            startActivity(intent);
-
-            //TODO: clear all databases
-
-            finish();
+            Utils.doLogout(this);
             return true;
 
         } else if (id == R.id.action_contact){
@@ -231,7 +224,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         int id = item.getItemId();
 
         if (id == R.id.nav_deals) {
-            Intent intent = new Intent(this,OfferNearByActivity.class);
+            Intent intent = new Intent(this,DealsNearByActivity.class);
             startActivity(intent);
             return true;
 
@@ -245,7 +238,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             return true;
 
         } else if (id == R.id.nav_notification) {
-
+            Intent intent = new Intent(this,NotificationsActivity.class);
+            startActivity(intent);
+            return true;
         } else if (id == R.id.nav_refer) {
             Intent intent = new Intent(this,ReferAndEarn.class);
             startActivity(intent);

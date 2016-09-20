@@ -7,9 +7,10 @@ import java.io.Serializable;
  */
 public class NearByDealsDataModel implements Serializable {
 
-    private String shopName,imageUrl,shopDistance,itemDescription;
+    private String shopName, imageUrl, itemHeading, itemCode, itemDescription, shopLocation, validFrom, validTo, activateDeal, shopAddress, shopLatitude,
+            shopLongitude, productURL, productName, productSubCategory, howToAvaillDeal ;
     private boolean isDeliverable;
-    private int shopId;
+    private int shopId, dealsCategory, dealsType, quantityOrdered;
 
     public String getImageUrl() {
         return imageUrl;
@@ -25,14 +26,6 @@ public class NearByDealsDataModel implements Serializable {
 
     public void setShopName(String shopName) {
         this.shopName = shopName;
-    }
-
-    public String getShopDistance() {
-        return shopDistance;
-    }
-
-    public void setShopDistance(String shopDistance) {
-        this.shopDistance = shopDistance;
     }
 
     public String getItemDescription() {
@@ -57,5 +50,133 @@ public class NearByDealsDataModel implements Serializable {
 
     public void setShopId(int shopId) {
         this.shopId = shopId;
+    }
+
+    public int getDealsCategory() {
+        return dealsCategory;
+    }
+
+    public void setDealsCategory(int dealsCategory) {
+        this.dealsCategory = dealsCategory;
+    }
+
+    public String getItemHeading() {
+        return itemHeading;
+    }
+
+    public void setItemHeading(String itemHeading) {
+        this.itemHeading = itemHeading;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductSubCategory() {
+        return productSubCategory;
+    }
+
+    public void setProductSubCategory(String productSubCategory) {
+        this.productSubCategory = productSubCategory;
+    }
+
+    public String getShopLocation() {
+        return shopLocation;
+    }
+
+    public void setShopLocation(String shopLocation) {
+        this.shopLocation = shopLocation;
+    }
+
+    public String getValidFrom() {
+        return validFrom;
+    }
+
+    public void setValidFrom(String validFrom) {
+        this.validFrom = validFrom;
+    }
+
+    public String getValidTo() {
+        return validTo;
+    }
+
+    public void setValidTo(String validTo) {
+        this.validTo = validTo;
+    }
+
+    public String getActivateDeal() {
+        return activateDeal;
+    }
+
+    public void setActivateDeal(String activateDeal) {
+        this.activateDeal = activateDeal;
+    }
+
+    public String getShopAddress() {
+        return shopAddress;
+    }
+
+    public void setShopAddress(String shopAddress) {
+        this.shopAddress = shopAddress;
+    }
+
+    public String getShopLatitude() {
+        return shopLatitude;
+    }
+
+    public void setShopLatitude(String shopLatitude) {
+        this.shopLatitude = shopLatitude;
+    }
+
+    public String getProductURL() {
+        return productURL;
+    }
+
+    public void setProductURL(String productURL) {
+        this.productURL = productURL;
+    }
+
+    public String getShopLongitude() {
+        return shopLongitude;
+    }
+
+    public void setShopLongitude(String shopLongitude) {
+        this.shopLongitude = shopLongitude;
+    }
+
+    public int getDealsType() {
+        return dealsType;
+    }
+
+    public void setDealsType(int dealsType) {
+        this.dealsType = dealsType;
+    }
+
+    public int getQuantityOrdered() {
+        return quantityOrdered;
+    }
+
+    public void setQuantityOrdered(int quantityOrdered) {
+        this.quantityOrdered = quantityOrdered;
+    }
+
+    public String getItemCode() {
+        return itemCode;
+    }
+
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
+    }
+
+    public String getHowToAvaillDeal() {
+        return howToAvaillDeal;
+    }
+
+    public void setHowToAvaillDeal(String howToAvaillDeal) {
+        this.howToAvaillDeal = howToAvaillDeal;
     }
 }

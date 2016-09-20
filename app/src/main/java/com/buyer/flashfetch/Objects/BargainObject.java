@@ -5,7 +5,7 @@ package com.buyer.flashfetch.Objects;
  */
 public class BargainObject {
 
-    private String productName, productPrice, imageURL, customerLocation, customerName, token, customerEmail, expiryTime;
+    private String productName, productPrice, imageURL, customerName, token, customerEmail, expiryTime;
     private long productCategory;
 
     public String getProductName() {
@@ -38,14 +38,6 @@ public class BargainObject {
 
     public void setProductCategory(long productCategory) {
         this.productCategory = productCategory;
-    }
-
-    public String getCustomerLocation() {
-        return customerLocation;
-    }
-
-    public void setCustomerLocation(String customerLocation) {
-        this.customerLocation = customerLocation;
     }
 
     public String getCustomerName() {

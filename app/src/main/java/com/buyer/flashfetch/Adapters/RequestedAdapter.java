@@ -67,6 +67,6 @@ public class RequestedAdapter extends RecyclerView.Adapter<RequestedAdapter.View
     public int getItemCount() {
         //TODO: change this
 //        return requests.size();
-        return 1;
+        return 0;
     }
 }

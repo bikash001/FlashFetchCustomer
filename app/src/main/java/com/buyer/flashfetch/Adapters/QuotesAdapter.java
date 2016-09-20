@@ -1,5 +1,6 @@
 package com.buyer.flashfetch.Adapters;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
@@ -9,9 +10,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.buyer.flashfetch.Helper.DatabaseHelper;
+import com.buyer.flashfetch.Network.ServiceManager;
 import com.buyer.flashfetch.Objects.Quote;
+import com.buyer.flashfetch.Objects.Request;
 import com.buyer.flashfetch.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,9 +27,11 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
 
     private Context context;
     private List<Quote> quoteList;
+    private String productId;
 
-    public QuotesAdapter(Context context,List<Quote> quoteList) {
+    public QuotesAdapter(Context context, String productId, List<Quote> quoteList) {
         this.context = context;
+        this.productId = productId;
         this.quoteList = quoteList;
     }
 
@@ -70,10 +77,30 @@ public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.ViewHolder
 
         Quote quote = quoteList.get(position);
 
+        ArrayList<Request> requestArrayList = Request.getRequest(context, productId);
+        Request request = requestArrayList.get(0);
+
+        ServiceManager.getRoadDistance(context,Double.parseDouble(quote.quoteId),Double.parseDouble(quote.latitude),
+                Double.parseDouble(quote.longitude),Double.parseDouble(request.deliveryLatitude),Double.parseDouble(request.deliveryLongitude));
+
+        switch (quote.productType){
+            case 0:
+                if(quote.sellerDeliveryType == 0){
+                    holder.productType.setText("Same | Free Seller Delivery");
+                }else{
+                    holder.productType.setText("Same");
+                }
+                break;
+            case 1:
+                holder.productType.setText("Similar");
+                break;
+        }
+
         holder.sellerName.setText(quote.sellerName);
-        //holder.timer.setText(object.);
-//        holder.distance.setText(quote.distance);
         holder.productPrice.setText(quote.quotePrice);
+
+        holder.distance.setText(quote.distance);
+
         holder.bargained = quote.bargained;
 
         if (quote.sellerConfirmation) {

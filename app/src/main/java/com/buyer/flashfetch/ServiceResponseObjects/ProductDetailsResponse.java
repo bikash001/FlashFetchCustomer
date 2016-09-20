@@ -9,11 +9,14 @@ import com.google.gson.Gson;
  */
 public class ProductDetailsResponse implements Serializable{
 
+    @SerializedName("result")
+    public String result;
+
     @SerializedName("product")
     public String productName;
 
     @SerializedName("category")
-    public long productCategory;
+    public String productCategory;
 
     @SerializedName("price")
     public String productPrice;

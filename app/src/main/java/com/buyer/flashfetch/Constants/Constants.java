@@ -68,4 +68,20 @@ public class Constants {
     public static final int DELIVERY_BY_FLASH_FETCH = 102;
 
     public static final int BUYER_PICKUP = 103;
+
+    // deals constants
+
+    public static final int PICKUP_DEALS = 199;
+
+    public static final int INVENTORY_DEALS = PICKUP_DEALS + 1;
+
+    //product category constants
+
+    public static final int SHOPPING = 299;
+
+    public static final int FOOD = SHOPPING + 1;
+
+    public static final int ENTERTAINMENT = FOOD + 1;
+
+    public static final int SERVICES = ENTERTAINMENT + 1;
 }

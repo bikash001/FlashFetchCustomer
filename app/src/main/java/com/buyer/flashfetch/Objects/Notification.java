@@ -12,7 +12,13 @@ import java.util.ArrayList;
  */
 public class Notification {
 
-    public static String[] columns = {"notificationID","heading","description","imageURL","time"};
+    public static final String NOTIFICATION_ID = "notificationId";
+    public static final String NOTIFICATION_HEADING = "heading";
+    public static final String NOTIFICATION_DESCRIPTION = "description";
+    public static final String NOTIFICATION_IMAGE_URL = "imageURL";
+    public static final String NOTIFICATION_EXP_TIME = "time";
+
+    public static String[] columns = {"notificationId","heading","description","imageURL","time"};
     public static String TABLE_NAME = "Notifications";
 
     private int notificationId;

@@ -6,9 +6,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
-/**
- * Created by kranthikumar_b on 7/1/2016.
- */
 public class NearByDealsViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private String[] tabTitles;

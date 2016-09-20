@@ -92,7 +92,7 @@ public class QuotesActivity extends BaseActivity {
 //        View bottomSheet = findViewById(R.id.bottomSheet);
 //        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
 
-        quotesAdapter = new QuotesAdapter(context,quoteList);
+        quotesAdapter = new QuotesAdapter(context, productID, quoteList);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_quotes);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());

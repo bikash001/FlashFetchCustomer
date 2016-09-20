@@ -78,22 +78,25 @@ public class AccountInfoActivity extends BaseActivity{
             tagText = (TextView) view.findViewById(R.id.address_tag);
             address = (TextView) view.findViewById(R.id.address_content);
 
-            String tag = data.getStringExtra(Constants.FLAT_TAG);
-            String flatNumber = data.getStringExtra(Constants.FLAT_NUMBER);
-            String flatStreet = data.getStringExtra(Constants.FLAT_STREET);
-            String flatArea = data.getStringExtra(Constants.FLAT_AREA);
-            String flatCity = data.getStringExtra(Constants.FLAT_CITY);
-            String flatState = data.getStringExtra(Constants.FLAT_STATE);
-            String flatPinCode = data.getStringExtra(Constants.FLAT_PIN_CODE);
-            String flatPhone = data.getStringExtra(Constants.FLAT_PHONE);
+            if(data != null) {
+                String tag = data.getStringExtra(Constants.FLAT_TAG);
+                String flatNumber = data.getStringExtra(Constants.FLAT_NUMBER);
+                String flatStreet = data.getStringExtra(Constants.FLAT_STREET);
+                String flatArea = data.getStringExtra(Constants.FLAT_AREA);
+                String flatCity = data.getStringExtra(Constants.FLAT_CITY);
+                String flatState = data.getStringExtra(Constants.FLAT_STATE);
+                String flatPinCode = data.getStringExtra(Constants.FLAT_PIN_CODE);
+                String flatPhone = data.getStringExtra(Constants.FLAT_PHONE);
 
-            SpannableString spannableString = new SpannableString(tag);
-            spannableString.setSpan(new UnderlineSpan(),0,tag.length(),0);
+                SpannableString spannableString = new SpannableString(tag);
+                spannableString.setSpan(new UnderlineSpan(),0,tag.length(),0);
 
-            tagText.setText(spannableString);
-            address.setText(flatNumber + "," + "\n" + flatStreet + "," + "\n" + flatArea + "," + "\n" + flatCity + "," + "\n" + flatState + " - " + flatPinCode + "," + "\n" + flatPhone);
+                tagText.setText(spannableString);
+                address.setText(flatNumber + "," + "\n" + flatStreet + "," + "\n" + flatArea + "," + "\n" + flatCity + "," + "\n" + flatState + " - " + flatPinCode + "," + "\n" + flatPhone);
 
-            addressLayout.addView(view);
+                addressLayout.addView(view);
+
+            }
         }
     }
 }

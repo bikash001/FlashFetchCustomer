@@ -38,8 +38,6 @@ import com.buyer.flashfetch.Services.IE_RegistrationIntentService;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;*/
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +62,11 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         context = LoginActivity.this;
 
         if(UserProfile.getEmail(context) != ""){
-            Intent intent = new Intent(context,MainActivity.class);
+//            Intent intent = new Intent(context,MainActivity.class);
+//            startActivity(intent);
+//            finish();
+
+            Intent intent = new Intent(context, DealsNearByActivity.class);
             startActivity(intent);
             finish();
         }
@@ -164,9 +166,13 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                     public void onSuccess() {
                         progressDialog.dismiss();
 
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        intent.putExtra("LOGIN", true);
+//                        startActivity(intent);
+
+                        Intent intent = new Intent(LoginActivity.this,DealsNearByActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.putExtra("LOGIN", true);
                         startActivity(intent);
 
                         intent = new Intent(LoginActivity.this, IE_RegistrationIntentService.class);

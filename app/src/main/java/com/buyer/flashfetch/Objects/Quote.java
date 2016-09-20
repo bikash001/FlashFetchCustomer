@@ -22,26 +22,50 @@ public class Quote implements Serializable{
     public String productName;
     public String comments;
     public String sellerName;
+    public String sellerId;
+    public String distance;
     public long productCategory;
     public long bargainExpTime;
     public int bargainPrice;
     public int quotePrice;
     public int productType;
+    public int noOfBargains;
     public int buyerDeliveryType;
-    public int sellerDeliveryOptions;
+    public int sellerDeliveryType;
     public boolean sellerConfirmation;
     public boolean customerConfirmation;
     public boolean bargained;
-    public float latitude;
-    public float longitude;
+    public String latitude;
+    public String longitude;
 
-    public static String[] columns = {"quoteId","productId","productName","productCategory","productType","quotePrice","sellerDeliveryOptions",
-            "buyerDeliveryType","comments","latitude","longitude","bargained","bargainPrice","bargainExpTime",
-            "sellerConfirmation","customerConfirmation"};
+    public static final String QUOTE_ID = "quoteId";
+    public static final String PRODUCT_ID = "productId";
+    public static final String PRODUCT_NAME = "productName";
+    public static final String PRODUCT_CATEGORY = "productCategory";
+    public static final String PRODUCT_TYPE = "productType";
+    public static final String QUOTE_PRICE = "quotePrice";
+    public static final String SELLER_DELIVERY_TYPE = "sellerDeliveryType";
+    public static final String BUYER_DELIVERY_TYPE = "buyerDeliveryType";
+    public static final String COMMENTS = "comments";
+    public static final String LATITUDE = "latitude";
+    public static final String LONGITUDE = "longitude";
+    public static final String BARGAINED = "bargained";
+    public static final String BARGAIN_PRICE = "bargainPrice";
+    public static final String BARGAIN_EXP_TIME = "bargainExpTime";
+    public static final String NUMBER_OF_BARGAINS = "noOfBargains";
+    public static final String SELLER_CONFIRMATION = "sellerConfirmation";
+    public static final String BUYER_CONFIRMATION = "customerConfirmation";
+    public static final String SELLER_ID = "sellerId";
+    public static final String DISTANCE = "distance";
 
-    public Quote(String quoteId, String productId, String productName, long productCategory, int productType,int quotePrice, String sellerName, int sellerDeliveryOptions,
-                    int buyerDeliveryType, String comments, float latitude, float longitude,
-                        boolean bargained, int bargainPrice, long bargainExpTime, boolean sellerConfirmation, boolean customerConfirmation) {
+    public static String[] columns = {"quoteId","productId","productName","productCategory","productType","quotePrice","sellerDeliveryType",
+            "buyerDeliveryType","comments","latitude","longitude","bargained","bargainPrice","bargainExpTime","noOfBargains",
+            "sellerConfirmation","customerConfirmation","sellerId","distance"};
+
+    public Quote(String quoteId, String productId, String productName, long productCategory, int productType,int quotePrice,
+                    String sellerName, int sellerDeliveryType, int buyerDeliveryType, String comments, String latitude,
+                        String longitude, boolean bargained, int bargainPrice, long bargainExpTime,int noOfBargains,
+                            boolean sellerConfirmation, boolean customerConfirmation, String sellerId, String distance) {
         this.quoteId = quoteId;
         this.productId = productId;
         this.productName = productName;
@@ -49,7 +73,7 @@ public class Quote implements Serializable{
         this.productType = productType;
         this.quotePrice = quotePrice;
         this.sellerName = sellerName;
-        this.sellerDeliveryOptions = sellerDeliveryOptions;
+        this.sellerDeliveryType = sellerDeliveryType;
         this.buyerDeliveryType = buyerDeliveryType;
         this.comments = comments;
         this.latitude = latitude;
@@ -57,8 +81,11 @@ public class Quote implements Serializable{
         this.bargained = bargained;
         this.bargainPrice = bargainPrice;
         this.bargainExpTime = bargainExpTime;
+        this.noOfBargains = noOfBargains;
         this.sellerConfirmation = sellerConfirmation;
         this.customerConfirmation = customerConfirmation;
+        this.sellerId = sellerId;
+        this.distance = distance;
     }
 
     public static ArrayList<Quote> getArrayList(Cursor c) {
@@ -75,7 +102,10 @@ public class Quote implements Serializable{
     }
 
     public static Quote parseEvent(Cursor c) {
-        Quote quote = new Quote(c.getString(0), c.getString(1), c.getString(2),c.getLong(3), c.getInt(4),c.getInt(5),c.getString(6),c.getInt(7),c.getInt(8),c.getString(9), c.getFloat(10),c.getFloat(11),(c.getInt(12) == 1),c.getInt(13),c.getInt(14),(c.getInt(15) == 1),(c.getInt(16) == 1));
+        Quote quote = new Quote(String.valueOf(c.getDouble(0)), c.getString(1), c.getString(2),c.getLong(3), c.getInt(4),c.getInt(5),c.getString(6),
+                                    c.getInt(7),c.getInt(8),c.getString(9), c.getString(10),c.getString(11),(c.getInt(12) == 1),
+                                        c.getInt(13),c.getInt(14),c.getInt(15),(c.getInt(16) == 1),(c.getInt(17) == 1),
+                                            c.getString(18),c.getString(19));
         return quote;
     }
 }

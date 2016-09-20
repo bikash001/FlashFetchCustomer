@@ -21,10 +21,21 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Created by KRANTHI on 05-06-2016.
@@ -164,7 +175,7 @@ public class Utils {
         return false;
     }
 
-    public static void doLogout(final Activity activity, final UIListener uiListener) {
+    public static void doLogout(final Activity activity) {
         final AlertDialog alertDialog;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -175,9 +186,7 @@ public class Utils {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                uiListener.onSuccess();
                 logout(activity);
-                uiListener.onCancelled();
                 Toast.makeText(activity, "Successfully Logged out", Toast.LENGTH_SHORT).show();
             }
         });
@@ -239,6 +248,22 @@ public class Utils {
             }
         }
         return dir.delete();
+    }
+
+    public static List<String> extractUrls(String text)
+    {
+        List<String> containedUrls = new ArrayList<String>();
+        String urlRegex = "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
+        Pattern pattern = Pattern.compile(urlRegex, Pattern.CASE_INSENSITIVE);
+        Matcher urlMatcher = pattern.matcher(text);
+
+        while (urlMatcher.find())
+        {
+            containedUrls.add(text.substring(urlMatcher.start(0),
+                    urlMatcher.end(0)));
+        }
+
+        return containedUrls;
     }
 
 //    private static void initEventBus(){

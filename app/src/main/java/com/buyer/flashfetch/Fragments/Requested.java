@@ -89,12 +89,12 @@ public class Requested extends Fragment {
 
         noRequestText = (TextView)view.findViewById(R.id.no_requests_text);
 
-        if(requests.size() == 0){
-            //TODO: need to edit
-            noRequestText.setText("Test");
-            noRequestText.setVisibility(View.VISIBLE);
-            swipeRefreshLayout.setVisibility(View.GONE);
-        }
+//        if(requests.size() == 0){
+//            //TODO: need to edit
+//            noRequestText.setText("Test");
+//            noRequestText.setVisibility(View.VISIBLE);
+//            swipeRefreshLayout.setVisibility(View.GONE);
+//        }
         return view;
     }
 }

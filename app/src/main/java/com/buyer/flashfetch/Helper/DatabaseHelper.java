@@ -33,10 +33,27 @@ public class DatabaseHelper {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            // TODO Auto-generated method stub _id INTEGER PRIMARY KEY
-            db.execSQL("CREATE TABLE Requests( id VARCHAR PRIMARY KEY, url VARCHAR, pname VARCHAR, pprice VARCHAR , pimg VARCHAR,cat BIGINT,exptime BIGINT, cuscon INT DEFAULT 0,del INT DEFAULT 0)");
-            db.execSQL("CREATE TABLE Quotes( id VARCHAR , qid VARCHAR PRIMARY KEY,name VARCHAR, qprice VARCHAR, type INT, deltype INT, comment VARCHAR ,lat DECIMAL(9,6),long DECIMAL(9,6),distance VARCHAR,bargained INT, bgprice VARCHAR DEFAULT '', bgexptime BIGINT DEFAULT 0,selcon INT DEFAULT 0,cuscon INT DEFAULT 0,del INT DEFAULT 0 )");
-            db.execSQL("CREATE TABLE" + Notification.TABLE_NAME + "(notificationId VARCHAR PRIMARY KEY, heading VARCHAR, description VARCHAR, imageURL VARCHAR, time BIGINT DEFAULT 0)");
+            db.execSQL("CREATE TABLE " +
+                    Request.TABLE_NAME + " ( " +
+                    Request.PRODUCT_ID + " VARCHAR PRIMARY KEY," + Request.PRODUCT_NAME + " VARCHAR ," +
+                    Request.PRODUCT_PRICE + " VARCHAR ," + Request.PRODUCT_IMAGE_URL+ " VARCHAR ," + Request.PRODUCT_CATEGORY + " BIGINT ," +
+                    Request.PRODUCT_REQUEST_EXP_TIME + " BIGINT DEFAULT 0 ," + Request.PRODUCT_DELIVERY_TYPE + " INT DEFAULT -1 ," +
+                    Request.PRODUCT_DELIVERY_LATITUDE + " VARCHAR ," + Request.PRODUCT_DELIVERY_LONGITUDE + " VARCHAR )");
+
+            db.execSQL("CREATE TABLE " +
+                    Quote.TABLE_NAME + " ( " +
+                    Quote.QUOTE_ID + " VARCHAR PRIMARY KEY ," + Quote.PRODUCT_ID + " VARCHAR ," + Quote.PRODUCT_NAME + " VARCHAR ," +
+                    Quote.PRODUCT_CATEGORY + " BIGINT ," + Quote.PRODUCT_TYPE + " INT ," + Quote.QUOTE_PRICE + " INT ," +
+                    Quote.SELLER_DELIVERY_TYPE + " INT DEFAULT -1 ," + Quote.BUYER_DELIVERY_TYPE + " INT DEFAULT -1 ," +
+                    Quote.COMMENTS + " VARCHAR ," + Quote.LATITUDE + " VARCHAR ," + Quote.LONGITUDE + " VARCHAR ," +
+                    Quote.BARGAINED + " INT DEFAULT -1 ," + Quote.BARGAIN_PRICE + " INT ," + Quote.BARGAIN_EXP_TIME + "BIGINT DEFAULT 0 ," +
+                    Quote.NUMBER_OF_BARGAINS + " INT DEFAULT 0 ," + Quote.SELLER_CONFIRMATION + " INT DEFAULT -1 ," +
+                    Quote.BUYER_CONFIRMATION + "INT DEFAULT -1 ," + Quote.SELLER_ID + " INT ," + Quote.DISTANCE +" VARCHAR )");
+
+            db.execSQL("CREATE TABLE " + Notification.TABLE_NAME + " ( " +
+                    Notification.NOTIFICATION_ID + " INT PRIMARY KEY ," + Notification.NOTIFICATION_HEADING + " VARCHAR ," +
+                    Notification.NOTIFICATION_DESCRIPTION + " VARCHAR ," + Notification.NOTIFICATION_IMAGE_URL + " VARCHAR ," +
+                    Notification.NOTIFICATION_EXP_TIME + " BIGINT DEFAULT 0 )");
         }
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -61,9 +78,17 @@ public class DatabaseHelper {
     public long addRequest(ContentValues cv) {
         open();
         long id = ourDatabase.insert(Request.TABLE_NAME, null, cv);
-        Log.d("ADD_REQUEST","ADD_REQUEST");
         close();
         return id;
+    }
+
+    public ArrayList<Request> getRequest (String productId) {
+        open();
+        String[] columns = Request.columns;
+        Cursor c = ourDatabase.query(Request.TABLE_NAME, columns, "id = ?" ,new String[]{productId}, null, null, null);
+        ArrayList<Request> arrayList = Request.getArrayList(c);
+        close();
+        return arrayList;
     }
 
     public ArrayList<Request> getAllRequests () {
@@ -74,32 +99,24 @@ public class DatabaseHelper {
         close();
         return arrayList;
     }
-    public ArrayList<Request> getRequest (String id) {
-        open();
-        String[] columns = Request.columns;
-        Cursor c = ourDatabase.query(Request.TABLE_NAME, columns, "id = ?" ,new String[]{id}, null, null, null);
-        ArrayList<Request> arrayList = Request.getArrayList(c);
-        close();
-        return arrayList;
-    }
 
     public long addQuote(ContentValues cv) {
         open();
         long id = ourDatabase.insert(Quote.TABLE_NAME, null, cv);
-        Log.d("dmydb","QUOTE ADDED");
         close();
         return id;
     }
-    public void updateQuote(String id,ContentValues cv){
+
+    public void updateQuote(String quoteId,ContentValues cv){
         open();
-        ourDatabase.update(Quote.TABLE_NAME, cv, "id" + " = ?", new String[]{id});
+        ourDatabase.update(Quote.TABLE_NAME, cv, Quote.QUOTE_ID + " = ?", new String[]{quoteId});
         close();
 
     }
     public ArrayList<Quote> getAllQuotes (String productId) {
         open();
         String[] columns = Quote.columns;
-        Cursor c = ourDatabase.query(Quote.TABLE_NAME, columns,"productId = ?" ,new String[]{productId}, null, null, null);
+        Cursor c = ourDatabase.query(Quote.TABLE_NAME, columns, Quote.PRODUCT_ID + " = ?" ,new String[]{productId}, null, null, null);
         ArrayList<Quote> arrayList = Quote.getArrayList(c);
         close();
         return arrayList;

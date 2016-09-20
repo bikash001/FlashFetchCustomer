@@ -15,34 +15,52 @@ import java.util.ArrayList;
 
 public class Request implements Serializable{
 
+    public static final String PRODUCT_ID = "productId";
+    public static final String PRODUCT_NAME = "productName";
+    public static final String PRODUCT_PRICE = "productPrice";
+    public static final String PRODUCT_IMAGE_URL = "imageURL";
+    public static final String PRODUCT_CATEGORY = "productCategory";
+    public static final String PRODUCT_DELIVERY_TYPE = "buyerDeliveryType";
+    public static final String PRODUCT_REQUEST_EXP_TIME = "expiryTime";
+    public static final String PRODUCT_DELIVERY_LATITUDE = "deliveryLatitude";
+    public static final String PRODUCT_DELIVERY_LONGITUDE = "deliveryLongitude";
+
     public static final String TABLE_NAME = "Requests" ;
-    public static String[] columns = {"productId", "productName", "productPrice","imageURL","productCategory","expiryTime"};
+    public static String[] columns = {"productId", "productName", "productPrice","imageURL","productCategory","expiryTime","buyerDeliveryType","deliveryLatitude","deliveryLongitude"};
 
-    public String productName, productPrice,imageURL,productId;
-    public long expiryTime, productCategory;
+    public String productName, productPrice,imageURL,productId, buyerDeliveryType, deliveryLatitude, deliveryLongitude;
+    public long expiryTime;
+    public long productCategory;
 
+    //TODO: need to set this after getting params from the response
     public Request(JSONObject request) {
         try {
-
-            this.productName = request.getString("email");
-            this.productPrice = request.getString("price");
-            this.productCategory = request.getInt("category");
-            this.expiryTime = request.getLong("time");
-            this.productId = request.getString("id");
-            this.imageURL = request.getString("img");
+            this.productId = request.getString("product_id");
+            this.productName = request.getString("product_name");
+            this.productPrice = request.getString("product_price");
+            this.productCategory = request.getInt("product_category");
+            this.expiryTime = request.getLong("exp_time");
+            this.imageURL = request.getString("image_url");
+            this.buyerDeliveryType = request.getString("delivery_type");
+            this.deliveryLatitude = String.valueOf(request.getDouble("latitude"));
+            this.deliveryLongitude = String.valueOf(request.getDouble("longitude"));
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public Request(String productId, String imageURL , String productName, String productPrice, long productCategory, long expiryTime) {
+    public Request(String productId, String imageURL , String productName, String productPrice, long productCategory, long expiryTime,
+                        String buyerDeliveryType, String deliveryLatitude, String deliveryLongitude) {
         this.productId = productId;
-        this.imageURL = imageURL;
         this.productName = productName;
         this.productPrice = productPrice;
         this.productCategory = productCategory;
         this.expiryTime = expiryTime;
+        this.imageURL = imageURL;
+        this.buyerDeliveryType = buyerDeliveryType;
+        this.deliveryLatitude = deliveryLatitude;
+        this.deliveryLongitude = deliveryLongitude;
     }
 
     public static ArrayList<Request> getArrayList(Cursor c) {
@@ -55,7 +73,7 @@ public class Request implements Serializable{
     }
 
     public static Request parseEvent(Cursor c) {
-        Request request = new Request(c.getString(0), c.getString(1), c.getString(2), c.getString(3),c.getLong(5),c.getLong(6));
+        Request request = new Request(c.getString(0), c.getString(1), c.getString(2), c.getString(3),c.getLong(4),c.getLong(5),c.getString(6),String.valueOf(c.getDouble(7)),String.valueOf(c.getDouble(8)));
         return request;
     }
 
@@ -64,8 +82,8 @@ public class Request implements Serializable{
         return data.getAllRequests();
     }
 
-    public static ArrayList<Request> getRequest(Context context, String id){
+    public static ArrayList<Request> getRequest(Context context, String productId){
         DatabaseHelper data = new DatabaseHelper(context);
-        return data.getRequest(id);
+        return data.getRequest(productId);
     }
 }

@@ -1,5 +1,6 @@
 package com.buyer.flashfetch.Adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
@@ -11,15 +12,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.buyer.flashfetch.Constants.Constants;
 import com.buyer.flashfetch.Objects.NearByDealsDataModel;
 import com.buyer.flashfetch.R;
 
 import java.util.List;
 
-/**
- * Created by KRANTHI on 28-06-2016.
- */
-public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.MyViewHolder> implements RecyclerView.OnClickListener {
+public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.MyViewHolder>{
 
     private Context context;
     private List<NearByDealsDataModel> nearByDealsDataModelList;
@@ -29,14 +28,9 @@ public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.
         this.nearByDealsDataModelList = list;
     }
 
-    @Override
-    public void onClick(View view) {
-        //TODO: handle item click make service call for shop specific deals and fetch data using the shopId
-    }
-
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView shopName,shopDistance,description, buyNow;
+        public TextView shopName,knowMore,heading, buyNow;
         public ImageView imageView;
         public LinearLayout pickUpLayout;
 
@@ -47,8 +41,8 @@ public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.
 
             imageView = (ImageView)itemView.findViewById(R.id.imageView2);
             shopName = (TextView)itemView.findViewById(R.id.shop_name);
-            shopDistance = (TextView)itemView.findViewById(R.id.shop_distance);
-            description = (TextView)itemView.findViewById(R.id.description);
+            knowMore = (TextView)itemView.findViewById(R.id.know_more);
+            heading = (TextView)itemView.findViewById(R.id.heading);
             buyNow = (TextView)itemView.findViewById(R.id.buy_now_button);
         }
     }
@@ -61,26 +55,62 @@ public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        NearByDealsDataModel dataModel = nearByDealsDataModelList.get(position);
+        final NearByDealsDataModel dataModel = nearByDealsDataModelList.get(position);
 
         Glide.with(context).load(dataModel.getImageUrl()).centerCrop().into(holder.imageView);
 
-        holder.shopName.setText(dataModel.getShopName());
-        holder.shopDistance.setText(dataModel.getShopDistance());
-        holder.description.setText(dataModel.getItemDescription());
+        holder.shopName.setText(dataModel.getShopName() + " | " + dataModel.getShopLocation());
+        holder.heading.setText(dataModel.getItemHeading());
 
-        if(dataModel.isDeliverable()){
-            holder.pickUpLayout.setVisibility(View.GONE);
-            holder.buyNow.setVisibility(View.VISIBLE);
-        }else{
-            holder.pickUpLayout.setVisibility(View.VISIBLE);
-            holder.buyNow.setVisibility(View.GONE);
+        if(dataModel.getDealsType() == Constants.PICKUP_DEALS){
+            holder.buyNow.setText("ACTIVATE DEAL");
+            holder.buyNow.setBackgroundColor(context.getResources().getColor(R.color.ff_green));
+        }else if(dataModel.getDealsType() == Constants.INVENTORY_DEALS){
+            holder.buyNow.setText("BUY NOW");
+            holder.buyNow.setBackgroundColor(context.getResources().getColor(R.color.ff_black));
         }
+
+        holder.knowMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                TextView code, codeDescription, validUpTo, knowMoreDone, availDeal;
+
+                final Dialog dialog = new Dialog(context);
+
+                dialog.setContentView(R.layout.know_more_dialog);
+
+                code = (TextView)dialog.findViewById(R.id.know_more_code);
+                codeDescription = (TextView)dialog.findViewById(R.id.deal_description_text);
+                validUpTo = (TextView)dialog.findViewById(R.id.valid_up_to_text);
+                knowMoreDone = (TextView)dialog.findViewById(R.id.know_more_dialog_ok);
+                availDeal = (TextView)dialog.findViewById(R.id.how_to_avail_deal);
+
+                codeDescription.setText(dataModel.getItemDescription());
+                validUpTo.setText(dataModel.getValidTo());
+                availDeal.setText(dataModel.getHowToAvaillDeal());
+
+                if(dataModel.getDealsType() == Constants.PICKUP_DEALS){
+
+                    code.setText(dataModel.getItemCode());
+
+                }else if(dataModel.getDealsType() == Constants.INVENTORY_DEALS){
+
+                    code.setVisibility(View.GONE);
+                }
+
+                knowMoreDone.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-//        return nearByDealsDataModelList.size();
-        return 0;
+        return nearByDealsDataModelList.size();
     }
 }

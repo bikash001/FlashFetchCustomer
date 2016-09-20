@@ -83,14 +83,14 @@
         <!--</activity>-->
 
         <activity
-            android:name=".PlaceRequestActivity">
+            android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!--<activity android:name=".MainActivity"/>-->
+        <activity android:name=".MainActivity"/>
 
         <activity android:name=".RegisterActivity"/>
 
@@ -102,13 +102,15 @@
 
         <activity android:name=".AccountInfoActivity"/>
 
-        <!--<activity android:name=".PlaceRequestActivity"/>-->
+        <activity android:name=".PlaceRequestActivity"/>
 
         <activity android:name=".QuotesActivity"/>
 
         <activity android:name=".MapsActivity" />
 
-        <activity android:name=".OfferNearByActivity"/>
+        <activity android:name=".DealsNearByActivity"/>
+
+        <activity android:name=".NotificationsActivity"/>
 
         <activity android:name=".HomeDelivery"/>
 

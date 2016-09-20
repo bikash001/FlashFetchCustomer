@@ -99,10 +99,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLngBounds.Builder b = new LatLngBounds.Builder();
 
         for (int i = 0; i < list.size(); i++) {
-            float latitude = list.get(i).getLat();
-            float longitude = list.get(i).getLongt();
-            LatLng latLng = new LatLng(latitude, longitude);
-            b.include(latLng);
+//            String latitude = list.get(i).latitude();
+//            String longitude = list.get(i).longitude();
+//            LatLng latLng = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+//            b.include(latLng);
         }
 
         LatLngBounds bounds = b.build();
@@ -146,15 +146,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // set the custom dialog components - text, image and button
             dialog.show();
 
-        } else if (id == R.id.newestFirst) {
-            Collections.sort(list, new NewestComparator());
-        } else if (id == R.id.lowToHigh) {
-            Collections.sort(list, new LowToHighComparator());
-        } else if (id == R.id.highToLow) {
-            Collections.sort(list, new HighToLowComparator());
-        } else if (id == R.id.distance) {
-            Collections.sort(list, new DistanceComparator());
         }
+//        else if (id == R.id.newestFirst) {
+//            Collections.sort(list, new NewestComparator());
+//        } else if (id == R.id.lowToHigh) {
+//            Collections.sort(list, new LowToHighComparator());
+//        } else if (id == R.id.highToLow) {
+//            Collections.sort(list, new HighToLowComparator());
+//        } else if (id == R.id.distance) {
+//            Collections.sort(list, new DistanceComparator());
+//        }
     }
 
     @Override
@@ -231,29 +232,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
     }
-
-    public class NewestComparator implements Comparator<Quote> {
-        public int compare(Quote quote1, Quote quote2) {
-            return 1;
-        }
-    }
-
-    public class LowToHighComparator implements Comparator<Quote> {
-        public int compare(Quote quote1, Quote quote2) {
-            return quote1.getQPrice().compareTo(quote2.getQPrice());
-        }
-    }
-
-    public class HighToLowComparator implements Comparator<Quote> {
-        public int compare(Quote quote1, Quote quote2) {
-            return quote2.getQPrice().compareTo(quote1.getQPrice());
-        }
-    }
-
-    public class DistanceComparator implements Comparator<Quote> {
-        public int compare(Quote quote1, Quote quote2) {
-            return quote1.getDistance().compareTo(quote2.getDistance());
-        }
-    }
-
 }

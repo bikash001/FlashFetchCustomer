@@ -96,4 +96,6 @@
 
     <string name="profile">Profile</string>
     <string name="delivery_address">Delivery Address</string>
+
+    <string name="how_to_avail_deal">1. Activate the deal by clicking "Activate Deal" \n2. Get details of the store and visit the store \n3. Carry your phone and show the deal to merchant \n4. Merchant verifies the deal and you can redeem it with the code.</string>
 </resources>

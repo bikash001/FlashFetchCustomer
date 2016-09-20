@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,6 +15,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.buyer.flashfetch.CommonUtils.Toasts;
+import com.buyer.flashfetch.Objects.PlaceRequestObject;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.buyer.flashfetch.CommonUtils.Utils;
@@ -30,10 +39,14 @@ import java.util.Calendar;
  */
 public class PlaceRequestActivity extends BaseActivity implements TimePickerDialog.OnTimeSetListener{
 
+    private static final LatLngBounds BOUNDS_CHENNAI = new LatLngBounds(new LatLng(13.080680, 80.260718), new LatLng(13.082680, 80.270718));
+    private static final int PLACE_PICKER_REQUEST = 1;
+
     private Context context;
     private ProgressDialog progressDialog;
     private Button placeRequestButton;
-    private TextView setTimeButton;
+    private double selectedLatitude, selectedLongitude;
+    private TextView setTimeButton, setPlaceButton;
     private String productPrice, productName, imageURL, customerLocation;
     private long productCategory;
     private int minTime;
@@ -80,26 +93,24 @@ public class PlaceRequestActivity extends BaseActivity implements TimePickerDial
         }
 
         setTimeButton = (TextView)findViewById(R.id.place_request_time);
+        setPlaceButton = (TextView)findViewById(R.id.place_request_location);
         placeRequestButton = (Button)findViewById(R.id.place_request_button);
 
-        Spinner spinner = (Spinner)findViewById(R.id.places_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.places_array, android.R.layout.simple_spinner_dropdown_item);
+        setPlaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                builder.setLatLngBounds(BOUNDS_CHENNAI);
 
-        if (spinner != null) {
-            spinner.setAdapter(adapter);
-
-            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    customerLocation = places[adapterView.getSelectedItemPosition()];
+                try {
+                    startActivityForResult(builder.build(PlaceRequestActivity.this), PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
                 }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-
-                }
-            });
-        }
+            }
+        });
 
         setTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,61 +148,77 @@ public class PlaceRequestActivity extends BaseActivity implements TimePickerDial
         placeRequestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Utils.isInternetAvailable(context)){
 
-                    progressDialog.show();
+                if(UserProfile.getEmail(context) != ""){
 
-                    BargainObject bargainObject  = new BargainObject();
+                    if(Utils.isInternetAvailable(context)){
 
-                    bargainObject.setProductName(productName);
-                    bargainObject.setProductPrice(productPrice);
-                    bargainObject.setImageURL(imageURL);
-                    bargainObject.setProductCategory(productCategory);
-                    //TODO: need to set this
-                    bargainObject.setExpiryTime("");
-                    bargainObject.setCustomerName(UserProfile.getName(context));
-                    bargainObject.setCustomerLocation(customerLocation);
-                    bargainObject.setCustomerEmail(UserProfile.getEmail(context));
+                        progressDialog.show();
 
-                    ServiceManager.callBargainService(context, bargainObject, new UIListener() {
-                        @Override
-                        public void onSuccess() {
-                            progressDialog.dismiss();
+                        PlaceRequestObject placeRequestObject = new PlaceRequestObject();
 
-                            if(UserProfile.getEmail(context) != ""){
+                        placeRequestObject.setProductName(productName);
+                        placeRequestObject.setProductPrice(productPrice);
+                        placeRequestObject.setImageUrl(imageURL);
+                        placeRequestObject.setProductCategory(productCategory);
+                        //TODO: need the formaat to set time
+                        placeRequestObject.setBargainExpTime("");
+                        placeRequestObject.setCustomerLatitude(selectedLatitude);
+                        placeRequestObject.setCustomerLongitude(selectedLongitude);
+
+                        ServiceManager.callProductRequestService(context, placeRequestObject, new UIListener() {
+                            @Override
+                            public void onSuccess() {
+                                progressDialog.dismiss();
+
                                 Intent intent = new Intent(context,MainActivity.class);
                                 startActivity(intent);
                                 finish();
-                            }else{
-                                Intent intent = new Intent(context,LoginActivity.class);
-                                startActivity(intent);
-                                finish();
                             }
-                        }
 
-                        @Override
-                        public void onFailure() {
+                            @Override
+                            public void onFailure() {
+                                progressDialog.dismiss();
+                                Toasts.serverBusyToast(context);
+                            }
 
-                        }
+                            @Override
+                            public void onFailure(int result) {
 
-                        @Override
-                        public void onFailure(int result) {
+                            }
 
-                        }
+                            @Override
+                            public void onConnectionError() {
+                                progressDialog.dismiss();
+                                Toasts.serverBusyToast(context);
+                            }
 
-                        @Override
-                        public void onConnectionError() {
-
-                        }
-
-                        @Override
-                        public void onCancelled() {
-
-                        }
-                    });
+                            @Override
+                            public void onCancelled() {
+                                progressDialog.dismiss();
+                            }
+                        });
+                    }
+                }else{
+                    Intent intent = new Intent(context,LoginActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case PLACE_PICKER_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    Place place = PlacePicker.getPlace(this, data);
+                    selectedLatitude = place.getLatLng().latitude;
+                    selectedLongitude = place.getLatLng().longitude;
+                    break;
+                }
+        }
     }
 
     @Override

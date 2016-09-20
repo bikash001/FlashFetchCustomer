@@ -45,6 +45,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ExtractActivity extends BaseActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -52,7 +54,7 @@ public class ExtractActivity extends BaseActivity implements GoogleApiClient.Con
 
     private Button okButton,exitButton;
     private String productPrice, productName, imageURL, text;
-    private long productCategory;
+    private String productCategory;
     private ProgressDialog progressDialog;
     private TextView tvname, tvprice;
     private ImageView iv;
@@ -76,12 +78,14 @@ public class ExtractActivity extends BaseActivity implements GoogleApiClient.Con
             getSupportActionBar().setHomeButtonEnabled(true);
         }
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        if (toolbar != null) {
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+        }
 
         okButton = (Button) findViewById(R.id.ok_extract);
         exitButton = (Button) findViewById(R.id.exit_extract);
@@ -95,13 +99,15 @@ public class ExtractActivity extends BaseActivity implements GoogleApiClient.Con
         Intent intent = getIntent();
         text = intent.getStringExtra(Intent.EXTRA_TEXT);
 
-        if (text != null) {
+        String URL = Utils.extractUrls(text).get(0);
+
+        if (URL != null) {
 
             if(Utils.isInternetAvailable(context)){
 
                 progressDialog.show();
 
-                ServiceManager.callProductFetchService(context,text, new UIResponseListener<ProductDetailsResponse>() {
+                ServiceManager.callProductFetchService(context, URL, new UIResponseListener<ProductDetailsResponse>() {
                     @Override
                     public void onSuccess(ProductDetailsResponse responseObj) {
                         progressDialog.dismiss();
@@ -152,7 +158,7 @@ public class ExtractActivity extends BaseActivity implements GoogleApiClient.Con
                 bundle.putString(Constants.PRODUCT_NAME,productName);
                 bundle.putString(Constants.PRODUCT_PRICE,productPrice);
                 bundle.putString(Constants.PRODUCT_IMAGE_URL,imageURL);
-                bundle.putLong(Constants.PRODUCT_CATEGORY,productCategory);
+                bundle.putString(Constants.PRODUCT_CATEGORY,productCategory);
 
                 Intent intent = new Intent(context,PlaceRequestActivity.class);
                 intent.putExtra(Constants.BARGAIN_BUNDLE,bundle);
@@ -220,6 +226,10 @@ public class ExtractActivity extends BaseActivity implements GoogleApiClient.Con
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

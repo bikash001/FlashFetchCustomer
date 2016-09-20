@@ -4,6 +4,16 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 /**
  * Created by kranthikumar_b on 8/4/2016.
  */

@@ -15,6 +15,7 @@ import com.buyer.flashfetch.Interfaces.UIListener;
 import com.buyer.flashfetch.Interfaces.UIResponseListener;
 import com.buyer.flashfetch.MainActivity;
 import com.buyer.flashfetch.Objects.BargainObject;
+import com.buyer.flashfetch.Objects.PlaceRequestObject;
 import com.buyer.flashfetch.Objects.PostParam;
 import com.buyer.flashfetch.Objects.Quote;
 import com.buyer.flashfetch.Objects.SignUpObject;
@@ -24,6 +25,7 @@ import com.buyer.flashfetch.ServiceResponseObjects.ProductDetailsResponse;
 import com.buyer.flashfetch.Services.IE_RegistrationIntentService;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,9 +43,9 @@ public class ServiceManager {
     public static QuoteBargainTask quoteBargainTask = null;
     public static PlaceOrderTask placeOrderTask = null;
 
-    public static void callUserRegisterService(Context context, SignUpObject signUpObject, final UIListener uiListener){
+    public static void callUserRegisterService(Context context, SignUpObject signUpObject, final UIListener uiListener) {
 
-        userSignUpTask = new UserSignUpTask(context,signUpObject,uiListener);
+        userSignUpTask = new UserSignUpTask(context, signUpObject, uiListener);
         userSignUpTask.execute();
     }
 
@@ -57,7 +59,7 @@ public class ServiceManager {
         private UIListener uiListener;
         private Context context;
 
-        public UserSignUpTask(Context context, SignUpObject signUpObject, final UIListener uiListener){
+        public UserSignUpTask(Context context, SignUpObject signUpObject, final UIListener uiListener) {
             this.context = context;
             this.personName = signUpObject.getPersonName();
             this.personEmail = signUpObject.getPersonEmail();
@@ -79,50 +81,57 @@ public class ServiceManager {
             postParams.add(new PostParam("name", personName));
             postParams.add(new PostParam("email", personEmail));
             postParams.add(new PostParam("pass", password));
-            postParams.add(new PostParam("mobile",String.valueOf(phoneNumber)));
+            postParams.add(new PostParam("mobile", String.valueOf(phoneNumber)));
 
             response = PostRequest.execute(URLConstants.URL_SIGN_UP, postParams, null);
-            Log.d("RESPONSE", response.toString());
-
             return null;
         }
+
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             try {
-                if(response.getJSONObject("data").getInt("result") == 1){
+                if (response.getJSONObject("data").getInt("result") == 1) {
+
+                    UserProfile.setToken(response.getJSONObject("data").getString("token"), context);
 
                     UserProfile.setName(personName, context);
                     UserProfile.setEmail(personEmail, context);
                     UserProfile.setPhone(String.valueOf(phoneNumber), context);
                     UserProfile.setPassword(password, context);
 
-                    UserProfile.setToken(response.getJSONObject("data").getString("token"), context);
+                    if(response.getJSONObject("data").getInt("eflag") == 1){
+                        UserProfile.sentVerificationEmail(true,context);
+                    }else{
+                        UserProfile.sentVerificationEmail(false,context);
+                    }
 
                     uiListener.onSuccess();
 
-                } else if(response.getJSONObject("data").getInt("result") == 0) {
+                } else if (response.getJSONObject("data").getInt("result") == 0) {
                     uiListener.onFailure();
-                }
-                else{
+                } else {
                     uiListener.onConnectionError();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
                 uiListener.onConnectionError();
             }
+
+            userSignUpTask = null;
         }
 
         @Override
         protected void onCancelled() {
             super.onCancelled();
+            userSignUpTask.cancel(true);
             uiListener.onCancelled();
         }
     }
 
-    public static void callUserLoginService(Context context, String email, String password, final UIListener uiListener){
+    public static void callUserLoginService(Context context, String email, String password, final UIListener uiListener) {
 
-        userLoginTask = new UserLoginTask(context,email,password,uiListener);
+        userLoginTask = new UserLoginTask(context, email, password, uiListener);
         userLoginTask.execute();
     }
 
@@ -147,7 +156,7 @@ public class ServiceManager {
             ArrayList<PostParam> postParams = new ArrayList<PostParam>();
 
             postParams.add(new PostParam("email", email));
-            postParams.add(new PostParam("pass",password));
+            postParams.add(new PostParam("pass", password));
 
             response = PostRequest.execute(URLConstants.URL_LOGIN, postParams, null);
             Log.d("RESPONSE", response.toString());
@@ -163,31 +172,33 @@ public class ServiceManager {
                 if (response.getJSONObject("data").getInt("result") == 1) {
 
                     UserProfile.setEmail(email, context);
-                    UserProfile.setToken(response.getJSONObject("data").getString("token"), context);
+                    UserProfile.setPassword(password,context);
+//                    UserProfile.setToken(response.getJSONObject("data").getString("token"), context);
                     uiListener.onSuccess();
 
-                } else if(response.getJSONObject("data").getInt("result") == 0){
+                } else if (response.getJSONObject("data").getInt("result") == 0) {
                     uiListener.onFailure(0);
-                }else if(response.getJSONObject("data").getInt("result") == -1){
+                } else if (response.getJSONObject("data").getInt("result") == -1) {
                     uiListener.onFailure(-1);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
                 uiListener.onConnectionError();
             }
+
+            userLoginTask = null;
         }
 
         @Override
         protected void onCancelled() {
-            userLoginTask = null;
             userSignUpTask.cancel(true);
             uiListener.onCancelled();
         }
     }
 
-    public static void callProductFetchService(Context context, String productText, final UIResponseListener<ProductDetailsResponse> uiResponseListener){
+    public static void callProductFetchService(Context context, String productText, final UIResponseListener<ProductDetailsResponse> uiResponseListener) {
 
-        productFetchTask = new ProductFetchTask(context,productText,uiResponseListener);
+        productFetchTask = new ProductFetchTask(context, productText, uiResponseListener);
         productFetchTask.execute();
     }
 
@@ -198,7 +209,7 @@ public class ServiceManager {
         private String productText;
         private UIResponseListener<ProductDetailsResponse> uiResponseListener;
 
-        public ProductFetchTask(Context context, String productText, final UIResponseListener<ProductDetailsResponse> uiResponseListener){
+        public ProductFetchTask(Context context, String productText, final UIResponseListener<ProductDetailsResponse> uiResponseListener) {
 
             this.context = context;
             this.productText = productText;
@@ -232,7 +243,7 @@ public class ServiceManager {
                 if (data.getInt("result") == 1) {
                     ProductDetailsResponse productDetailsResponse = new Gson().fromJson(data.toString(), ProductDetailsResponse.class);
                     uiResponseListener.onSuccess(productDetailsResponse);
-                }else {
+                } else {
                     uiResponseListener.onFailure();
                 }
 
@@ -248,9 +259,9 @@ public class ServiceManager {
         }
     }
 
-    public static void callBargainService(Context context, BargainObject bargainObject, final UIListener uiListener){
+    public static void callProductRequestService(Context context, PlaceRequestObject placeRequestObject, final UIListener uiListener) {
 
-        bargainTask = new BargainTask(context,bargainObject,uiListener);
+        bargainTask = new BargainTask(context, placeRequestObject, uiListener);
         bargainTask.execute();
     }
 
@@ -258,12 +269,12 @@ public class ServiceManager {
 
         private JSONObject response;
         private Context context;
-        private BargainObject bargainObject;
+        private PlaceRequestObject placeRequestObject;
         private UIListener uiListener;
 
-        public BargainTask(Context context, BargainObject bargainObject, final UIListener uiListener){
+        public BargainTask(Context context, PlaceRequestObject placeRequestObject, final UIListener uiListener) {
             this.context = context;
-            this.bargainObject = bargainObject;
+            this.placeRequestObject = placeRequestObject;
             this.uiListener = uiListener;
         }
 
@@ -272,15 +283,20 @@ public class ServiceManager {
 
             ArrayList<PostParam> iPostParams = new ArrayList<PostParam>();
 
-            iPostParams.add(new PostParam("pname", bargainObject.getProductName()));
-            iPostParams.add(new PostParam("price", bargainObject.getProductPrice()));
-            iPostParams.add(new PostParam("img", bargainObject.getImageURL()));
-            iPostParams.add(new PostParam("cat", String.valueOf(bargainObject.getProductCategory())));
-            iPostParams.add(new PostParam("time", bargainObject.getExpiryTime()));
-            iPostParams.add(new PostParam("cus_loc",bargainObject.getCustomerLocation()));
+            iPostParams.add(new PostParam("pname", placeRequestObject.getProductName()));
+            iPostParams.add(new PostParam("price", placeRequestObject.getProductPrice()));
+            iPostParams.add(new PostParam("img", placeRequestObject.getImageUrl()));
+            iPostParams.add(new PostParam("cat", String.valueOf(placeRequestObject.getProductCategory())));
+
+            //TODO: find in what format we have to send the time
+            iPostParams.add(new PostParam("time", placeRequestObject.getBargainExpTime()));
+
+            //TODO: find what we have to send in the customer location field
+            iPostParams.add(new PostParam("cus_loc", placeRequestObject.getCustomerLocation()));
+
             iPostParams.add(new PostParam("name", UserProfile.getName(context)));
-            iPostParams.add(new PostParam("token",UserProfile.getToken(context)));
-            iPostParams.add(new PostParam("cus_email",UserProfile.getEmail(context)));
+            iPostParams.add(new PostParam("token", UserProfile.getToken(context)));
+            iPostParams.add(new PostParam("cus_email", UserProfile.getEmail(context)));
 
             response = PostRequest.execute(URLConstants.BARGAIN_URL, iPostParams, null);
             Log.d("RESPONSE", response.toString());
@@ -293,16 +309,18 @@ public class ServiceManager {
             super.onPostExecute(aVoid);
 
             try {
-                if (response.getJSONObject("data").getInt("result") == 1){
+                if (response.getJSONObject("data").getInt("result") == 1) {
 
-                    ContentValues cv= new ContentValues();
+                    ContentValues cv = new ContentValues();
 
-                    cv.put("productId",response.getJSONObject("data").getString("id"));
-                    cv.put("productName",bargainObject.getProductName());
-                    cv.put("productPrice",bargainObject.getProductPrice());
-                    cv.put("imageURL",bargainObject.getImageURL());
-                    cv.put("expiryTime",String.valueOf(System.currentTimeMillis() + 10000000));
-                    cv.put("productCategory",bargainObject.getProductCategory());
+//                    cv.put("productId", placeRequestObject.get);
+                    cv.put("productName", placeRequestObject.getProductName());
+                    cv.put("productPrice", placeRequestObject.getProductPrice());
+                    cv.put("imageURL", placeRequestObject.getImageUrl());
+                    cv.put("expiryTime", String.valueOf(System.currentTimeMillis() + 10000000));
+                    cv.put("productCategory", placeRequestObject.getProductCategory());
+                    cv.put("deliveryLatitude", placeRequestObject.getCustomerLatitude());
+                    cv.put("deliveryLongitude", placeRequestObject.getCustomerLongitude());
 
                     DatabaseHelper dh = new DatabaseHelper(context);
                     dh.addRequest(cv);
@@ -322,9 +340,9 @@ public class ServiceManager {
         }
     }
 
-    public static void callQuoteBargainService(Context context, Quote quote, String bargainPrice, final UIListener uiListener){
+    public static void callQuoteBargainService(Context context, Quote quote, String bargainPrice, final UIListener uiListener) {
 
-        quoteBargainTask = new QuoteBargainTask(context,quote,bargainPrice,uiListener);
+        quoteBargainTask = new QuoteBargainTask(context, quote, bargainPrice, uiListener);
         quoteBargainTask.execute();
     }
 
@@ -347,11 +365,11 @@ public class ServiceManager {
         protected Void doInBackground(Void... params) {
             ArrayList<PostParam> postParams = new ArrayList<>();
 
-            postParams.add(new PostParam("selid",quote.qid));
+            postParams.add(new PostParam("selid", quote.quoteId + ""));
             postParams.add(new PostParam("btime", String.valueOf(System.currentTimeMillis() + 10000000)));
-            postParams.add(new PostParam("bprice",bargainPrice));
-            postParams.add(new PostParam("token",UserProfile.getToken(context)));
-            postParams.add(new PostParam("email",UserProfile.getEmail(context)));
+            postParams.add(new PostParam("bprice", bargainPrice));
+            postParams.add(new PostParam("token", UserProfile.getToken(context)));
+            postParams.add(new PostParam("email", UserProfile.getEmail(context)));
 
             response = PostRequest.execute(URLConstants.QUOTE_BARGAIN_URL, postParams, null);
             return null;
@@ -362,17 +380,17 @@ public class ServiceManager {
             super.onPostExecute(aVoid);
 
             try {
-                if (response.getJSONObject("data").getInt("result") == 1){
+                if (response.getJSONObject("data").getInt("result") == 1) {
 
-                    ContentValues cv= new ContentValues();
+                    ContentValues cv = new ContentValues();
 
-                    cv.put("bargained",1);
-                    cv.put("bgprice",bargainPrice);
-                    cv.put("bgexptime",String.valueOf(System.currentTimeMillis() + 10000000));
+                    cv.put("bargained", 1);
+                    cv.put("bgprice", bargainPrice);
+                    cv.put("bgexptime", String.valueOf(System.currentTimeMillis() + 10000000));
 
                     DatabaseHelper dh = new DatabaseHelper(context);
-                    dh.updateQuote(quote.qid,cv);
-                }else{
+                    dh.updateQuote(quote.quoteId, cv);
+                } else {
                     //TODO: handle failure condition
                     uiListener.onConnectionError();
                 }
@@ -389,9 +407,9 @@ public class ServiceManager {
         }
     }
 
-    public static void callPlaceOrderService(Context context, int deliveryType, String qId, final UIListener uiListener){
+    public static void callPlaceOrderService(Context context, int deliveryType, String qId, final UIListener uiListener) {
 
-        placeOrderTask = new PlaceOrderTask(context,deliveryType,qId,uiListener);
+        placeOrderTask = new PlaceOrderTask(context, deliveryType, qId, uiListener);
         placeOrderTask.execute();
     }
 
@@ -403,7 +421,7 @@ public class ServiceManager {
         private String qId;
         private UIListener uiListener;
 
-        public PlaceOrderTask(Context context, int deliveryType, String qId, final UIListener uiListener){
+        public PlaceOrderTask(Context context, int deliveryType, String qId, final UIListener uiListener) {
 
             this.context = context;
             this.deliveryType = deliveryType;
@@ -415,10 +433,10 @@ public class ServiceManager {
         protected Boolean doInBackground(Void... params) {
             ArrayList<PostParam> postParams = new ArrayList<>();
 
-            postParams.add(new PostParam("Sel_id",qId));
-            postParams.add(new PostParam("delivery",Integer.toString(deliveryType)));
+            postParams.add(new PostParam("Sel_id", qId + ""));
+            postParams.add(new PostParam("delivery", Integer.toString(deliveryType)));
             postParams.add(new PostParam("token", UserProfile.getToken(context)));
-            postParams.add(new PostParam("email",UserProfile.getEmail(context)));
+            postParams.add(new PostParam("email", UserProfile.getEmail(context)));
 
             response = PostRequest.execute(URLConstants.URL_PLACE_ORDER, postParams, null);
 
@@ -431,19 +449,81 @@ public class ServiceManager {
             super.onPostExecute(aBoolean);
 
             try {
-                if (response.getJSONObject("data").getInt("result") == 1){
-                    ContentValues cv= new ContentValues();
+                if (response.getJSONObject("data").getInt("result") == 1) {
 
-                    cv.put("cuscon",1);
-                    cv.put("del",deliveryType);
+                    ContentValues cv = new ContentValues();
+
+                    cv.put("cuscon", 1);
+                    cv.put("del", deliveryType);
 
                     DatabaseHelper dh = new DatabaseHelper(context);
-                    dh.updateQuote(qId,cv);
+                    dh.updateQuote(qId+"", cv);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+    }
 
+    public static void getRoadDistance(Context context, double quoteId, double fromLatitude, double fromLongitude, double toLatitude, double toLongitude) {
+        GetRoadDistanceTask getRoadDistanceTask = new GetRoadDistanceTask(context, quoteId, fromLatitude, fromLongitude, toLatitude, toLongitude);
+        getRoadDistanceTask.execute();
+    }
+
+    public static class GetRoadDistanceTask extends AsyncTask<Void, Void, Void> {
+
+        private JSONObject response;
+        private Context context;
+        private double quoteId;
+        private double fromLatitude;
+        private double fromLongitude;
+        private double toLatitude;
+        private double toLongitude;
+
+        public GetRoadDistanceTask(Context context, double quoteId, double fromLatitude, double fromLongitude, double toLatitude, double toLongitude) {
+            this.context = context;
+            this.quoteId = quoteId;
+            this.fromLatitude = fromLatitude;
+            this.fromLongitude = fromLongitude;
+            this.toLatitude = toLatitude;
+            this.toLongitude = toLongitude;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            String url = "http://maps.google.com/maps/api/directions/xml?origin="
+                    + fromLatitude + "," + fromLongitude + "&destination=" + toLatitude
+                    + "," + toLongitude + "&sensor=false&units=metric";
+
+            response = PostRequest.execute(url, null, null);
+
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            try {
+                JSONArray routeArray = response.getJSONObject("data").getJSONArray("routes");
+                JSONObject routes = routeArray.getJSONObject(0);
+
+                JSONArray newTempARr = routes.getJSONArray("legs");
+                JSONObject newDisTimeOb = newTempARr.getJSONObject(0);
+
+                JSONObject distance = newDisTimeOb.getJSONObject("distance");
+                JSONObject time = newDisTimeOb.getJSONObject("duration");
+
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(Quote.DISTANCE, distance.getString("text"));
+
+                DatabaseHelper databaseHelper = new DatabaseHelper(context);
+                databaseHelper.updateQuote(quoteId+"", contentValues);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

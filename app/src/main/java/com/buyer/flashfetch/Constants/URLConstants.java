@@ -2,7 +2,7 @@ package com.buyer.flashfetch.Constants;
 
 public class URLConstants {
 
-    public static String SERVER = "http://ec2-52-35-108-81.us-west-2.compute.amazonaws.com/";
+    public static String SERVER = "http://ec2-52-43-70-85.us-west-2.compute.amazonaws.com/";
 
     public static String URL_FETCH_PRODUCT = SERVER + "clink/";
 

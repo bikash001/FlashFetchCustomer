@@ -19,7 +19,7 @@ import com.buyer.flashfetch.Objects.PostParam;
 
 public class PostRequest {
 
-    public static String LOG_TAG = "PostReqeust";
+    public static String LOG_TAG = "PostRequest";
 
     public static JSONObject execute(String urlString,ArrayList<PostParam> params, String token){
 

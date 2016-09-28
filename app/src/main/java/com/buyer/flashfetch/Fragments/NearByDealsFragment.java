@@ -14,9 +14,11 @@ import com.buyer.flashfetch.Adapters.ShopSpecificDealsAdapter;
 import com.buyer.flashfetch.Adapters.NearByDealsAdapter;
 import com.buyer.flashfetch.CommonUtils.Toasts;
 import com.buyer.flashfetch.CommonUtils.Utils;
+import com.buyer.flashfetch.Constants.NearByDealsConstants;
 import com.buyer.flashfetch.Objects.NearByDealsDataModel;
 import com.buyer.flashfetch.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +30,7 @@ public class NearByDealsFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private NearByDealsAdapter nearByDealsAdapter;
-    private List<NearByDealsDataModel> list;
+    private ArrayList<NearByDealsDataModel> list = new ArrayList<>();
 
     public static NearByDealsFragment getInstance(int tabId) {
 
@@ -73,10 +75,28 @@ public class NearByDealsFragment extends Fragment {
 
     private void setUpDataModel(){
 
-        if(Utils.isInternetAvailable(getContext())){
-            //TODO: make service call and attach data to the dataModel
-        }else{
-            Toasts.internetUnavailableToast(getContext());
-        }
+//        if(Utils.isInternetAvailable(getContext())){
+//
+//        }else{
+//            Toasts.internetUnavailableToast(getContext());
+//        }
+
+        NearByDealsDataModel nearByDealsDataModel = new NearByDealsDataModel();
+
+        nearByDealsDataModel.setDealsCategory(NearByDealsConstants.SHOPPING);
+        nearByDealsDataModel.setDealsType(NearByDealsConstants.PICKUP_DEALS);
+        nearByDealsDataModel.setImageUrl("https://s22.postimg.org/s8tri8ds1/dnb.png");
+        nearByDealsDataModel.setShopName("Modern Sports");
+        nearByDealsDataModel.setShopLocation("Adyar");
+        nearByDealsDataModel.setItemHeading("30% OFF on Yonex Badminton Racquets");
+        nearByDealsDataModel.setItemCode("FFGALC");
+        nearByDealsDataModel.setItemDescription("Get 20% Discount on Transcend, Samsung and Western \n" +
+                                                    "Digital Hard Disks and 30% discount on Transcend, HP \n" +
+                                                        "8GB, 16GB and 32GB Pendrives");
+        nearByDealsDataModel.setValidTo("Sept 22nd");
+        nearByDealsDataModel.setShopAddress("\"Gandhi Road, Adayar, Chennai, Tamil Nadu 600020\n" +
+                "Phone: 044 2441 6029\"");
+
+        list.add(nearByDealsDataModel);
     }
 }

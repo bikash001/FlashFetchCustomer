@@ -148,7 +148,7 @@ public class RegisterActivity extends BaseActivity {
                     public void onSuccess() {
                         progressDialog.dismiss();
 
-                        Intent intent = new Intent(context,MainActivity.class);
+                        Intent intent = new Intent(context, DealsNearByActivity.class);
                         startActivity(intent);
                         finish();
                     }

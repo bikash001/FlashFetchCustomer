@@ -1,12 +1,18 @@
 package com.buyer.flashfetch;
 
+import android.*;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -27,7 +33,12 @@ import com.buyer.flashfetch.CommonUtils.Utils;
 import com.buyer.flashfetch.Constants.Constants;
 import com.buyer.flashfetch.Objects.UserProfile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
 
     public static final String TAG = "MainActivity";
     private Context context;
@@ -50,6 +61,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         UserProfile.setVisits(numberOfVisits,context);
 
         setContentView(R.layout.activity_main2);
+
+        getContacts();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_activity_toolbar);
         setSupportActionBar(toolbar);
@@ -252,5 +265,51 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void getContacts() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
+            requestPermissions(new String[]{android.Manifest.permission.READ_CONTACTS},PERMISSIONS_REQUEST_READ_CONTACTS);
+        }else{
+            //TODO:
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == PERMISSIONS_REQUEST_READ_CONTACTS){
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                retrieveContacts();
+            }
+        }
+    }
+
+    private List<String> retrieveContacts() {
+
+        ArrayList<String> phoneNumberList = new ArrayList<>();
+
+        ContentResolver contentResolver = getContentResolver();
+
+        Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI,null,null,null,null);
+
+        if(cursor.moveToFirst()){
+            do {
+                String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+
+                if(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0){
+                    Cursor phoneCursor = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?", new String[]{id}, null);
+
+                    while (phoneCursor.moveToNext()){
+                        String contactNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+                        phoneNumberList.add(contactNumber);
+                    }
+                    phoneCursor.close();
+                }
+
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        return phoneNumberList;
     }
 }

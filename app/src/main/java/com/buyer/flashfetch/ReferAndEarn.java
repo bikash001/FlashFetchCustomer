@@ -24,7 +24,7 @@ public class ReferAndEarn extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
 
         if(getSupportActionBar() != null){
-            getSupportActionBar().setTitle("Refer and Earn");
+            getSupportActionBar().setTitle("Refer");
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }

@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.buyer.flashfetch.Constants.Constants;
+import com.buyer.flashfetch.Objects.UserProfile;
 
 public class AccountInfoActivity extends BaseActivity{
 
@@ -43,11 +44,11 @@ public class AccountInfoActivity extends BaseActivity{
             }
         });
 
-        addressLayout = (LinearLayout) findViewById(R.id.layout_address);
+//        addressLayout = (LinearLayout) findViewById(R.id.layout_address);
 
         profile = (TextView)findViewById(R.id.profile_text);
-        deliveryAddress  = (TextView)findViewById(R.id.delivery_address_text);
-        addAddress = (TextView) findViewById(R.id.button_add_address);
+//        deliveryAddress  = (TextView)findViewById(R.id.delivery_address_text);
+//        addAddress = (TextView) findViewById(R.id.button_add_address);
         name = (TextView) findViewById(R.id.profile_name);
         phone = (TextView) findViewById(R.id.phone_profile);
 
@@ -57,16 +58,19 @@ public class AccountInfoActivity extends BaseActivity{
         SpannableString deliveryText = new SpannableString(getResources().getString(R.string.delivery_address));
         deliveryText.setSpan(new UnderlineSpan(),0,getResources().getString(R.string.delivery_address).length(),0);
 
-        profile.setText(profileText);
-        deliveryAddress.setText(deliveryText);
+        name.setText(UserProfile.getName(context));
+        phone.setText(UserProfile.getPhone(context));
 
-        addAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context,FillAddressActivity.class);
-                startActivityForResult(intent,REQUEST_CODE);
-            }
-        });
+        profile.setText(profileText);
+//        deliveryAddress.setText(deliveryText);
+
+//        addAddress.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context,FillAddressActivity.class);
+//                startActivityForResult(intent,REQUEST_CODE);
+//            }
+//        });
     }
 
     @Override

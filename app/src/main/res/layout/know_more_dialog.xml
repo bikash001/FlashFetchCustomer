@@ -1,77 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="16dp"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="16dp"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:text="Description"/>
-
-    <TextView
-        android:id="@+id/know_more_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="8dp"
-        android:textStyle="bold"
+        android:paddingBottom="14dp"
+        android:text="Deal Description"
         android:textSize="16sp"
-        android:text="Code : "/>
+        android:textStyle="bold" />
+
+    <!--<TextView-->
+    <!--android:id="@+id/know_more_code"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:paddingBottom="8dp"-->
+    <!--android:textStyle="bold"-->
+    <!--android:textSize="16sp"-->
+    <!--android:text="Code : "/>-->
 
     <TextView
         android:id="@+id/deal_description_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:lineSpacingExtra="6dp"
         android:paddingBottom="16dp"
-        android:text="Get 20% Discount on Transcend, Samsung and Western Digital Hard Disks and 30% discount on Transcend, HP 8GB, 16GB and 32GB Pendrives"/>
+        android:text="Get 20% Discount on Transcend, Samsung and Western Digital Hard Disks and 30% discount on Transcend, HP 8GB, 16GB and 32GB Pendrives"
+        android:textSize="14sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
         android:paddingBottom="8dp"
-        android:textStyle="bold"
-        android:text="Valid upto :"/>
+        android:text="Valid upto :"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/valid_up_to_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
         android:paddingBottom="8dp"
-        android:text="22nd Sep 2016"/>
+        android:text="22nd Sep 2016"
+        android:textSize="16sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
         android:paddingBottom="8dp"
-        android:textStyle="bold"
-        android:text="How to Avail the Deal"/>
+        android:text="How to Avail the Deal"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/how_to_avail_deal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/how_to_avail_deal"
         android:lineSpacingExtra="6dp"
         android:paddingBottom="16dp"
-        android:textSize="14sp"/>
-    
+        android:text="@string/how_to_avail_deal"
+        android:textSize="14sp" />
+
     <TextView
         android:id="@+id/know_more_dialog_ok"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="OK"
+        android:background="@color/ff_green"
         android:gravity="center"
         android:padding="8dp"
-        android:textStyle="bold"
+        android:text="OK"
         android:textColor="@color/icons"
-        android:background="@color/ff_green"/>
+        android:textStyle="bold" />
+
 </LinearLayout>
+

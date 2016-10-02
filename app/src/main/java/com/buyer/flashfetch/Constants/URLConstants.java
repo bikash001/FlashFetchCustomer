@@ -18,5 +18,5 @@ public class URLConstants {
 
     public static String URL_PLACE_ORDER = SERVER + "del/";
 
-    public static String URL_NEARBY_DEALS_UPLOAD = SERVER + "deals_upload/";
+    public static String URL_NEARBY_DEALS = SERVER + "nearby_deals/";
 }

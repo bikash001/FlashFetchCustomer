@@ -20,16 +20,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/*
-*
- * Created by kevin selva prasanna on 24-Aug-15.
- */
-
 public class IE_RegistrationIntentService extends IntentService {
+
     private static final String TAG = "RegistrationIntentService";
     private static final String[] TOPICS = {"global"};
-    String Old_ID,token;
-    Boolean senttokentoserver;
+    private String Old_ID,token;
+    private boolean senttokentoserver;
 
     public IE_RegistrationIntentService() {
         super(TAG);
@@ -98,10 +94,8 @@ public class IE_RegistrationIntentService extends IntentService {
 
     private void sendRegistrationToServer(String freshtoken) {
         ArrayList<PostParam> PostParams = new ArrayList<PostParam>();
-        PostParam postemail = new PostParam("email", UserProfile.getEmail(IE_RegistrationIntentService.this));
-        PostParam postgcmid = new PostParam("gcmid",freshtoken);
-        PostParams.add(postemail);
-        PostParams.add(postgcmid);
+        PostParams.add(new PostParam("email", UserProfile.getEmail(IE_RegistrationIntentService.this)));
+        PostParams.add(new PostParam("gcmid",freshtoken));
         PostParams.add(new PostParam("token",UserProfile.getToken(IE_RegistrationIntentService.this)));
 
         JSONObject ResponseJSON = PostRequest.execute(URLConstants.URL_GCM_REGISTER, PostParams, null);

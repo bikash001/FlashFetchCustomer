@@ -89,51 +89,51 @@
 
                 </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/delivery_address_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/delivery_address"
-                    android:textColor="@color/ff_green"
-                    android:textStyle="bold"
-                    android:textSize="16sp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/delivery_address_text"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginBottom="8dp"-->
+                    <!--android:layout_marginTop="16dp"-->
+                    <!--android:text="@string/delivery_address"-->
+                    <!--android:textColor="@color/ff_green"-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:textSize="16sp" />-->
 
-                <LinearLayout
-                    android:id="@+id/layout_address"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"/>
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/layout_address"-->
+                    <!--android:layout_marginLeft="12dp"-->
+                    <!--android:layout_marginBottom="8dp"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="vertical"/>-->
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="4dp"
-                    android:paddingTop="4dp">
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:paddingBottom="4dp"-->
+                    <!--android:paddingTop="4dp">-->
 
-                    <ImageView
-                        android:id="@+id/add_address_icon"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:padding="10dp"
-                        android:layout_marginLeft="8dp"
-                        android:background="@drawable/ic_add_location_blackdp" />
+                    <!--<ImageView-->
+                        <!--android:id="@+id/add_address_icon"-->
+                        <!--android:layout_width="30dp"-->
+                        <!--android:layout_height="30dp"-->
+                        <!--android:padding="10dp"-->
+                        <!--android:layout_marginLeft="8dp"-->
+                        <!--android:background="@drawable/ic_add_location_blackdp" />-->
 
-                    <TextView
-                        android:id="@+id/button_add_address"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="Add New Delivery Address"
-                        android:paddingLeft="8dp"
-                        android:layout_toRightOf="@id/add_address_icon"
-                        android:textSize="16sp"
-                        android:textColor="#000" />
+                    <!--<TextView-->
+                        <!--android:id="@+id/button_add_address"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:text="Add New Delivery Address"-->
+                        <!--android:paddingLeft="8dp"-->
+                        <!--android:layout_toRightOf="@id/add_address_icon"-->
+                        <!--android:textSize="16sp"-->
+                        <!--android:textColor="#000" />-->
 
-                </RelativeLayout>
+                <!--</RelativeLayout>-->
 
             </LinearLayout>
 

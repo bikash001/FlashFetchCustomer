@@ -236,31 +236,31 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_deals) {
-            Intent intent = new Intent(this,DealsNearByActivity.class);
-            startActivity(intent);
-            return true;
-
-        } else if (id == R.id.nav_wallet) {
-            Intent intent = new Intent(this,RewardsActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.nav_account) {
-            Intent intent = new Intent(this,AccountInfoActivity.class);
-            startActivity(intent);
-            return true;
-
-        } else if (id == R.id.nav_notification) {
-            Intent intent = new Intent(this,NotificationsActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.nav_refer) {
-            Intent intent = new Intent(this,ReferAndEarn.class);
-            startActivity(intent);
-            return true;
-        } else if(id == R.id.nav_help){
-            startActivity(new Intent(this,FeedbackActivity.class));
-        }
+//        if (id == R.id.nav_deals) {
+//            Intent intent = new Intent(this,DealsNearByActivity.class);
+//            startActivity(intent);
+//            return true;
+//
+//        } else if (id == R.id.nav_wallet) {
+//            Intent intent = new Intent(this,RewardsActivity.class);
+//            startActivity(intent);
+//            return true;
+//        } else if (id == R.id.nav_account) {
+//            Intent intent = new Intent(this,AccountInfoActivity.class);
+//            startActivity(intent);
+//            return true;
+//
+//        } else if (id == R.id.nav_notification) {
+//            Intent intent = new Intent(this,NotificationsActivity.class);
+//            startActivity(intent);
+//            return true;
+//        } else if (id == R.id.nav_refer) {
+//            Intent intent = new Intent(this,ReferAndEarn.class);
+//            startActivity(intent);
+//            return true;
+//        } else if(id == R.id.nav_help){
+//            startActivity(new Intent(this,FeedbackActivity.class));
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

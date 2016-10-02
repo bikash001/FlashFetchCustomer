@@ -2,12 +2,16 @@ package com.buyer.flashfetch.Adapters;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,6 +22,7 @@ import com.buyer.flashfetch.Constants.NearByDealsConstants;
 import com.buyer.flashfetch.Objects.NearByDealsDataModel;
 import com.buyer.flashfetch.R;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,7 +94,46 @@ public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.
         holder.storeDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                TextView storeName, storeAddress, storePhone, storeDetailsOkButton;
 
+                final Dialog dialog = new Dialog(context);
+
+                dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+
+                dialog.setContentView(R.layout.deal_store_details);
+
+                storeName = (TextView)dialog.findViewById(R.id.deals_store_name);
+                storeAddress = (TextView)dialog.findViewById(R.id.deals_store_address);
+                storePhone = (TextView)dialog.findViewById(R.id.deals_store_phone);
+                storeDetailsOkButton = (TextView)dialog.findViewById(R.id.store_details_ok_button);
+
+                storePhone.setPaintFlags(storePhone.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+
+                storeName.setText(dataModel.getShopName());
+                storeAddress.setText(dataModel.getShopAddress());
+
+                if(!TextUtils.isEmpty(dataModel.getShopPhone())){
+                    storePhone.setText(dataModel.getShopPhone());
+                }else{
+                    storePhone.setVisibility(View.GONE);
+                }
+
+                storePhone.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + dataModel.getShopPhone()));
+                        context.startActivity(intent);
+                    }
+                });
+
+                storeDetailsOkButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
             }
         });
 
@@ -105,25 +149,14 @@ public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.
 
                 dialog.setContentView(R.layout.know_more_dialog);
 
-                code = (TextView)dialog.findViewById(R.id.know_more_code);
                 codeDescription = (TextView)dialog.findViewById(R.id.deal_description_text);
                 validUpTo = (TextView)dialog.findViewById(R.id.valid_up_to_text);
                 knowMoreDone = (TextView)dialog.findViewById(R.id.know_more_dialog_ok);
                 availDeal = (TextView)dialog.findViewById(R.id.how_to_avail_deal);
 
-                code.setText("Code : " + dataModel.getItemCode());
                 codeDescription.setText(dataModel.getItemDescription());
                 validUpTo.setText(dataModel.getValidTo());
-//                availDeal.setText(dataModel.getHowToAvaillDeal());
-
-                if(dataModel.getDealsType() == Constants.PICKUP_DEALS){
-
-                    code.setText(dataModel.getItemCode());
-
-                }else if(dataModel.getDealsType() == Constants.INVENTORY_DEALS){
-
-                    code.setVisibility(View.GONE);
-                }
+                availDeal.setText(dataModel.getHowToAvailDeal());
 
                 knowMoreDone.setOnClickListener(new View.OnClickListener() {
                     @Override

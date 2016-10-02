@@ -1,93 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:baselineAligned="false"
-    android:orientation="vertical">
-
-    <include layout="@layout/app_bar"/>
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:weightSum="8"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/addressline"
-            android:inputType="text"
-            android:hint="Flat No/House No"
-            android:layout_marginBottom="8dp"
+        <include layout="@layout/app_bar"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:weightSum="8"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <EditText
-            android:id="@+id/street"
-            android:inputType="text"
-            android:hint="Street/Lane"
-            android:layout_marginBottom="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/addressline"
+                android:inputType="text"
+                android:hint="Flat No/House No"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/area"
-            android:inputType="text"
-            android:hint="Area"
-            android:layout_marginBottom="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/street"
+                android:inputType="text"
+                android:hint="Street/Lane"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/city"
-            android:inputType="text"
-            android:hint="City"
-            android:layout_marginBottom="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/area"
+                android:inputType="text"
+                android:hint="Area"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/state"
-            android:inputType="text"
-            android:hint="State"
-            android:layout_marginBottom="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/city"
+                android:inputType="text"
+                android:hint="City"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <EditText
-            android:hint="Pin"
-            android:id="@+id/postal_code"
-            android:inputType="text"
-            android:maxLength="6"
-            android:layout_marginBottom="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/state"
+                android:inputType="text"
+                android:hint="State"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/phone_address"
-            android:inputType="phone"
-            android:hint="Enter your 10 digit mobile number"
-            android:maxLength="10"
-            android:layout_marginBottom="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <EditText
+                android:hint="Pin"
+                android:id="@+id/postal_code"
+                android:inputType="number"
+                android:maxLength="6"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <EditText
-            android:hint="Tag your Address"
-            android:id="@+id/tag"
+            <EditText
+                android:id="@+id/phone_address"
+                android:inputType="phone"
+                android:hint="Enter your 10 digit mobile number"
+                android:maxLength="10"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:hint="Tag your Address"
+                android:id="@+id/tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/submit"
+            android:text="Submit"
+            android:textStyle="bold"
+            android:background="@color/ff_green"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/submit"
-        android:text="Submit"
-        android:textStyle="bold"
-        android:background="@color/ff_green"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-</LinearLayout>
+</ScrollView>

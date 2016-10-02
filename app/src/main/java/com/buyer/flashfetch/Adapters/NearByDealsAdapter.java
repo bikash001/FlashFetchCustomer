@@ -99,8 +99,8 @@ public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.
                 final Dialog dialog = new Dialog(context);
 
                 dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-
                 dialog.setContentView(R.layout.deal_store_details);
+                dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
 
                 storeName = (TextView)dialog.findViewById(R.id.deals_store_name);
                 storeAddress = (TextView)dialog.findViewById(R.id.deals_store_address);
@@ -146,8 +146,8 @@ public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.
                 final Dialog dialog = new Dialog(context);
 
                 dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-
                 dialog.setContentView(R.layout.know_more_dialog);
+                dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
 
                 codeDescription = (TextView)dialog.findViewById(R.id.deal_description_text);
                 validUpTo = (TextView)dialog.findViewById(R.id.valid_up_to_text);

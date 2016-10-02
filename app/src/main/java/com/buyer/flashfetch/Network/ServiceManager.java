@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.buyer.flashfetch.CommonUtils.Toasts;
 import com.buyer.flashfetch.Constants.URLConstants;
 import com.buyer.flashfetch.DeliveryActivity;
 import com.buyer.flashfetch.Helper.DatabaseHelper;
@@ -42,6 +43,7 @@ public class ServiceManager {
     public static BargainTask bargainTask = null;
     public static QuoteBargainTask quoteBargainTask = null;
     public static PlaceOrderTask placeOrderTask = null;
+    private static FetchDealsTask fetchDealsTask = null;
 
     public static void callUserRegisterService(Context context, SignUpObject signUpObject, final UIListener uiListener) {
 
@@ -521,6 +523,58 @@ public class ServiceManager {
                 DatabaseHelper databaseHelper = new DatabaseHelper(context);
                 databaseHelper.updateQuote(quoteId+"", contentValues);
 
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void callFetchDealsService(Context context, int profileId, final UIListener uiListener) {
+
+        fetchDealsTask = new FetchDealsTask(context, profileId, uiListener);
+        fetchDealsTask.execute();
+    }
+
+    public static class FetchDealsTask extends AsyncTask<Void, Void, Boolean> {
+
+        private JSONObject response;
+        private Context context;
+        private int profileId;
+        private UIListener uiListener;
+
+        public FetchDealsTask(Context context, int profileId, final UIListener uiListener) {
+            this.context = context;
+            this.profileId = profileId;
+            this.uiListener = uiListener;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            ArrayList<PostParam> postParams = new ArrayList<>();
+
+            postParams.add(new PostParam("profile_id", profileId + ""));
+
+            response = PostRequest.execute(URLConstants.URL_NEARBY_DEALS, postParams, null);
+
+            Log.d("RESPONSE", response.toString());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+
+            try {
+                if (response.getJSONObject("data").getInt("result") == 1) {
+
+                    JSONArray jsonArray = response.getJSONObject("data").getJSONArray("deals");
+
+                    for(int i = 0; i < jsonArray.length(); i++){
+
+                    }
+                }else{
+                    Toasts.serverBusyToast(context);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

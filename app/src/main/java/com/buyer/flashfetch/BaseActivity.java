@@ -25,6 +25,7 @@ public class BaseActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(context);
         progressDialog.setTitle("Loading...");
         progressDialog.setMessage("Please wait...");
+        progressDialog.setCancelable(false);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
         return progressDialog;

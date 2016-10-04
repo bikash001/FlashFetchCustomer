@@ -1,6 +1,7 @@
 package com.buyer.flashfetch;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +20,7 @@ import com.buyer.flashfetch.CommonUtils.Utils;
 
 public class ChangePassword extends BaseActivity {
 
+    private Context context;
     private EditText newPassword, confirmPassword;
     private Button changePassword;
     private String email;
@@ -29,6 +31,8 @@ public class ChangePassword extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        context = ChangePassword.this;
+
         setContentView(R.layout.change_password);
 
         Bundle bundle = getIntent().getExtras();
@@ -36,21 +40,25 @@ public class ChangePassword extends BaseActivity {
             email = bundle.getString("EMAIL");
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle("Change Password");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Change Password");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent intent = new Intent(ChangePassword.this, PasswordVerification.class);
-//                  startActivity(intent);
-                onBackPressed();
-            }
-        });
+        if (toolbar != null) {
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+        }
+
+        progressDialog = getProgressDialog(context);
 
         changePasswordLayout = (LinearLayout) findViewById(R.id.change_password_layout);
         progressDialog = getProgressDialog(ChangePassword.this);

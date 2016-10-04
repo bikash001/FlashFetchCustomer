@@ -49,12 +49,16 @@ public class PasswordVerification extends BaseActivity {
             getSupportActionBar().setHomeButtonEnabled(true);
         }
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        if (toolbar != null) {
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+        }
+
+        progressDialog = getProgressDialog(context);
 
         passwordVerificationLayout = (LinearLayout)findViewById(R.id.password_verification_layout);
         progressDialog = getProgressDialog(context);

@@ -136,12 +136,17 @@ public class NearByDealsFragment extends BaseFragment {
         return view;
     }
 
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+    }
+
     private void setUpDataModel() {
 
         if(Utils.isInternetAvailable(getContext())){
             progressDialog.show();
 
-            ServiceManager.callFetchDealsService(getContext(), UserProfile.getProfileId(getContext()), new UIResponseListener<ArrayList<NearByDealsDataModel>>() {
+            ServiceManager.callFetchDealsService(getContext(), new UIResponseListener<ArrayList<NearByDealsDataModel>>() {
                 @Override
                 public void onSuccess(ArrayList<NearByDealsDataModel> responseObj) {
                     progressDialog.dismiss();
@@ -169,25 +174,6 @@ public class NearByDealsFragment extends BaseFragment {
 
         }else{
             Toasts.internetUnavailableToast(getContext());
-        }
-
-        for(int i = 0; i < 5; i++) {
-            NearByDealsDataModel nearByDealsDataModel = new NearByDealsDataModel();
-
-            nearByDealsDataModel.setDealsCategory(NearByDealsConstants.SHOPPING);
-            nearByDealsDataModel.setDealsType(NearByDealsConstants.PICKUP_DEALS);
-            nearByDealsDataModel.setImageUrl(imagesURL[0]);
-            nearByDealsDataModel.setShopName("Modern Sports");
-            nearByDealsDataModel.setShopLocation("Adyar");
-            nearByDealsDataModel.setItemHeading("30% OFF on Yonex Badminton Racquets");
-            nearByDealsDataModel.setItemCode("FFGALC");
-            nearByDealsDataModel.setItemDescription("Get 20% Discount on Transcend, Samsung and Western Digital Hard Disks and 30% discount on Transcend, HP 8GB, 16GB and 32GB Pendrives");
-            nearByDealsDataModel.setValidTo("Sept 22nd");
-            nearByDealsDataModel.setShopAddress("Gandhi Road, Adyar, Chennai, Tamilnadu, 600020");
-            nearByDealsDataModel.setShopPhone("044-64581248");
-            nearByDealsDataModel.setHowToAvailDeal(getResources().getString(R.string.how_to_avail_deal));
-
-            list.add(nearByDealsDataModel);
         }
     }
 }

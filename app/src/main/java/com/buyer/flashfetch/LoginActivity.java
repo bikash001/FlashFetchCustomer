@@ -49,7 +49,6 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
-    private View mLoginFormView;
     private Button mEmailSignInButton;
     private TextView registerHere, forgotPassword;
     private ProgressDialog progressDialog;
@@ -66,9 +65,15 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 //            startActivity(intent);
 //            finish();
 
-            Intent intent = new Intent(context, DealsNearByActivity.class);
-            startActivity(intent);
-            finish();
+            if(UserProfile.isAccountVerified(context)){
+                Intent intent = new Intent(context, DealsNearByActivity.class);
+                startActivity(intent);
+                finish();
+            }else{
+                Intent intent = new Intent(context, AccountVerification.class);
+                startActivity(intent);
+                finish();
+            }
         }
 
         setContentView(R.layout.login);
@@ -82,7 +87,6 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
         progressDialog = getProgressDialog(context);
 
-        mLoginFormView = findViewById(R.id.login_form);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email_login);
         mPasswordView = (EditText) findViewById(R.id.password);
         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
@@ -171,13 +175,19 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 //                        intent.putExtra("LOGIN", true);
 //                        startActivity(intent);
 
-                        Intent intent = new Intent(LoginActivity.this,DealsNearByActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
+                        if(UserProfile.isAccountVerified(context)){
+                            Intent intent = new Intent(LoginActivity.this,DealsNearByActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
 
-                        intent = new Intent(LoginActivity.this, IE_RegistrationIntentService.class);
-                        startService(intent);
-                        finish();
+                            intent = new Intent(LoginActivity.this, IE_RegistrationIntentService.class);
+                            startService(intent);
+                            finish();
+                        }else{
+                            Intent intent = new Intent(LoginActivity.this,AccountVerification.class);
+                            startActivity(intent);
+                            finish();
+                        }
                     }
 
                     @Override
@@ -193,7 +203,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                             mPasswordView.setError(getString(R.string.error_incorrect_password));
                             mPasswordView.requestFocus();
                         } else {
-                            Snackbar.make(mLoginFormView, "No such account exists", Snackbar.LENGTH_LONG);
+                            Toast.makeText(context, "No such account exists", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -201,7 +211,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                     public void onConnectionError() {
                         progressDialog.dismiss();
 
-                        Snackbar.make(mLoginFormView, "Network not available or Server not working", Snackbar.LENGTH_LONG);
+                        Toast.makeText(context, "Network not available or Server not working", Toast.LENGTH_LONG).show();
                     }
 
                     @Override

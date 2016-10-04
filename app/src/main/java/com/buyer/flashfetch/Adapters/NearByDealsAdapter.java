@@ -94,7 +94,7 @@ public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.
         holder.storeDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TextView storeName, storeAddress, storePhone, storeDetailsOkButton;
+                TextView storeName, storeAddress, storePhone, storeDetailsOkButton, storeDetailsGetDirections;
 
                 final Dialog dialog = new Dialog(context);
 
@@ -105,6 +105,7 @@ public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.
                 storeName = (TextView)dialog.findViewById(R.id.deals_store_name);
                 storeAddress = (TextView)dialog.findViewById(R.id.deals_store_address);
                 storePhone = (TextView)dialog.findViewById(R.id.deals_store_phone);
+                storeDetailsGetDirections = (TextView)dialog.findViewById(R.id.store_details_get_directions_button);
                 storeDetailsOkButton = (TextView)dialog.findViewById(R.id.store_details_ok_button);
 
                 storePhone.setPaintFlags(storePhone.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
@@ -117,6 +118,21 @@ public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.
                 }else{
                     storePhone.setVisibility(View.GONE);
                 }
+
+                if(!TextUtils.isEmpty(dataModel.getShopLatitude()) && !TextUtils.isEmpty(dataModel.getShopLongitude())){
+                      storeDetailsGetDirections.setVisibility(View.VISIBLE);
+                }else{
+                    storeDetailsGetDirections.setVisibility(View.GONE);
+                }
+
+                storeDetailsGetDirections.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse("http://maps.google.com/maps?daddr=" + dataModel.getShopLatitude() + "," + dataModel.getShopLongitude()));
+                        context.startActivity(intent);
+                    }
+                });
 
                 storePhone.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -20,12 +20,12 @@ public class Toasts {
         Toast.makeText(context,"Server is currently busy",Toast.LENGTH_SHORT).show();
     }
 
-    public static void notRegisteredEmailToast(Context context){
-        Toast.makeText(context,"Email is not yet registered \n" + " Click register here to create new account",Toast.LENGTH_LONG).show();
+    public static void notRegisteredMobileNumberToast(Context context){
+        Toast.makeText(context,"Mobile number is not yet registered \n" + " Click register here to create new account",Toast.LENGTH_SHORT).show();
     }
 
-    public static void successfullySentMailToast(Context context){
-        Toast.makeText(context,"Successfully sent mail to the registered mail Id",Toast.LENGTH_LONG).show();
+    public static void successfullySentOTP(Context context){
+        Toast.makeText(context,"OTP successfully sent to the registered mobile number",Toast.LENGTH_LONG).show();
     }
 
     public static void emptyPasswordToast(Context context){

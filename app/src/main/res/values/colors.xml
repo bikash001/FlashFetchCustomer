@@ -14,4 +14,6 @@
     <color name="ff_red">#F16565</color>
     <color name="ff_gray">#D5D6D9</color>
     <color name="ff_notif">#CD1721</color>
+    <color name="disable_button_background">#9d9fa2</color>
+    <color name="black">#000</color>
 </resources>

@@ -174,7 +174,7 @@ public class DealsNearByActivity extends BaseActivity implements NavigationView.
 //        fragmentsList.add(NearByDealsFragment.getInstance(TAB_TRENDING));
         fragmentsList.add(NearByDealsFragment.getInstance(TAB_SHOPPING));
         fragmentsList.add(NearByDealsFragment.getInstance(TAB_FOOD));
-        fragmentsList.add(NearByDealsFragment.getInstance(TAB_ENTERTAINMENT));
+//        fragmentsList.add(NearByDealsFragment.getInstance(TAB_ENTERTAINMENT));
         fragmentsList.add(NearByDealsFragment.getInstance(TAB_SERVICES));
 
         FragmentManager fragmentManager = getSupportFragmentManager();

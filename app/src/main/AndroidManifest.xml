@@ -84,56 +84,78 @@
         <!--</activity>-->
 
         <activity
-            android:name=".LoginActivity">
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".RegisterActivity"/>
+        <activity android:name=".RegisterActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".ForgotPassword"/>
+        <activity android:name=".ForgotPassword"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".PasswordVerification"/>
+        <activity android:name=".PasswordVerification"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".ChangePassword"/>
+        <activity android:name=".ChangePassword"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".AccountInfoActivity"/>
+        <activity android:name=".AccountInfoActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".PlaceRequestActivity"/>
+        <activity android:name=".PlaceRequestActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".QuotesActivity"/>
+        <activity android:name=".QuotesActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".MapsActivity" />
+        <activity android:name=".MapsActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".DealsNearByActivity"/>
+        <activity android:name=".DealsNearByActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".NotificationsActivity"/>
+        <activity android:name=".NotificationsActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".HomeDelivery"/>
+        <activity android:name=".HomeDelivery"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".ContactUs" />
+        <activity android:name=".ContactUs"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".FillAddressActivity"/>
+        <activity android:name=".FillAddressActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".RewardsActivity"/>
+        <activity android:name=".RewardsActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".ReferAndEarn" />
+        <activity android:name=".ReferAndEarn"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".FeedbackActivity" />
+        <activity android:name=".FeedbackActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".FeedbackActivity1" />
+        <activity android:name=".FeedbackActivity1"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".FeedbackActivity2"/>
+        <activity android:name=".FeedbackActivity2"
+            android:screenOrientation="portrait"/>
 
         <activity android:name=".DeliveryActivity" />
 
-        <activity android:name=".VerifyEmail"/>
+        <activity android:name=".AccountVerification"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".MaxResponse" />
+        <activity android:name=".MaxResponse"
+            android:screenOrientation="portrait"/>
 
     </application>
 

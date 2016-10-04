@@ -2,29 +2,20 @@ package com.buyer.flashfetch.Network;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.buyer.flashfetch.CommonUtils.Toasts;
 import com.buyer.flashfetch.Constants.URLConstants;
-import com.buyer.flashfetch.DeliveryActivity;
 import com.buyer.flashfetch.Helper.DatabaseHelper;
 import com.buyer.flashfetch.Interfaces.UIListener;
 import com.buyer.flashfetch.Interfaces.UIResponseListener;
-import com.buyer.flashfetch.MainActivity;
-import com.buyer.flashfetch.Objects.BargainObject;
 import com.buyer.flashfetch.Objects.NearByDealsDataModel;
 import com.buyer.flashfetch.Objects.PlaceRequestObject;
 import com.buyer.flashfetch.Objects.PostParam;
 import com.buyer.flashfetch.Objects.Quote;
 import com.buyer.flashfetch.Objects.SignUpObject;
 import com.buyer.flashfetch.Objects.UserProfile;
-import com.buyer.flashfetch.R;
 import com.buyer.flashfetch.ServiceResponseObjects.ProductDetailsResponse;
-import com.buyer.flashfetch.Services.IE_RegistrationIntentService;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -32,7 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by kranthikumar_b on 8/4/2016.
@@ -46,6 +36,8 @@ public class ServiceManager {
     public static QuoteBargainTask quoteBargainTask = null;
     public static PlaceOrderTask placeOrderTask = null;
     private static FetchDealsTask fetchDealsTask = null;
+    private static RetryVerificationTask retryOTPTask = null;
+    private static AccountVerificationTask accountVerificationTask = null;
 
     public static void callUserRegisterService(Context context, SignUpObject signUpObject, final UIListener uiListener) {
 
@@ -60,6 +52,7 @@ public class ServiceManager {
         private String personEmail;
         private String phoneNumber;
         private String password;
+        private String referralCode;
         private UIListener uiListener;
         private Context context;
 
@@ -69,6 +62,7 @@ public class ServiceManager {
             this.personEmail = signUpObject.getPersonEmail();
             this.phoneNumber = signUpObject.getPhoneNumber();
             this.password = signUpObject.getPassword();
+            this.referralCode = signUpObject.getReferralCode();
             this.uiListener = uiListener;
         }
 
@@ -86,6 +80,7 @@ public class ServiceManager {
             postParams.add(new PostParam("email", personEmail));
             postParams.add(new PostParam("pass", password));
             postParams.add(new PostParam("mobile", String.valueOf(phoneNumber)));
+            postParams.add(new PostParam("referral", referralCode));
 
             response = PostRequest.execute(URLConstants.URL_SIGN_UP, postParams, null);
             return null;
@@ -105,9 +100,9 @@ public class ServiceManager {
                     UserProfile.setPassword(password, context);
 
                     if(response.getJSONObject("data").getInt("eflag") == 1){
-                        UserProfile.sentVerificationEmail(true,context);
+                        UserProfile.sentVerificationOTP(true,context);
                     }else{
-                        UserProfile.sentVerificationEmail(false,context);
+                        UserProfile.sentVerificationOTP(false,context);
                     }
 
                     uiListener.onSuccess();
@@ -177,7 +172,14 @@ public class ServiceManager {
 
                     UserProfile.setEmail(email, context);
                     UserProfile.setPassword(password,context);
-//                    UserProfile.setToken(response.getJSONObject("data").getString("token"), context);
+                    UserProfile.setToken(response.getJSONObject("data").getString("token"), context);
+
+                    if(response.getJSONObject("data").getInt("otp_ver") == 1){
+                        UserProfile.setAccountVerified(context,true);
+                    }else{
+                        UserProfile.setAccountVerified(context,false);
+                    }
+
                     uiListener.onSuccess();
 
                 } else if (response.getJSONObject("data").getInt("result") == 0) {
@@ -531,9 +533,9 @@ public class ServiceManager {
         }
     }
 
-    public static void callFetchDealsService(Context context, String profileId, final UIResponseListener<ArrayList<NearByDealsDataModel>> uiListener) {
+    public static void callFetchDealsService(Context context, final UIResponseListener<ArrayList<NearByDealsDataModel>> uiListener) {
 
-        fetchDealsTask = new FetchDealsTask(context, profileId, uiListener);
+        fetchDealsTask = new FetchDealsTask(context, uiListener);
         fetchDealsTask.execute();
     }
 
@@ -541,12 +543,10 @@ public class ServiceManager {
 
         private JSONObject response;
         private Context context;
-        private String profileId;
         private UIResponseListener<ArrayList<NearByDealsDataModel>> uiListener;
 
-        public FetchDealsTask(Context context, String profileId, final UIResponseListener<ArrayList<NearByDealsDataModel>> uiListener) {
+        public FetchDealsTask(Context context, final UIResponseListener<ArrayList<NearByDealsDataModel>> uiListener) {
             this.context = context;
-            this.profileId = profileId;
             this.uiListener = uiListener;
         }
 
@@ -554,7 +554,8 @@ public class ServiceManager {
         protected Boolean doInBackground(Void... params) {
             ArrayList<PostParam> postParams = new ArrayList<>();
 
-            postParams.add(new PostParam("profile_id", profileId));
+            postParams.add(new PostParam("mobile", UserProfile.getPhone(context)));
+            postParams.add(new PostParam("token", UserProfile.getToken(context)));
 
             response = PostRequest.execute(URLConstants.URL_NEARBY_DEALS, postParams, null);
 
@@ -602,6 +603,282 @@ public class ServiceManager {
                 e.printStackTrace();
                 uiListener.onConnectionError();
             }
+        }
+    }
+
+    public static void callVerificationService(Context context, String verificationCode, String mobileNumber, String token, final UIListener uiListener) {
+
+        accountVerificationTask = new AccountVerificationTask(context, verificationCode, mobileNumber, token, uiListener);
+        accountVerificationTask.execute();
+    }
+
+    public static class AccountVerificationTask extends AsyncTask<Void, Void, Boolean> {
+
+        private JSONObject response;
+        private Context context;
+        private String verificationCode, mobileNumber, token;
+        private UIListener uiListener;
+
+        public AccountVerificationTask(Context context, String verificationCode, String mobileNumber, String token, final UIListener uiListener) {
+            this.context = context;
+            this.verificationCode = verificationCode;
+            this.mobileNumber = mobileNumber;
+            this.token = token;
+            this.uiListener = uiListener;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            ArrayList<PostParam> postParams = new ArrayList<>();
+
+            postParams.add(new PostParam("otp_in", verificationCode));
+            postParams.add(new PostParam("mobile", mobileNumber));
+            postParams.add(new PostParam("token", token));
+
+            response = PostRequest.execute(URLConstants.URL_ACCOUNT_VERIFICATION, postParams, null);
+
+            Log.d("RESPONSE", response.toString());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+
+            try {
+                if (response.getJSONObject("data").getInt("result") == 1) {
+                    uiListener.onSuccess();
+                }else{
+                    uiListener.onFailure();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                uiListener.onConnectionError();
+            }
+        }
+    }
+
+    public static void callRetryVerificationService(Context context, String mobileNumber, String token, final UIListener uiListener) {
+
+        retryOTPTask = new RetryVerificationTask(context, mobileNumber, token, uiListener);
+        retryOTPTask.execute();
+    }
+
+    public static class RetryVerificationTask extends AsyncTask<Void, Void, Boolean> {
+
+        private JSONObject response;
+        private Context context;
+        private String mobileNumber, token;
+        private UIListener uiListener;
+
+        public RetryVerificationTask(Context context, String mobileNumber, String token, final UIListener uiListener) {
+            this.context = context;
+            this.mobileNumber = mobileNumber;
+            this.token = token;
+            this.uiListener = uiListener;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            ArrayList<PostParam> postParams = new ArrayList<>();
+
+            postParams.add(new PostParam("mobile", mobileNumber));
+            postParams.add(new PostParam("token", token));
+
+            response = PostRequest.execute(URLConstants.URL_RETRY_VERIFICATION, postParams, null);
+
+            Log.d("RESPONSE", response.toString());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+
+            try {
+                if (response.getJSONObject("data").getInt("result") == 1 && response.getJSONObject("data").getInt("eflag") == 1) {
+                    uiListener.onSuccess();
+                }else{
+                    uiListener.onFailure();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                uiListener.onConnectionError();
+            }
+        }
+    }
+
+    public static void callForgotPasswordService(Context context, String mobileNumber, final UIListener uiListener) {
+
+        ForgotPasswordTask forgotPasswordTask = new ForgotPasswordTask(context, mobileNumber, uiListener);
+        forgotPasswordTask.execute();
+    }
+
+    public static class ForgotPasswordTask extends AsyncTask<Void, Void, Void>{
+
+        private JSONObject response;
+        private String mobileNumber;
+        private Context context;
+        private UIListener uiListener;
+
+        public ForgotPasswordTask(Context context, String mobileNumber, final UIListener uiListener){
+            this.context = context;
+            this.mobileNumber = mobileNumber;
+            this.uiListener = uiListener;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            ArrayList<PostParam> postParams = new ArrayList<>();
+            postParams.add(new PostParam("mobile",mobileNumber));
+
+            response = PostRequest.execute(URLConstants.URL_FORGOT_PASSWORD,postParams,null);
+            Log.d("RESPONSE", response.toString());
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            try{
+                if(response.getJSONObject("data").getInt("result") == 1){
+                    if(response.getJSONObject("data").getInt("eflag") == 0){
+                        uiListener.onFailure(0);
+                    }else{
+                        uiListener.onSuccess();
+                    }
+                }else if(response.getJSONObject("data").getInt("result") == 0){
+                    uiListener.onFailure();
+                }else{
+                    uiListener.onConnectionError();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                uiListener.onConnectionError();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            uiListener.onCancelled();
+        }
+    }
+
+    public static void callPasswordVerificationService(Context context, String email, String verificationCode, final UIListener uiListener) {
+
+        PasswordVerificationTask passwordVerificationTask = new PasswordVerificationTask(context,email,verificationCode,uiListener);
+        passwordVerificationTask.execute();
+    }
+
+    public static class PasswordVerificationTask extends AsyncTask<Void,Void,Void>{
+
+        private JSONObject response;
+        private String email,verificationCode;
+        private UIListener uiListener;
+
+        public PasswordVerificationTask(Context context, String email, String verificationCode, final UIListener uiListener){
+            this.email = email;
+            this.verificationCode = verificationCode;
+            this.uiListener = uiListener;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            ArrayList<PostParam> postParams = new ArrayList<>();
+            postParams.add(new PostParam("email",email));
+            postParams.add(new PostParam("code",verificationCode));
+
+            response = PostRequest.execute(URLConstants.URL_PASSWORD_VERIFICATION,postParams,null);
+            Log.d("RESPONSE", response.toString());
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            try{
+                if(response.getJSONObject("data").getInt("result") == 1){
+                    uiListener.onSuccess();
+                }else if(response.getJSONObject("data").getInt("result") == 0){
+                    uiListener.onFailure();
+                }else{
+                    uiListener.onConnectionError();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                uiListener.onConnectionError();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            uiListener.onCancelled();
+        }
+    }
+
+    public static void callPasswordChangeService(Context context, String email, String password, final UIListener uiListener) {
+
+        ChangePasswordTask changePasswordTask = new ChangePasswordTask(context,email,password,uiListener);
+        changePasswordTask.execute();
+    }
+
+    public static class ChangePasswordTask extends AsyncTask<Void,Void,Void> {
+
+        private JSONObject response;
+        private String email;
+        private String password;
+        private UIListener uiListener;
+
+        public ChangePasswordTask(Context context, String email, String password, final UIListener uiListener){
+            this.email = email;
+            this.password = password;
+            this.uiListener = uiListener;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            ArrayList<PostParam> postParams = new ArrayList<>();
+            postParams.add(new PostParam("email",email));
+            postParams.add(new PostParam("password",password));
+
+            response = PostRequest.execute(URLConstants.URL_PASSWORD_CHANGE,postParams,null);
+            Log.d("RESPONSE", response.toString());
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            try{
+                if(response.getJSONObject("data").getInt("result") == 1){
+                    uiListener.onSuccess();
+                }else{
+                    uiListener.onFailure();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                uiListener.onConnectionError();
+            }
+        }
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            uiListener.onConnectionError();
         }
     }
 }

@@ -23,6 +23,18 @@ public class UserProfile {
         return sharedPreferences.getString("profile_id", "");
     }
 
+    public static void setAccountVerified(Context context, boolean isVerified){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("verified",profileId);
+        editor.commit();
+    }
+
+    public static boolean isAccountVerified(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("verified", false);
+    }
+
     public static void setName(String name, Context context){
         SharedPreferences preferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -51,7 +63,7 @@ public class UserProfile {
         editor.commit();
     }
 
-    public static void sentVerificationEmail(boolean status, Context context){
+    public static void sentVerificationOTP(boolean status, Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("email_verification", status);

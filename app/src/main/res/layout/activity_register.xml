@@ -1,29 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:baselineAligned="false"
-    tools:context=".RegisterActivity">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <include layout="@layout/app_bar" />
 
     <ScrollView
-        android:id="@+id/register_loginform"
-        android:layout_marginTop="96dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="48dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="fill_vertical"
+            android:layout_height="0dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="32dp"
             android:orientation="vertical">
 
             <android.support.design.widget.TextInputLayout
@@ -49,8 +42,8 @@
                     android:id="@+id/email_register"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionNext"
                     android:hint="@string/prompt_email"
+                    android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -67,8 +60,8 @@
                     android:layout_height="match_parent"
                     android:hint="@string/prompt_phone"
                     android:imeOptions="actionNext"
-                    android:maxLength="10"
                     android:inputType="phone"
+                    android:maxLength="10"
                     android:maxLines="1"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
@@ -113,19 +106,24 @@
 
                 <EditText
                     android:id="@+id/referral_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:hint="Referral Code"
                     android:imeOptions="actionDone"
-                    android:singleLine="true"
-                    android:maxLines="1"
                     android:maxLength="5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
 
     </ScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
     <Button
         android:id="@+id/button_register"
@@ -135,4 +133,9 @@
         android:background="@color/ff_green"
         android:text="@string/register" />
 
-</FrameLayout>
+</LinearLayout>
+
+
+
+
+

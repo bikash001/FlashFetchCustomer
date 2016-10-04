@@ -10,13 +10,23 @@ public class URLConstants {
 
     public static String QUOTE_BARGAIN_URL = SERVER + "bargain/";
 
-    public static String URL_SIGN_UP = SERVER + "cussignup/";
-
-    public static String URL_LOGIN = SERVER + "cuslogin/";
-
-    public static String URL_GCM_REGISTER = SERVER + "cusgcm/";
-
     public static String URL_PLACE_ORDER = SERVER + "del/";
 
+    public static String URL_SIGN_UP = SERVER + "signup/";
+
+    public static String URL_LOGIN = SERVER + "login/";
+
+    public static String URL_GCM_REGISTER = SERVER + "gcm/";
+
     public static String URL_NEARBY_DEALS = SERVER + "nearby_deals/";
+
+    public static String URL_ACCOUNT_VERIFICATION = SERVER + "otp_check/";
+
+    public static String URL_RETRY_VERIFICATION = SERVER + "resend_otp/";
+
+    public static String URL_FORGOT_PASSWORD = SERVER + "forgot_pass/";
+
+    public static String URL_PASSWORD_VERIFICATION = SERVER + "pass_ver/";
+
+    public static String URL_PASSWORD_CHANGE = SERVER + "pass_change/";
 }

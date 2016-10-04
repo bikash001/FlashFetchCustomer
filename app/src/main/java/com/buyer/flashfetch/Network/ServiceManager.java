@@ -16,6 +16,7 @@ import com.buyer.flashfetch.Interfaces.UIListener;
 import com.buyer.flashfetch.Interfaces.UIResponseListener;
 import com.buyer.flashfetch.MainActivity;
 import com.buyer.flashfetch.Objects.BargainObject;
+import com.buyer.flashfetch.Objects.NearByDealsDataModel;
 import com.buyer.flashfetch.Objects.PlaceRequestObject;
 import com.buyer.flashfetch.Objects.PostParam;
 import com.buyer.flashfetch.Objects.Quote;
@@ -31,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kranthikumar_b on 8/4/2016.
@@ -529,7 +531,7 @@ public class ServiceManager {
         }
     }
 
-    public static void callFetchDealsService(Context context, int profileId, final UIListener uiListener) {
+    public static void callFetchDealsService(Context context, String profileId, final UIResponseListener<ArrayList<NearByDealsDataModel>> uiListener) {
 
         fetchDealsTask = new FetchDealsTask(context, profileId, uiListener);
         fetchDealsTask.execute();
@@ -539,10 +541,10 @@ public class ServiceManager {
 
         private JSONObject response;
         private Context context;
-        private int profileId;
-        private UIListener uiListener;
+        private String profileId;
+        private UIResponseListener<ArrayList<NearByDealsDataModel>> uiListener;
 
-        public FetchDealsTask(Context context, int profileId, final UIListener uiListener) {
+        public FetchDealsTask(Context context, String profileId, final UIResponseListener<ArrayList<NearByDealsDataModel>> uiListener) {
             this.context = context;
             this.profileId = profileId;
             this.uiListener = uiListener;
@@ -552,7 +554,7 @@ public class ServiceManager {
         protected Boolean doInBackground(Void... params) {
             ArrayList<PostParam> postParams = new ArrayList<>();
 
-            postParams.add(new PostParam("profile_id", profileId + ""));
+            postParams.add(new PostParam("profile_id", profileId));
 
             response = PostRequest.execute(URLConstants.URL_NEARBY_DEALS, postParams, null);
 
@@ -569,14 +571,36 @@ public class ServiceManager {
 
                     JSONArray jsonArray = response.getJSONObject("data").getJSONArray("deals");
 
-                    for(int i = 0; i < jsonArray.length(); i++){
+                    ArrayList<NearByDealsDataModel> nearByDealsDataModelList = new ArrayList<>();
 
+                    for(int i = 0; i < jsonArray.length(); i++){
+                        JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+
+                        NearByDealsDataModel nearByDealsDataModel = new NearByDealsDataModel();
+
+                        nearByDealsDataModel.setDealId(jsonObject.getString("deal_id"));
+                        nearByDealsDataModel.setDealsCategory(jsonObject.getInt("deal_category"));
+                        nearByDealsDataModel.setDealsType(jsonObject.getInt("deal_type"));
+                        nearByDealsDataModel.setShopName(jsonObject.getString("store_name"));
+                        nearByDealsDataModel.setShopLocation(jsonObject.getString("store_location"));
+                        nearByDealsDataModel.setShopPhone(jsonObject.getString("store_phone"));
+                        nearByDealsDataModel.setShopLatitude(jsonObject.getString("store_latitude"));
+                        nearByDealsDataModel.setShopLongitude(jsonObject.getString("store_longitude"));
+                        nearByDealsDataModel.setImageUrl(jsonObject.getString("image"));
+                        nearByDealsDataModel.setItemHeading(jsonObject.getString("deal_heading"));
+                        nearByDealsDataModel.setItemDescription(jsonObject.getString("deal_description"));
+                        nearByDealsDataModel.setValidTo(jsonObject.getString("deal_validity"));
+
+                        nearByDealsDataModelList.add(nearByDealsDataModel);
                     }
+
+                    uiListener.onSuccess(nearByDealsDataModelList);
                 }else{
-                    Toasts.serverBusyToast(context);
+                    uiListener.onFailure();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                uiListener.onConnectionError();
             }
         }
     }

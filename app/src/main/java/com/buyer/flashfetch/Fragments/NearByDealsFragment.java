@@ -23,7 +23,10 @@ import com.buyer.flashfetch.CommonUtils.Toasts;
 import com.buyer.flashfetch.CommonUtils.Utils;
 import com.buyer.flashfetch.Constants.Constants;
 import com.buyer.flashfetch.Constants.NearByDealsConstants;
+import com.buyer.flashfetch.Interfaces.UIResponseListener;
+import com.buyer.flashfetch.Network.ServiceManager;
 import com.buyer.flashfetch.Objects.NearByDealsDataModel;
+import com.buyer.flashfetch.Objects.UserProfile;
 import com.buyer.flashfetch.R;
 
 import java.util.ArrayList;
@@ -136,7 +139,33 @@ public class NearByDealsFragment extends BaseFragment {
     private void setUpDataModel() {
 
         if(Utils.isInternetAvailable(getContext())){
-//            progressDialog.show();
+            progressDialog.show();
+
+            ServiceManager.callFetchDealsService(getContext(), UserProfile.getProfileId(getContext()), new UIResponseListener<ArrayList<NearByDealsDataModel>>() {
+                @Override
+                public void onSuccess(ArrayList<NearByDealsDataModel> responseObj) {
+                    progressDialog.dismiss();
+                    if(responseObj != null && responseObj.size() > 0) {
+                        list = responseObj;
+                    }
+                }
+
+                @Override
+                public void onFailure() {
+                    progressDialog.dismiss();
+                    Toasts.serverBusyToast(getContext());
+                }
+
+                @Override
+                public void onConnectionError() {
+                    Toasts.serverBusyToast(getContext());
+                }
+
+                @Override
+                public void onCancelled() {
+                    Toasts.serverBusyToast(getContext());
+                }
+            });
 
         }else{
             Toasts.internetUnavailableToast(getContext());

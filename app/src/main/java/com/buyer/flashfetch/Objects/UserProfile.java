@@ -9,7 +9,19 @@ public class UserProfile {
     private static final String SHARED_PREFERENCES = "flash_fetch_buyer";
 
     public static String name,email,token,text;
-    public static int category;
+    public static int category, profileId;
+
+    public static void setProfileId(Context context, int profileId){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("profile_id",profileId);
+        editor.commit();
+    }
+
+    public static String getProfileId(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        return sharedPreferences.getString("profile_id", "");
+    }
 
     public static void setName(String name, Context context){
         SharedPreferences preferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);

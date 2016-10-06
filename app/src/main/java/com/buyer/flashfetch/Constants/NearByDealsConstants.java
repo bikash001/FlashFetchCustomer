@@ -11,9 +11,11 @@ public class NearByDealsConstants {
 
     public static final int FOOD = SHOPPING + 1;
 
-    public static final int ENTERTAINMENT = FOOD + 1;
+    public static final int SERVICES = FOOD + 1;
 
-    public static final int SERVICES = ENTERTAINMENT + 1;
+    public static final int ENTERTAINMENT = SERVICES + 1;
+
+    public static final int TRENDING = ENTERTAINMENT + 1;
 
     //Deals Delivery Constants
 

@@ -14,8 +14,10 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
 import com.buyer.flashfetch.Helper.DatabaseHelper;
 import com.buyer.flashfetch.MainActivity;
+import com.buyer.flashfetch.Objects.Notification;
 import com.buyer.flashfetch.Objects.Quote;
 import com.buyer.flashfetch.R;
 import com.google.android.gms.gcm.GcmListenerService;
@@ -104,6 +106,18 @@ public class IE_GCMListenerService extends GcmListenerService {
                 databaseHelper.updateQuote(data.getString(SELLER_ID),contentValues);
                 sendNotification("Quote", "You have a new bargain for a " + data.getString(PRODUCT_NAME));
             }
+        }else{
+            ContentValues contentValues = new ContentValues();
+
+            contentValues.put(Notification.NOTIFICATION_ID, System.currentTimeMillis() + "");
+            contentValues.put(Notification.NOTIFICATION_HEADING, data.getString("heading"));
+            contentValues.put(Notification.NOTIFICATION_DESCRIPTION, data.getString("text"));
+            contentValues.put(Notification.NOTIFICATION_IMAGE_URL, data.getString("image"));
+
+            DatabaseHelper databaseHelper = new DatabaseHelper(IE_GCMListenerService.this);
+            databaseHelper.addNotification(contentValues);
+
+            sendNotification(data.getString("heading"), data.getString("text"));
         }
     }
 

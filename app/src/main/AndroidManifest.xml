@@ -85,7 +85,8 @@
 
         <activity
             android:name=".LoginActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -119,7 +120,7 @@
         <activity android:name=".MapsActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".DealsNearByActivity"
+        <activity android:name=".NearByDealsActivity"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".NotificationsActivity"

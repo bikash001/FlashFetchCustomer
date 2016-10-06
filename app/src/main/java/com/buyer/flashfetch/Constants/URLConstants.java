@@ -18,7 +18,7 @@ public class URLConstants {
 
     public static String URL_GCM_REGISTER = SERVER + "gcm/";
 
-    public static String URL_NEARBY_DEALS = SERVER + "nearby_deals/";
+    public static String URL_NEARBY_DEALS = SERVER + "deal_fetch/";
 
     public static String URL_ACCOUNT_VERIFICATION = SERVER + "otp_check/";
 
@@ -29,4 +29,8 @@ public class URLConstants {
     public static String URL_PASSWORD_VERIFICATION = SERVER + "pass_ver/";
 
     public static String URL_PASSWORD_CHANGE = SERVER + "pass_change/";
+
+    public static String URL_VOUCHER_ID = SERVER + "voucher_id/";
+
+    public static String URL_UPLOAD_CONTACTS = SERVER + "contact/";
 }

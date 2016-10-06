@@ -2,6 +2,7 @@ package com.buyer.flashfetch;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +14,8 @@ import android.widget.LinearLayout;
 
 import com.buyer.flashfetch.CommonUtils.Toasts;
 import com.buyer.flashfetch.CommonUtils.Utils;
+import com.buyer.flashfetch.Constants.Constants;
+import com.buyer.flashfetch.Interfaces.UIListener;
 import com.buyer.flashfetch.Network.ServiceManager;
 
 /**
@@ -21,7 +24,7 @@ import com.buyer.flashfetch.Network.ServiceManager;
 public class PasswordVerification extends BaseActivity {
 
     private Context context;
-    private String email;
+    private String number;
     private EditText verificationEditText;
     private Button submitButton;
     private ProgressDialog progressDialog;
@@ -37,7 +40,7 @@ public class PasswordVerification extends BaseActivity {
 
         Bundle bundle =getIntent().getExtras();
         if(bundle != null && bundle.getBoolean("FROM_FORGOT_PASSWORD_FLOW")) {
-            email = bundle.getString("EMAIL");
+            number = bundle.getString("MOBILE_NUMBER");
         }
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.app_toolbar);
@@ -75,37 +78,40 @@ public class PasswordVerification extends BaseActivity {
 
                         progressDialog.show();
 
-                        //TODO: integrate service call
+                        ServiceManager.callPasswordVerificationService(context, number, verificationEditText.getText().toString(), new UIListener() {
+                            @Override
+                            public void onSuccess() {
+                                Toasts.verificationCodeSuccessfullyVerified(context);
+                                progressDialog.dismiss();
 
-//                        ServiceManager.callPasswordVerificationService(context, email, verificationEditText.getText().toString(), new UIListener() {
-//                            @Override
-//                            public void onSuccess() {
-//                                Toasts.verificationCodeSuccessfullyVerified(context);
-//                                progressDialog.dismiss();
-//
-//                                Intent intent = new Intent(context, ChangePassword.class);
-//                                intent.putExtra("EMAIL", email);
-//                                intent.putExtra("FROM_PASSWORD_VERIFICATION_FLOW", Constants.IS_FROM_PASSWORD_VERIFICATION);
-//                                startActivity(intent);
-//                            }
-//
-//                            @Override
-//                            public void onFailure() {
-//                                Toasts.enterValidVerificationCode(context);
-//                                progressDialog.dismiss();
-//                            }
-//
-//                            @Override
-//                            public void onConnectionError() {
-//                                Toasts.serverBusyToast(context);
-//                                progressDialog.dismiss();
-//                            }
-//
-//                            @Override
-//                            public void onCancelled() {
-//                                progressDialog.dismiss();
-//                            }
-//                        });
+                                Intent intent = new Intent(context, ChangePassword.class);
+                                intent.putExtra("MOBILE_NUMBER", number);
+                                intent.putExtra("FROM_PASSWORD_VERIFICATION_FLOW", true);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onFailure() {
+                                progressDialog.dismiss();
+                                Toasts.enterValidVerificationCode(context);
+                            }
+
+                            @Override
+                            public void onFailure(int result) {
+
+                            }
+
+                            @Override
+                            public void onConnectionError() {
+                                progressDialog.dismiss();
+                                Toasts.serverBusyToast(context);
+                            }
+
+                            @Override
+                            public void onCancelled() {
+                                progressDialog.dismiss();
+                            }
+                        });
                     }else{
                         Toasts.internetUnavailableToast(context);
                     }

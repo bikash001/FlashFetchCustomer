@@ -19,6 +19,13 @@
         <!--<item name="colorAccent">@color/colorAccent</item>-->
     </style>
 
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="colorPrimary">#29303f</item>
+        <item name="colorPrimaryDark">#29303f</item>
+        <item name="colorAccent">@color/ff_green</item>
+    </style>
+
     <style name="PopupTheme" parent="AppTheme">
         <item name="android:popupBackground">#37474F</item>
     </style>

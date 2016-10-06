@@ -125,7 +125,7 @@ public class AccountVerification extends BaseActivity {
                                     progressDialog.dismiss();
                                     UserProfile.setAccountVerified(context,true);
                                     Toast.makeText(context, "Verification Completed! Welcome to FlashFetch", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(AccountVerification.this,DealsNearByActivity.class);
+                                    Intent intent = new Intent(AccountVerification.this,NearByDealsActivity.class);
                                     startActivity(intent);
                                     finish();
                                 }

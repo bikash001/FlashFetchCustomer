@@ -2,6 +2,7 @@ package com.buyer.flashfetch;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +14,9 @@ import android.widget.LinearLayout;
 
 import com.buyer.flashfetch.CommonUtils.Toasts;
 import com.buyer.flashfetch.CommonUtils.Utils;
+import com.buyer.flashfetch.Interfaces.UIListener;
+import com.buyer.flashfetch.Network.ServiceManager;
+import com.buyer.flashfetch.Objects.UserProfile;
 
 /**
  * Created by KRANTHI on 03-07-2016.
@@ -23,7 +27,7 @@ public class ChangePassword extends BaseActivity {
     private Context context;
     private EditText newPassword, confirmPassword;
     private Button changePassword;
-    private String email;
+    private String mobileNumber;
     private ProgressDialog progressDialog;
     private LinearLayout changePasswordLayout;
 
@@ -37,13 +41,13 @@ public class ChangePassword extends BaseActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null && bundle.getBoolean("FROM_PASSWORD_VERIFICATION_FLOW")) {
-            email = bundle.getString("EMAIL");
+            mobileNumber = bundle.getString("MOBILE_NUMBER");
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
         setSupportActionBar(toolbar);
 
-        if(getSupportActionBar() != null) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("Change Password");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
@@ -81,41 +85,39 @@ public class ChangePassword extends BaseActivity {
 
                             progressDialog.show();
 
-//                            ServiceManager.callPasswordChangeService(ChangePassword.this, email, newPassword.getText().toString(), new UIListener() {
-//
-//                                @Override
-//                                public void onSuccess() {
-//                                    Toasts.successfulPasswordChangeToast(ChangePassword.this);
-//
-//                                    if (UserProfile.getCategory(ChangePassword.this) == 1) {
-//                                        Intent i = new Intent(ChangePassword.this, CategoryActivity.class);
-////                                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                        startActivity(i);
-//                                    } else {
-//                                        Intent i = new Intent(ChangePassword.this, MainActivity.class);
-////                                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                        startActivity(i);
-//                                        finish();
-//                                    }
-//                                }
-//
-//                                @Override
-//                                public void onFailure() {
-//                                    progressDialog.dismiss();
-//                                    Toasts.serverBusyToast(ChangePassword.this);
-//                                }
-//
-//                                @Override
-//                                public void onConnectionError() {
-//                                    progressDialog.dismiss();
-//                                    Toasts.serverBusyToast(ChangePassword.this);
-//                                }
-//
-//                                @Override
-//                                public void onCancelled() {
-//                                    progressDialog.dismiss();
-//                                }
-//                            });
+                            ServiceManager.callPasswordChangeService(ChangePassword.this, mobileNumber, newPassword.getText().toString(), new UIListener() {
+
+                                @Override
+                                public void onSuccess() {
+                                    Toasts.successfulPasswordChangeToast(ChangePassword.this);
+
+                                    Intent intent = new Intent(ChangePassword.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+
+                                @Override
+                                public void onFailure() {
+                                    progressDialog.dismiss();
+                                    Toasts.serverBusyToast(ChangePassword.this);
+                                }
+
+                                @Override
+                                public void onFailure(int result) {
+
+                                }
+
+                                @Override
+                                public void onConnectionError() {
+                                    progressDialog.dismiss();
+                                    Toasts.serverBusyToast(ChangePassword.this);
+                                }
+
+                                @Override
+                                public void onCancelled() {
+                                    progressDialog.dismiss();
+                                }
+                            });
                         } else {
                             Toasts.internetUnavailableToast(ChangePassword.this);
                         }

@@ -3,8 +3,12 @@ package com.buyer.flashfetch.Network;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.buyer.flashfetch.CommonUtils.Utils;
+import com.buyer.flashfetch.Constants.IEventConstants;
+import com.buyer.flashfetch.Constants.NearByDealsConstants;
 import com.buyer.flashfetch.Constants.URLConstants;
 import com.buyer.flashfetch.Helper.DatabaseHelper;
 import com.buyer.flashfetch.Interfaces.UIListener;
@@ -15,8 +19,8 @@ import com.buyer.flashfetch.Objects.PostParam;
 import com.buyer.flashfetch.Objects.Quote;
 import com.buyer.flashfetch.Objects.SignUpObject;
 import com.buyer.flashfetch.Objects.UserProfile;
+import com.buyer.flashfetch.ServiceResponseObjects.DealsVoucherResponse;
 import com.buyer.flashfetch.ServiceResponseObjects.ProductDetailsResponse;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,9 +33,11 @@ import java.util.ArrayList;
  */
 public class ServiceManager {
 
+    private static final String TAB = ServiceManager.class.getSimpleName();
+
     public static UserSignUpTask userSignUpTask = null;
     public static UserLoginTask userLoginTask = null;
-    public static ProductFetchTask productFetchTask = null;
+//    public static ProductFetchTask productFetchTask = null;
     public static BargainTask bargainTask = null;
     public static QuoteBargainTask quoteBargainTask = null;
     public static PlaceOrderTask placeOrderTask = null;
@@ -78,7 +84,7 @@ public class ServiceManager {
 
             postParams.add(new PostParam("name", personName));
             postParams.add(new PostParam("email", personEmail));
-            postParams.add(new PostParam("pass", password));
+            postParams.add(new PostParam("password", password));
             postParams.add(new PostParam("mobile", String.valueOf(phoneNumber)));
             postParams.add(new PostParam("referral", referralCode));
 
@@ -105,6 +111,10 @@ public class ServiceManager {
                         UserProfile.sentVerificationOTP(false,context);
                     }
 
+                    if(!TextUtils.isEmpty(response.getJSONObject("data").getString("referral_code"))){
+                        UserProfile.setReferralCode(context, response.getJSONObject("data").getString("referral_code"));
+                    }
+
                     uiListener.onSuccess();
 
                 } else if (response.getJSONObject("data").getInt("result") == 0) {
@@ -128,23 +138,23 @@ public class ServiceManager {
         }
     }
 
-    public static void callUserLoginService(Context context, String email, String password, final UIListener uiListener) {
+    public static void callUserLoginService(Context context, String mobile, String password, final UIListener uiListener) {
 
-        userLoginTask = new UserLoginTask(context, email, password, uiListener);
+        userLoginTask = new UserLoginTask(context, mobile, password, uiListener);
         userLoginTask.execute();
     }
 
     public static class UserLoginTask extends AsyncTask<Void, Void, Void> {
 
         private JSONObject response;
-        private String email;
+        private String mobile;
         private String password;
         private Context context;
         private UIListener uiListener;
 
-        public UserLoginTask(Context context, String email, String password, final UIListener uiListener) {
+        public UserLoginTask(Context context, String mobile, String password, final UIListener uiListener) {
             this.context = context;
-            this.email = email;
+            this.mobile = mobile;
             this.password = password;
             this.uiListener = uiListener;
         }
@@ -154,8 +164,8 @@ public class ServiceManager {
 
             ArrayList<PostParam> postParams = new ArrayList<PostParam>();
 
-            postParams.add(new PostParam("email", email));
-            postParams.add(new PostParam("pass", password));
+            postParams.add(new PostParam("mobile", mobile));
+            postParams.add(new PostParam("password", password));
 
             response = PostRequest.execute(URLConstants.URL_LOGIN, postParams, null);
             Log.d("RESPONSE", response.toString());
@@ -170,7 +180,7 @@ public class ServiceManager {
             try {
                 if (response.getJSONObject("data").getInt("result") == 1) {
 
-                    UserProfile.setEmail(email, context);
+                    UserProfile.setPhone(mobile, context);
                     UserProfile.setPassword(password,context);
                     UserProfile.setToken(response.getJSONObject("data").getString("token"), context);
 
@@ -204,66 +214,66 @@ public class ServiceManager {
 
     public static void callProductFetchService(Context context, String productText, final UIResponseListener<ProductDetailsResponse> uiResponseListener) {
 
-        productFetchTask = new ProductFetchTask(context, productText, uiResponseListener);
-        productFetchTask.execute();
+//        productFetchTask = new ProductFetchTask(context, productText, uiResponseListener);
+//        productFetchTask.execute();
     }
 
-    public static class ProductFetchTask extends AsyncTask<Void, Void, Void> {
-
-        private JSONObject response;
-        private Context context;
-        private String productText;
-        private UIResponseListener<ProductDetailsResponse> uiResponseListener;
-
-        public ProductFetchTask(Context context, String productText, final UIResponseListener<ProductDetailsResponse> uiResponseListener) {
-
-            this.context = context;
-            this.productText = productText;
-            this.uiResponseListener = uiResponseListener;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-            ArrayList<PostParam> postParams = new ArrayList<>();
-
-            postParams.add(new PostParam("item", productText));
-            response = PostRequest.execute(URLConstants.URL_FETCH_PRODUCT, postParams, null);
-
-            Log.d("RESPONSE", response.toString());
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
-            try {
-                JSONObject data = response.getJSONObject("data");
-
-                if (data.getInt("result") == 1) {
-                    ProductDetailsResponse productDetailsResponse = new Gson().fromJson(data.toString(), ProductDetailsResponse.class);
-                    uiResponseListener.onSuccess(productDetailsResponse);
-                } else {
-                    uiResponseListener.onFailure();
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
-            uiResponseListener.onCancelled();
-        }
-    }
+//    public static class ProductFetchTask extends AsyncTask<Void, Void, Void> {
+//
+//        private JSONObject response;
+//        private Context context;
+//        private String productText;
+//        private UIResponseListener<ProductDetailsResponse> uiResponseListener;
+//
+//        public ProductFetchTask(Context context, String productText, final UIResponseListener<ProductDetailsResponse> uiResponseListener) {
+//
+//            this.context = context;
+//            this.productText = productText;
+//            this.uiResponseListener = uiResponseListener;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//
+//            ArrayList<PostParam> postParams = new ArrayList<>();
+//
+//            postParams.add(new PostParam("item", productText));
+//            response = PostRequest.execute(URLConstants.URL_FETCH_PRODUCT, postParams, null);
+//
+//            Log.d("RESPONSE", response.toString());
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//
+//            try {
+//                JSONObject data = response.getJSONObject("data");
+//
+//                if (data.getInt("result") == 1) {
+//                    ProductDetailsResponse productDetailsResponse = new Gson().fromJson(data.toString(), ProductDetailsResponse.class);
+//                    uiResponseListener.onSuccess(productDetailsResponse);
+//                } else {
+//                    uiResponseListener.onFailure();
+//                }
+//
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        @Override
+//        protected void onCancelled() {
+//            super.onCancelled();
+//            uiResponseListener.onCancelled();
+//        }
+//    }
 
     public static void callProductRequestService(Context context, PlaceRequestObject placeRequestObject, final UIListener uiListener) {
 
@@ -508,8 +518,8 @@ public class ServiceManager {
         }
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
 
             try {
                 JSONArray routeArray = response.getJSONObject("data").getJSONArray("routes");
@@ -533,25 +543,31 @@ public class ServiceManager {
         }
     }
 
-    public static void callFetchDealsService(Context context, final UIResponseListener<ArrayList<NearByDealsDataModel>> uiListener) {
+    public static void callFetchDealsService(Context context, int dealCategory, final UIListener uiListener) {
 
-        fetchDealsTask = new FetchDealsTask(context, uiListener);
+        fetchDealsTask = new FetchDealsTask(context, dealCategory, uiListener);
         fetchDealsTask.execute();
     }
 
-    public static class FetchDealsTask extends AsyncTask<Void, Void, Boolean> {
+    public static class FetchDealsTask extends AsyncTask<Void, Void, Void>{
 
+        private ArrayList<NearByDealsDataModel> totalDeals = new ArrayList<>();
+        private ArrayList<NearByDealsDataModel> shoppingDeals = new ArrayList<>();
+        private ArrayList<NearByDealsDataModel> foodDeals = new ArrayList<>();
+        private ArrayList<NearByDealsDataModel> servicesDeals = new ArrayList<>();
         private JSONObject response;
         private Context context;
-        private UIResponseListener<ArrayList<NearByDealsDataModel>> uiListener;
+        private UIListener uiListener;
+        private int dealCategory;
 
-        public FetchDealsTask(Context context, final UIResponseListener<ArrayList<NearByDealsDataModel>> uiListener) {
+        public FetchDealsTask(Context context, int dealCategory, UIListener uiListener){
             this.context = context;
+            this.dealCategory = dealCategory;
             this.uiListener = uiListener;
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected Void doInBackground(Void... voids) {
             ArrayList<PostParam> postParams = new ArrayList<>();
 
             postParams.add(new PostParam("mobile", UserProfile.getPhone(context)));
@@ -559,13 +575,12 @@ public class ServiceManager {
 
             response = PostRequest.execute(URLConstants.URL_NEARBY_DEALS, postParams, null);
 
-            Log.d("RESPONSE", response.toString());
             return null;
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
 
             try {
                 if (response.getJSONObject("data").getInt("result") == 1) {
@@ -591,11 +606,48 @@ public class ServiceManager {
                         nearByDealsDataModel.setItemHeading(jsonObject.getString("deal_heading"));
                         nearByDealsDataModel.setItemDescription(jsonObject.getString("deal_description"));
                         nearByDealsDataModel.setValidTo(jsonObject.getString("deal_validity"));
+                        nearByDealsDataModel.setActivated(jsonObject.getInt("activated"));
+
+                        if(jsonObject.getString("activated").equalsIgnoreCase(1 + "")){
+                            nearByDealsDataModel.setVoucherId(jsonObject.getString("voucher_id"));
+                        }
 
                         nearByDealsDataModelList.add(nearByDealsDataModel);
                     }
 
-                    uiListener.onSuccess(nearByDealsDataModelList);
+                    totalDeals = nearByDealsDataModelList;
+
+                    for (int i = 0; i < totalDeals.size(); i++) {
+
+                        switch (totalDeals.get(i).getDealsCategory()) {
+                            case NearByDealsConstants.SHOPPING:
+                                if (checkUniqueDeal(shoppingDeals, totalDeals.get(i))) {
+                                    shoppingDeals.add(totalDeals.get(i));
+                                }
+
+                                break;
+                            case NearByDealsConstants.FOOD:
+                                if (checkUniqueDeal(foodDeals, totalDeals.get(i))) {
+                                    foodDeals.add(totalDeals.get(i));
+                                }
+                                break;
+                            case NearByDealsConstants.SERVICES:
+                                if (checkUniqueDeal(servicesDeals, totalDeals.get(i))) {
+                                    servicesDeals.add(totalDeals.get(i));
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    if(dealCategory == IEventConstants.EVENT_SHOPPING_DEALS_NEARBY){
+                        Utils.postEvent(TAB, IEventConstants.EVENT_SHOPPING_DEALS_NEARBY, shoppingDeals);
+                    }else if(dealCategory == IEventConstants.EVENT_FOOD_DEALS_NEARBY){
+                        Utils.postEvent(TAB, IEventConstants.EVENT_FOOD_DEALS_NEARBY, foodDeals);
+                    }else if(dealCategory == IEventConstants.EVENT_SERVICES_DEALS_NEARBY){
+                        Utils.postEvent(TAB, IEventConstants.EVENT_SERVICES_DEALS_NEARBY, servicesDeals);
+                    }
                 }else{
                     uiListener.onFailure();
                 }
@@ -604,6 +656,15 @@ public class ServiceManager {
                 uiListener.onConnectionError();
             }
         }
+    }
+
+    private static boolean checkUniqueDeal(ArrayList<NearByDealsDataModel> nearByDealsDataModels, NearByDealsDataModel nearByDealsDataModel) {
+        for (int i = 0; i < nearByDealsDataModels.size(); i++) {
+            if (nearByDealsDataModel.getDealId().equalsIgnoreCase(nearByDealsDataModels.get(i).getDealId())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static void callVerificationService(Context context, String verificationCode, String mobileNumber, String token, final UIListener uiListener) {
@@ -638,7 +699,7 @@ public class ServiceManager {
             response = PostRequest.execute(URLConstants.URL_ACCOUNT_VERIFICATION, postParams, null);
 
             Log.d("RESPONSE", response.toString());
-            return null;
+            return true;
         }
 
         @Override
@@ -688,7 +749,7 @@ public class ServiceManager {
             response = PostRequest.execute(URLConstants.URL_RETRY_VERIFICATION, postParams, null);
 
             Log.d("RESPONSE", response.toString());
-            return null;
+            return true;
         }
 
         @Override
@@ -773,20 +834,20 @@ public class ServiceManager {
         }
     }
 
-    public static void callPasswordVerificationService(Context context, String email, String verificationCode, final UIListener uiListener) {
+    public static void callPasswordVerificationService(Context context, String number, String verificationCode, final UIListener uiListener) {
 
-        PasswordVerificationTask passwordVerificationTask = new PasswordVerificationTask(context,email,verificationCode,uiListener);
+        PasswordVerificationTask passwordVerificationTask = new PasswordVerificationTask(context,number,verificationCode,uiListener);
         passwordVerificationTask.execute();
     }
 
     public static class PasswordVerificationTask extends AsyncTask<Void,Void,Void>{
 
         private JSONObject response;
-        private String email,verificationCode;
+        private String number,verificationCode;
         private UIListener uiListener;
 
-        public PasswordVerificationTask(Context context, String email, String verificationCode, final UIListener uiListener){
-            this.email = email;
+        public PasswordVerificationTask(Context context, String number, String verificationCode, final UIListener uiListener){
+            this.number = number;
             this.verificationCode = verificationCode;
             this.uiListener = uiListener;
         }
@@ -795,8 +856,8 @@ public class ServiceManager {
         protected Void doInBackground(Void... voids) {
 
             ArrayList<PostParam> postParams = new ArrayList<>();
-            postParams.add(new PostParam("email",email));
-            postParams.add(new PostParam("code",verificationCode));
+            postParams.add(new PostParam("mobile",number));
+            postParams.add(new PostParam("verif",verificationCode));
 
             response = PostRequest.execute(URLConstants.URL_PASSWORD_VERIFICATION,postParams,null);
             Log.d("RESPONSE", response.toString());
@@ -829,21 +890,21 @@ public class ServiceManager {
         }
     }
 
-    public static void callPasswordChangeService(Context context, String email, String password, final UIListener uiListener) {
+    public static void callPasswordChangeService(Context context, String mobileNumber, String password, final UIListener uiListener) {
 
-        ChangePasswordTask changePasswordTask = new ChangePasswordTask(context,email,password,uiListener);
+        ChangePasswordTask changePasswordTask = new ChangePasswordTask(context,mobileNumber,password,uiListener);
         changePasswordTask.execute();
     }
 
     public static class ChangePasswordTask extends AsyncTask<Void,Void,Void> {
 
         private JSONObject response;
-        private String email;
+        private String mobileNumber;
         private String password;
         private UIListener uiListener;
 
-        public ChangePasswordTask(Context context, String email, String password, final UIListener uiListener){
-            this.email = email;
+        public ChangePasswordTask(Context context, String mobileNumber, String password, final UIListener uiListener){
+            this.mobileNumber = mobileNumber;
             this.password = password;
             this.uiListener = uiListener;
         }
@@ -852,8 +913,8 @@ public class ServiceManager {
         protected Void doInBackground(Void... voids) {
 
             ArrayList<PostParam> postParams = new ArrayList<>();
-            postParams.add(new PostParam("email",email));
-            postParams.add(new PostParam("password",password));
+            postParams.add(new PostParam("mobile",mobileNumber));
+            postParams.add(new PostParam("npass",password));
 
             response = PostRequest.execute(URLConstants.URL_PASSWORD_CHANGE,postParams,null);
             Log.d("RESPONSE", response.toString());
@@ -867,6 +928,115 @@ public class ServiceManager {
             try{
                 if(response.getJSONObject("data").getInt("result") == 1){
                     uiListener.onSuccess();
+                }else{
+                    uiListener.onFailure();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                uiListener.onConnectionError();
+            }
+        }
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            uiListener.onConnectionError();
+        }
+    }
+
+    public static void callUploadContactsService(Context context, String mobileNumber, ArrayList<String> contactList, final UIListener uiListener) {
+
+        UpLoadContactsTask upLoadContactsTask = new UpLoadContactsTask(context,mobileNumber,contactList,uiListener);
+        upLoadContactsTask.execute();
+    }
+
+    public static class UpLoadContactsTask extends AsyncTask<Void,Void,Void> {
+
+        private JSONObject response;
+        private String mobileNumber;
+        private ArrayList<String> contactList;
+        private UIListener uiListener;
+
+        public UpLoadContactsTask(Context context, String mobileNumber, ArrayList<String> contactList, final UIListener uiListener){
+            this.mobileNumber = mobileNumber;
+            this.contactList = contactList;
+            this.uiListener = uiListener;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            ArrayList<PostParam> postParams = new ArrayList<>();
+            postParams.add(new PostParam("mobile",mobileNumber));
+            postParams.add(new PostParam("contacts",contactList.toString()));
+
+            response = PostRequest.execute(URLConstants.URL_UPLOAD_CONTACTS,postParams,null);
+            Log.d("RESPONSE", response.toString());
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            try{
+                if(response.getJSONObject("data").getInt("result") == 1){
+                    uiListener.onSuccess();
+                }else{
+                    uiListener.onFailure();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                uiListener.onConnectionError();
+            }
+        }
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            uiListener.onConnectionError();
+        }
+    }
+
+    public static void callGetVoucherIdService(Context context, String dealId, final UIResponseListener<DealsVoucherResponse> uiListener) {
+
+        GetVoucherIdTask getVoucherIdTask = new GetVoucherIdTask(context, dealId, uiListener);
+        getVoucherIdTask.execute();
+    }
+
+    public static class GetVoucherIdTask extends AsyncTask<Void,Void,Void> {
+
+        private Context context;
+        private JSONObject response;
+        private String dealId;
+        private UIResponseListener<DealsVoucherResponse> uiListener;
+
+        public GetVoucherIdTask(Context context, String dealId, final UIResponseListener<DealsVoucherResponse> uiListener){
+            this.context = context;
+            this.dealId = dealId;
+            this.uiListener = uiListener;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            ArrayList<PostParam> postParams = new ArrayList<>();
+            postParams.add(new PostParam("mobile", UserProfile.getPhone(context)));
+            postParams.add(new PostParam("token", UserProfile.getToken(context)));
+            postParams.add(new PostParam("deal_id", dealId));
+
+            response = PostRequest.execute(URLConstants.URL_VOUCHER_ID,postParams,null);
+            Log.d("RESPONSE", response.toString());
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            try{
+                if(response.getJSONObject("data").getInt("result") == 1){
+                    DealsVoucherResponse dealsVoucherResponse = new DealsVoucherResponse();
+                    dealsVoucherResponse.setVoucherID(response.getJSONObject("data").getString("voucher_id"));
+                    uiListener.onSuccess(dealsVoucherResponse);
                 }else{
                     uiListener.onFailure();
                 }

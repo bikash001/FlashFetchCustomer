@@ -8,8 +8,8 @@ import java.io.Serializable;
 public class NearByDealsDataModel implements Serializable {
 
     private String dealId,shopName, imageUrl, itemHeading, itemCode, itemDescription, shopLocation, validFrom, validTo, activateDeal, shopAddress, shopLatitude,
-            shopLongitude, productURL, productName, productSubCategory, howToAvailDeal, shopPhone;
-    private boolean isDeliverable;
+            shopLongitude, productURL, productName, productSubCategory, howToAvailDeal, shopPhone, voucherId;
+    private boolean isDeliverable, isActivated;
     private int shopId, dealsCategory, dealsType, quantityOrdered;
 
     public String getImageUrl() {
@@ -194,5 +194,25 @@ public class NearByDealsDataModel implements Serializable {
 
     public void setDealId(String dealId) {
         this.dealId = dealId;
+    }
+
+    public boolean isActivated() {
+        return isActivated;
+    }
+
+    public void setActivated(int activated) {
+        if(activated == 1){
+            isActivated = true;
+        }else {
+            isActivated = false;
+        }
+    }
+
+    public String getVoucherId() {
+        return voucherId;
+    }
+
+    public void setVoucherId(String voucherId) {
+        this.voucherId = voucherId;
     }
 }

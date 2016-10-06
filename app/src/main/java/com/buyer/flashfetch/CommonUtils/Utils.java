@@ -15,12 +15,14 @@ import android.widget.Toast;
 import com.buyer.flashfetch.Constants.Constants;
 import com.buyer.flashfetch.Interfaces.UIListener;
 import com.buyer.flashfetch.LoginActivity;
+import com.buyer.flashfetch.Objects.IEvent;
 import com.buyer.flashfetch.Objects.UserProfile;
 import com.buyer.flashfetch.Services.IE_RegistrationIntentService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import org.greenrobot.eventbus.EventBus;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -41,6 +43,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * Created by KRANTHI on 05-06-2016.
  */
 public class Utils {
+    private static EventBus eventBus;
 
 //    private static EventBus eventBus;
 
@@ -266,42 +269,42 @@ public class Utils {
         return containedUrls;
     }
 
-//    private static void initEventBus(){
-//        if (eventBus == null) {
-//            eventBus = EventBus.getDefault();
-//        }
-//    }
-//
-//    public static void registerEventBus(Object receiver){
-//        initEventBus();
-//        eventBus.register(receiver);
-//    }
-//
-//    public static void unregisterEventBus(Object receiver){
-//        initEventBus();
-//        eventBus.unregister(receiver);
-//    }
-//
-//    public static void postEvent(Object event){
-//        initEventBus();
-//        eventBus.post(event);
-//    }
-//
-//    public static void postStickyEvent(Object event){
-//        initEventBus();
-//        eventBus.postSticky(event);
-//    }
-//
-//    public static void registerSticky(Object receiver){
-//        initEventBus();
-//        eventBus.register(receiver);
-//    }
-//
-//    public static void postEvent(String eventName, int eventId, Object object){
-//        IEvent.Builder builder = new IEvent.Builder();
-//        builder.setEventID(eventId);
-//        builder.setEventName(eventName);
-//        builder.setEventObject(object);
-//        postEvent(builder.build());
-//    }
+    private static void initEventBus(){
+        if (eventBus == null) {
+            eventBus = EventBus.getDefault();
+        }
+    }
+
+    public static void registerEventBus(Object receiver){
+        initEventBus();
+        eventBus.register(receiver);
+    }
+
+    public static void unregisterEventBus(Object receiver){
+        initEventBus();
+        eventBus.unregister(receiver);
+    }
+
+    public static void postEvent(Object event){
+        initEventBus();
+        eventBus.post(event);
+    }
+
+    public static void postStickyEvent(Object event){
+        initEventBus();
+        eventBus.postSticky(event);
+    }
+
+    public static void registerSticky(Object receiver){
+        initEventBus();
+        eventBus.register(receiver);
+    }
+
+    public static void postEvent(String eventName, int eventId, Object object){
+        IEvent.Builder builder = new IEvent.Builder();
+        builder.setEventID(eventId);
+        builder.setEventName(eventName);
+        builder.setEventObject(object);
+        postEvent(builder.build());
+    }
 }

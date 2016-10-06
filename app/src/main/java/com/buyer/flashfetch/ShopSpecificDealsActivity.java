@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.buyer.flashfetch.Adapters.ShopSpecificDealsViewPagerAdapter;
-import com.buyer.flashfetch.Fragments.NearByDealsFragment;
 import com.buyer.flashfetch.Fragments.ShopSpecificDealsFragment;
 
 import java.util.ArrayList;

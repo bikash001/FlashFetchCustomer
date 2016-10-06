@@ -4,6 +4,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.buyer.flashfetch.Fragments.FoodDealsFragment;
+import com.buyer.flashfetch.Fragments.ServicesDealsFragment;
+import com.buyer.flashfetch.Fragments.ShoppingDealsFragment;
+
 import java.util.List;
 
 public class NearByDealsViewPagerAdapter extends FragmentStatePagerAdapter {
@@ -16,14 +20,15 @@ public class NearByDealsViewPagerAdapter extends FragmentStatePagerAdapter {
         this.tabTitles = tabTitles;
     }
 
-    public void setFragmentList(List<Fragment> list){
-        this.dealsNearByFragmentList = list;
-    }
-
     @Override
     public Fragment getItem(int position) {
-        if(dealsNearByFragmentList != null) {
-            return dealsNearByFragmentList.get(position);
+        switch (position){
+            case 0:
+                return new ShoppingDealsFragment();
+            case 1:
+                return new FoodDealsFragment();
+            case 2:
+                return new ServicesDealsFragment();
         }
         return null;
     }

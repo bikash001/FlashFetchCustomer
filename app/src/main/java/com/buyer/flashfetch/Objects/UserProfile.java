@@ -26,7 +26,7 @@ public class UserProfile {
     public static void setAccountVerified(Context context, boolean isVerified){
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("verified",profileId);
+        editor.putBoolean("verified",isVerified);
         editor.commit();
     }
 
@@ -67,6 +67,13 @@ public class UserProfile {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("email_verification", status);
+        editor.commit();
+    }
+
+    public static void setReferralCode(Context context, String referralCode){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("referral_code", referralCode);
         editor.commit();
     }
 
@@ -196,6 +203,11 @@ public class UserProfile {
     public static int getCategory(Context context) {
         SharedPreferences pref = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
         return pref.getInt("category", 1);
+    }
+
+    public static String getReferralCode(Context context){
+        SharedPreferences pref = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        return pref.getString("referral_code", "");
     }
 
   /*  public static String getText(Context context) {

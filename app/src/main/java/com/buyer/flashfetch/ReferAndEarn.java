@@ -8,11 +8,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.buyer.flashfetch.Objects.UserProfile;
 
 public class ReferAndEarn extends AppCompatActivity implements View.OnClickListener{
 
     private ImageView whatsApp,gMail,hangout,more;
+    private TextView referralCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +33,18 @@ public class ReferAndEarn extends AppCompatActivity implements View.OnClickListe
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        if (toolbar != null) {
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+        }
+
+        referralCode = (TextView)findViewById(R.id.code);
+
+        referralCode.setText("Your Code: " + UserProfile.getReferralCode(ReferAndEarn.this));
 
         whatsApp = (ImageView) findViewById(R.id.whatsapp);
         gMail = (ImageView) findViewById(R.id.gmail);

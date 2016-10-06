@@ -1,6 +1,7 @@
 package com.buyer.flashfetch.Adapters;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -17,10 +18,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.buyer.flashfetch.CommonUtils.Toasts;
+import com.buyer.flashfetch.CommonUtils.Utils;
 import com.buyer.flashfetch.Constants.Constants;
+import com.buyer.flashfetch.Constants.IEventConstants;
 import com.buyer.flashfetch.Constants.NearByDealsConstants;
+import com.buyer.flashfetch.Interfaces.StringResponseListener;
+import com.buyer.flashfetch.Interfaces.UIListener;
+import com.buyer.flashfetch.Interfaces.UIResponseListener;
+import com.buyer.flashfetch.Network.ServiceManager;
+import com.buyer.flashfetch.Objects.IEvent;
 import com.buyer.flashfetch.Objects.NearByDealsDataModel;
+import com.buyer.flashfetch.Objects.UserProfile;
 import com.buyer.flashfetch.R;
+import com.buyer.flashfetch.ServiceResponseObjects.DealsVoucherResponse;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -28,7 +41,10 @@ import java.util.List;
 
 public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.MyViewHolder>{
 
+    private static String VOUCHER_ID = "";
+
     private Context context;
+    private ProgressDialog progressDialog;
     private ArrayList<NearByDealsDataModel> nearByDealsDataModelList;
 
     public NearByDealsAdapter(Context context, ArrayList<NearByDealsDataModel> list){
@@ -38,7 +54,7 @@ public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView shopName,knowMore,heading, buyNow, storeDetails;
+        public TextView shopName,knowMore,heading, buyNow, storeDetails, voucherID;
         public ImageView imageView;
         public LinearLayout pickUpLayout;
 
@@ -53,6 +69,7 @@ public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.
             heading = (TextView)itemView.findViewById(R.id.heading);
             buyNow = (TextView)itemView.findViewById(R.id.buy_now_button);
             storeDetails = (TextView)itemView.findViewById(R.id.store_details);
+            voucherID = (TextView)itemView.findViewById(R.id.voucher_id);
         }
     }
 
@@ -79,13 +96,52 @@ public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.
             holder.buyNow.setBackgroundColor(context.getResources().getColor(R.color.ff_black));
         }
 
+        if(dataModel.isActivated()){
+            holder.voucherID.setText(dataModel.getVoucherId());
+            holder.buyNow.setVisibility(View.GONE);
+            holder.pickUpLayout.setVisibility(View.VISIBLE);
+        }
+
         holder.buyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(dataModel.getDealsType() == NearByDealsConstants.PICKUP_DEALS){
-                    holder.buyNow.setVisibility(View.GONE);
-                    holder.pickUpLayout.setVisibility(View.VISIBLE);
-                }else if(dataModel.getDealsType() == NearByDealsConstants.INVENTORY_DEALS){
+                if (dataModel.getDealsType() == NearByDealsConstants.PICKUP_DEALS) {
+
+                    if (Utils.isInternetAvailable(context)) {
+                        displayProgressDialog();
+
+                        ServiceManager.callGetVoucherIdService(context, dataModel.getDealId(), new UIResponseListener<DealsVoucherResponse>() {
+                            @Override
+                            public void onSuccess(DealsVoucherResponse result) {
+                                hideProgressDialog();
+                                holder.voucherID.setText(result.getVoucherID());
+                                holder.buyNow.setVisibility(View.GONE);
+                                holder.pickUpLayout.setVisibility(View.VISIBLE);
+                            }
+
+                            @Override
+                            public void onFailure() {
+                                hideProgressDialog();
+                                Toasts.serverBusyToast(context);
+                            }
+
+                            @Override
+                            public void onConnectionError() {
+                                hideProgressDialog();
+                                Toasts.serverBusyToast(context);
+                            }
+
+                            @Override
+                            public void onCancelled() {
+
+                            }
+                        });
+
+                    } else {
+                        Toasts.internetUnavailableToast(context);
+                    }
+                    
+                } else if (dataModel.getDealsType() == NearByDealsConstants.INVENTORY_DEALS) {
 
                 }
             }
@@ -188,6 +244,25 @@ public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.
 
     @Override
     public int getItemCount() {
+        if(nearByDealsDataModelList == null){
+            return 0;
+        }
         return nearByDealsDataModelList.size();
+    }
+
+    public void displayProgressDialog(){
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setTitle("Activating...");
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setCancelable(false);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
+        progressDialog.show();
+    }
+
+    private void hideProgressDialog(){
+        if(progressDialog != null){
+            progressDialog.dismiss();
+        }
     }
 }

@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 
 public class UserProfile {
 
-    private static final String SHARED_PREFERENCES = "flash_fetch_buyer";
+    public static final String SHARED_PREFERENCES = "flash_fetch_buyer";
 
     public static String name,email,token,text;
     public static int category, profileId;

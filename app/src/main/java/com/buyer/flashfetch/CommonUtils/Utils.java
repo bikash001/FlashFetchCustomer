@@ -201,7 +201,7 @@ public class Utils {
     private static void logout(Activity activity) {
         clearApplicationData(activity);
 
-        SharedPreferences prefs = activity.getSharedPreferences("sharedPreferences", 0);
+        SharedPreferences prefs = activity.getSharedPreferences(UserProfile.SHARED_PREFERENCES, 0);
         prefs.edit().putString("delete", "hellothisisacheck").apply();
 
         Log.d("delete", prefs.getString("delete", "nope"));

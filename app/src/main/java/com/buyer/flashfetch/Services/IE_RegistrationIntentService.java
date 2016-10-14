@@ -94,7 +94,7 @@ public class IE_RegistrationIntentService extends IntentService {
 
     private void sendRegistrationToServer(String freshtoken) {
         ArrayList<PostParam> PostParams = new ArrayList<PostParam>();
-        PostParams.add(new PostParam("email", UserProfile.getEmail(IE_RegistrationIntentService.this)));
+        PostParams.add(new PostParam("mobile", UserProfile.getPhone(IE_RegistrationIntentService.this)));
         PostParams.add(new PostParam("gcmid",freshtoken));
         PostParams.add(new PostParam("token",UserProfile.getToken(IE_RegistrationIntentService.this)));
 

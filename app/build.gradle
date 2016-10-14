@@ -48,7 +48,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.4'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'jp.wasabeef:recyclerview-animators:2.2.4'
-
 }
 
 

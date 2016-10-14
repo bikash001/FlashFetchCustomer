@@ -65,8 +65,6 @@ public class ChangePassword extends BaseActivity {
         progressDialog = getProgressDialog(context);
 
         changePasswordLayout = (LinearLayout) findViewById(R.id.change_password_layout);
-        progressDialog = getProgressDialog(ChangePassword.this);
-
         newPassword = (EditText) findViewById(R.id.forgot_new_password);
         confirmPassword = (EditText) findViewById(R.id.forgot_confirm_password);
         changePassword = (Button) findViewById(R.id.change_password);

@@ -100,4 +100,8 @@
     <string name="how_to_avail_deal">1. Activate the deal by clicking "Activate Deal" \n2. Get details of the store and visit the store \n3. Carry your phone and show the deal to merchant \n4. Merchant verifies the deal and you can redeem it with the code.</string>
 
     <string name="otp_retry_text">Retry (\%s\")</string>
+
+    <string name="shop_name">Shop Name</string>
+    <string name="shop_phone">Shop Phone</string>
+    <string name="shop_address">Shop Address</string>
 </resources>

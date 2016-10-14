@@ -1,16 +1,46 @@
 package com.buyer.flashfetch.Objects;
 
+import android.content.Context;
+import android.database.Cursor;
+
+import com.buyer.flashfetch.Helper.DatabaseHelper;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by KRANTHI on 28-06-2016.
  */
 public class NearByDealsDataModel implements Serializable {
 
-    private String dealId,shopName, imageUrl, itemHeading, itemCode, itemDescription, shopLocation, validFrom, validTo, activateDeal, shopAddress, shopLatitude,
-            shopLongitude, productURL, productName, productSubCategory, howToAvailDeal, shopPhone, voucherId;
-    private boolean isDeliverable, isActivated;
-    private int shopId, dealsCategory, dealsType, quantityOrdered;
+    public static final String DEAL_TABLE_NAME = "nearby_deals";
+
+    public static final String DEALS_ID = "deals_id";
+    public static final String DEAL_TYPE = "deal_type";
+    public static final String DEAL_CATEGORY = "deal_category";
+    public static final String IMAGE_URL = "image_url";
+    public static final String DEAL_HEADING = "deal_heading";
+    public static final String DEAL_DESCRIPTION = "deal_description";
+    public static final String DEAL_VALID_UPTO = "deal_valid_upto";
+    public static final String HOW_TO_AVAIL_DEAL = "how_to_avail_deal";
+    public static final String ACTIVATED = "activated";
+    public static final String VOUCHER_ID = "voucher_id";
+    public static final String SHOP_NAME = "shop_name";
+    public static final String SHOP_PHONE = "shop_phone";
+    public static final String SHOP_LOCATION = "shop_location";
+    public static final String SHOP_ADDRESS = "shop_address";
+    public static final String SHOP_LATITUDE = "shop_latitude";
+    public static final String SHOP_LONGITUDE = "shop_longitude";
+
+    public static String[] DEALS_COLUMN_NAMES = {"deals_id", "deal_type", "deal_category", "image_url", "deal_heading", "deal_description",
+            "deal_valid_upto", "how_to_avail_deal", "activated", "voucher_id", "shop_name", "shop_phone", "shop_location",
+            "shop_address", "shop_latitude", "shop_longitude"};
+
+    private String imageUrl;
+    private String dealId, itemHeading, itemDescription, validTo, howToAvailDeal, voucherId;
+    private String shopName, shopPhone, shopLongitude, shopLatitude, shopAddress, shopLocation;
+    private boolean isActivated;
+    private int dealsCategory, dealsType;
 
     public String getImageUrl() {
         return imageUrl;
@@ -36,22 +66,6 @@ public class NearByDealsDataModel implements Serializable {
         this.itemDescription = itemDescription;
     }
 
-    public boolean isDeliverable() {
-        return isDeliverable;
-    }
-
-    public void setDeliverable(boolean deliverable) {
-        isDeliverable = deliverable;
-    }
-
-    public int getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(int shopId) {
-        this.shopId = shopId;
-    }
-
     public int getDealsCategory() {
         return dealsCategory;
     }
@@ -68,22 +82,6 @@ public class NearByDealsDataModel implements Serializable {
         this.itemHeading = itemHeading;
     }
 
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public String getProductSubCategory() {
-        return productSubCategory;
-    }
-
-    public void setProductSubCategory(String productSubCategory) {
-        this.productSubCategory = productSubCategory;
-    }
-
     public String getShopLocation() {
         return shopLocation;
     }
@@ -92,28 +90,12 @@ public class NearByDealsDataModel implements Serializable {
         this.shopLocation = shopLocation;
     }
 
-    public String getValidFrom() {
-        return validFrom;
-    }
-
-    public void setValidFrom(String validFrom) {
-        this.validFrom = validFrom;
-    }
-
     public String getValidTo() {
         return validTo;
     }
 
     public void setValidTo(String validTo) {
         this.validTo = validTo;
-    }
-
-    public String getActivateDeal() {
-        return activateDeal;
-    }
-
-    public void setActivateDeal(String activateDeal) {
-        this.activateDeal = activateDeal;
     }
 
     public String getShopAddress() {
@@ -132,14 +114,6 @@ public class NearByDealsDataModel implements Serializable {
         this.shopLatitude = shopLatitude;
     }
 
-    public String getProductURL() {
-        return productURL;
-    }
-
-    public void setProductURL(String productURL) {
-        this.productURL = productURL;
-    }
-
     public String getShopLongitude() {
         return shopLongitude;
     }
@@ -154,22 +128,6 @@ public class NearByDealsDataModel implements Serializable {
 
     public void setDealsType(int dealsType) {
         this.dealsType = dealsType;
-    }
-
-    public int getQuantityOrdered() {
-        return quantityOrdered;
-    }
-
-    public void setQuantityOrdered(int quantityOrdered) {
-        this.quantityOrdered = quantityOrdered;
-    }
-
-    public String getItemCode() {
-        return itemCode;
-    }
-
-    public void setItemCode(String itemCode) {
-        this.itemCode = itemCode;
     }
 
     public String getHowToAvailDeal() {
@@ -214,5 +172,51 @@ public class NearByDealsDataModel implements Serializable {
 
     public void setVoucherId(String voucherId) {
         this.voucherId = voucherId;
+    }
+
+    public static ArrayList<NearByDealsDataModel> getArrayList(Cursor c) {
+        ArrayList<NearByDealsDataModel> arrayList = new ArrayList<>();
+        while (c.moveToNext()) {
+            arrayList.add(parseDeal(c));
+        }
+        return arrayList;
+    }
+
+    public static ArrayList<NearByDealsDataModel> getAllDeals(Context context){
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        return databaseHelper.getAllDeals();
+    }
+
+    public static NearByDealsDataModel getDeal(Context context, String dealId){
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        return databaseHelper.getDeal(dealId);
+    }
+
+    public static ArrayList<NearByDealsDataModel> getDeals(Context context, String dealCategory){
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        return databaseHelper.getDeals(dealCategory);
+    }
+
+    public static NearByDealsDataModel parseDeal(Cursor cursor){
+        NearByDealsDataModel nearByDealsDataModel = new NearByDealsDataModel();
+
+        nearByDealsDataModel.setDealId(cursor.getString(0));
+        nearByDealsDataModel.setDealsType(cursor.getInt(1));
+        nearByDealsDataModel.setDealsCategory(cursor.getInt(2));
+        nearByDealsDataModel.setImageUrl(cursor.getString(3));
+        nearByDealsDataModel.setItemHeading(cursor.getString(4));
+        nearByDealsDataModel.setItemDescription(cursor.getString(5));
+        nearByDealsDataModel.setValidTo(cursor.getString(6));
+        nearByDealsDataModel.setHowToAvailDeal(cursor.getString(7));
+        nearByDealsDataModel.setActivated(cursor.getInt(8));
+        nearByDealsDataModel.setVoucherId(cursor.getString(9));
+        nearByDealsDataModel.setShopName(cursor.getString(10));
+        nearByDealsDataModel.setShopPhone(cursor.getString(11));
+        nearByDealsDataModel.setShopLocation(cursor.getString(12));
+        nearByDealsDataModel.setShopAddress(cursor.getString(13));
+        nearByDealsDataModel.setShopLatitude(cursor.getString(14));
+        nearByDealsDataModel.setShopLongitude(cursor.getString(15));
+
+        return nearByDealsDataModel;
     }
 }

@@ -19,6 +19,7 @@ import com.buyer.flashfetch.Adapters.NearByDealsAdapter;
 import com.buyer.flashfetch.CommonUtils.Toasts;
 import com.buyer.flashfetch.CommonUtils.Utils;
 import com.buyer.flashfetch.Constants.IEventConstants;
+import com.buyer.flashfetch.Constants.NearByDealsConstants;
 import com.buyer.flashfetch.Interfaces.UIListener;
 import com.buyer.flashfetch.Network.ServiceManager;
 import com.buyer.flashfetch.Objects.IEvent;
@@ -39,26 +40,8 @@ public class ShoppingDealsFragment extends Fragment{
     private RecyclerView recyclerView;
     private NearByDealsAdapter nearByDealsAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ProgressDialog progressDialog;
 
     private ArrayList<NearByDealsDataModel> shoppingDeals = new ArrayList<>();
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Utils.registerEventBus(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        Utils.unregisterEventBus(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
 
     @Nullable
     @Override
@@ -72,7 +55,7 @@ public class ShoppingDealsFragment extends Fragment{
             @Override
             public void onRefresh() {
 
-                setUpData();
+                setNearByDealsAdapter();
                 nearByDealsAdapter.notifyDataSetChanged();
 
                 new Handler().postDelayed(new Runnable() {
@@ -101,22 +84,29 @@ public class ShoppingDealsFragment extends Fragment{
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        setNearByDealsAdapter();
+
         return view;
     }
 
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        if (savedInstanceState != null) {
-            shoppingDeals = (ArrayList<NearByDealsDataModel>) savedInstanceState.getSerializable(SHOPPING_DEALS);
-        } else {
-            setUpData();
-        }
-    }
+//    @Override
+//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//
+//        if (savedInstanceState != null) {
+//            shoppingDeals = (ArrayList<NearByDealsDataModel>) savedInstanceState.getSerializable(SHOPPING_DEALS);
+//            setNearByDealsAdapter();
+//        } else {
+//            setNearByDealsAdapter();
+//        }
+//    }
 
     private void setNearByDealsAdapter() {
+
+        if(shoppingDeals == null){
+            shoppingDeals = NearByDealsDataModel.getDeals(getContext(), NearByDealsConstants.SHOPPING + "");
+        }
 
         nearByDealsAdapter = new NearByDealsAdapter(getContext(), shoppingDeals);
 
@@ -128,78 +118,30 @@ public class ShoppingDealsFragment extends Fragment{
         recyclerView.setAdapter(new ScaleInAnimationAdapter(alphaInAnimationAdapter));
     }
 
-    private void setUpData() {
-        if (Utils.isInternetAvailable(getContext())) {
-            showProgressDialog();
 
-            ServiceManager.callFetchDealsService(getContext(), IEventConstants.EVENT_SHOPPING_DEALS_NEARBY, new UIListener() {
-                @Override
-                public void onSuccess() {
 
-                }
+//    public void showProgressDialog() {
+//        progressDialog = new ProgressDialog(getContext());
+//        progressDialog.setTitle("Loading...");
+//        progressDialog.setMessage("Please wait...");
+//        progressDialog.setCancelable(false);
+//        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//
+//        progressDialog.show();
+//    }
+//
+//    private void hideProgressDialog() {
+//        if (progressDialog != null && progressDialog.isShowing()) {
+//            progressDialog.dismiss();
+//        }
+//    }
+//
+//    @Override
+//    public void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable(SHOPPING_DEALS, shoppingDeals);
+//    }
 
-                @Override
-                public void onFailure() {
-                    progressDialog.dismiss();
-                    Toasts.serverBusyToast(getContext());
-                }
 
-                @Override
-                public void onFailure(int result) {
-                    progressDialog.dismiss();
-                    Toasts.serverBusyToast(getContext());
-                }
-
-                @Override
-                public void onConnectionError() {
-                    progressDialog.dismiss();
-                    Toasts.serverBusyToast(getContext());
-                }
-
-                @Override
-                public void onCancelled() {
-                    progressDialog.dismiss();
-                    Toasts.serverBusyToast(getContext());
-                }
-            });
-
-        } else {
-            Toasts.internetUnavailableToast(getContext());
-        }
-    }
-
-    public void showProgressDialog() {
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Loading...");
-        progressDialog.setMessage("Please wait...");
-        progressDialog.setCancelable(false);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-
-        progressDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(SHOPPING_DEALS, shoppingDeals);
-    }
-
-    @Subscribe
-    public void onEvent(IEvent iEvent) {
-        if (iEvent.getEventID() == IEventConstants.EVENT_SHOPPING_DEALS_NEARBY) {
-            hideProgressDialog();
-
-            if (iEvent.getEventObject() != null) {
-                shoppingDeals = (ArrayList<NearByDealsDataModel>) iEvent.getEventObject();
-                setNearByDealsAdapter();
-            }
-        }
-    }
 }

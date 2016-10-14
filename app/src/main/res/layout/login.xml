@@ -28,9 +28,8 @@
                 android:layout_height="wrap_content"
                 android:hint="Mobile Number"
                 android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:singleLine="true" />
+                android:inputType="number"
+                android:maxLines="1" />
 
         </android.support.design.widget.TextInputLayout>
 

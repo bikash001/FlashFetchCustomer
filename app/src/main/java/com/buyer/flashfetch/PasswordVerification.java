@@ -64,7 +64,6 @@ public class PasswordVerification extends BaseActivity {
         progressDialog = getProgressDialog(context);
 
         passwordVerificationLayout = (LinearLayout)findViewById(R.id.password_verification_layout);
-        progressDialog = getProgressDialog(context);
         verificationEditText = (EditText)findViewById(R.id.verification_edit_text);
         submitButton = (Button)findViewById(R.id.submit_verification_button);
 

@@ -115,6 +115,10 @@ public class ServiceManager {
                         UserProfile.setReferralCode(context, response.getJSONObject("data").getString("referral_code"));
                     }
 
+                    if(!TextUtils.isEmpty(response.getJSONObject("data").getString("referral_code"))){
+                        UserProfile.setReferralCode(context, response.getJSONObject("data").getString("referral_code"));
+                    }
+
                     uiListener.onSuccess();
 
                 } else if (response.getJSONObject("data").getInt("result") == 0) {
@@ -543,26 +547,20 @@ public class ServiceManager {
         }
     }
 
-    public static void callFetchDealsService(Context context, int dealCategory, final UIListener uiListener) {
+    public static void callFetchDealsService(Context context, final UIListener uiListener) {
 
-        fetchDealsTask = new FetchDealsTask(context, dealCategory, uiListener);
+        fetchDealsTask = new FetchDealsTask(context, uiListener);
         fetchDealsTask.execute();
     }
 
     public static class FetchDealsTask extends AsyncTask<Void, Void, Void>{
 
-        private ArrayList<NearByDealsDataModel> totalDeals = new ArrayList<>();
-        private ArrayList<NearByDealsDataModel> shoppingDeals = new ArrayList<>();
-        private ArrayList<NearByDealsDataModel> foodDeals = new ArrayList<>();
-        private ArrayList<NearByDealsDataModel> servicesDeals = new ArrayList<>();
         private JSONObject response;
         private Context context;
         private UIListener uiListener;
-        private int dealCategory;
 
-        public FetchDealsTask(Context context, int dealCategory, UIListener uiListener){
+        public FetchDealsTask(Context context, UIListener uiListener){
             this.context = context;
-            this.dealCategory = dealCategory;
             this.uiListener = uiListener;
         }
 
@@ -587,67 +585,37 @@ public class ServiceManager {
 
                     JSONArray jsonArray = response.getJSONObject("data").getJSONArray("deals");
 
-                    ArrayList<NearByDealsDataModel> nearByDealsDataModelList = new ArrayList<>();
+                    DatabaseHelper databaseHelper = new DatabaseHelper(context);
 
                     for(int i = 0; i < jsonArray.length(); i++){
                         JSONObject jsonObject = (JSONObject) jsonArray.get(i);
 
-                        NearByDealsDataModel nearByDealsDataModel = new NearByDealsDataModel();
+                        ContentValues contentValues = new ContentValues();
 
-                        nearByDealsDataModel.setDealId(jsonObject.getString("deal_id"));
-                        nearByDealsDataModel.setDealsCategory(jsonObject.getInt("deal_category"));
-                        nearByDealsDataModel.setDealsType(jsonObject.getInt("deal_type"));
-                        nearByDealsDataModel.setShopName(jsonObject.getString("store_name"));
-                        nearByDealsDataModel.setShopLocation(jsonObject.getString("store_location"));
-                        nearByDealsDataModel.setShopPhone(jsonObject.getString("store_phone"));
-                        nearByDealsDataModel.setShopLatitude(jsonObject.getString("store_latitude"));
-                        nearByDealsDataModel.setShopLongitude(jsonObject.getString("store_longitude"));
-                        nearByDealsDataModel.setImageUrl(jsonObject.getString("image"));
-                        nearByDealsDataModel.setItemHeading(jsonObject.getString("deal_heading"));
-                        nearByDealsDataModel.setItemDescription(jsonObject.getString("deal_description"));
-                        nearByDealsDataModel.setValidTo(jsonObject.getString("deal_validity"));
-                        nearByDealsDataModel.setActivated(jsonObject.getInt("activated"));
-
+                        contentValues.put(NearByDealsDataModel.DEALS_ID, jsonObject.getString("deal_id"));
+                        contentValues.put(NearByDealsDataModel.DEAL_TYPE, jsonObject.getInt("deal_type"));
+                        contentValues.put(NearByDealsDataModel.DEAL_CATEGORY, jsonObject.getInt("deal_category"));
+                        contentValues.put(NearByDealsDataModel.IMAGE_URL, jsonObject.getString("image"));
+                        contentValues.put(NearByDealsDataModel.DEAL_HEADING, jsonObject.getString("deal_heading"));
+                        contentValues.put(NearByDealsDataModel.DEAL_DESCRIPTION, jsonObject.getString("deal_description"));
+                        contentValues.put(NearByDealsDataModel.DEAL_VALID_UPTO, jsonObject.getString("deal_validity"));
+                        contentValues.put(NearByDealsDataModel.HOW_TO_AVAIL_DEAL, jsonObject.getString("deal_activate"));
+                        contentValues.put(NearByDealsDataModel.ACTIVATED, jsonObject.getInt("activated"));
                         if(jsonObject.getString("activated").equalsIgnoreCase(1 + "")){
-                            nearByDealsDataModel.setVoucherId(jsonObject.getString("voucher_id"));
+                            contentValues.put(NearByDealsDataModel.VOUCHER_ID, jsonObject.getString("deal_id"));
+                        }else{
+                            contentValues.put(NearByDealsDataModel.VOUCHER_ID, "");
                         }
+                        contentValues.put(NearByDealsDataModel.SHOP_NAME, jsonObject.getString("store_name"));
+                        contentValues.put(NearByDealsDataModel.SHOP_PHONE, jsonObject.getString("store_phone"));
+                        contentValues.put(NearByDealsDataModel.SHOP_LOCATION, jsonObject.getString("store_location"));
+                        contentValues.put(NearByDealsDataModel.SHOP_ADDRESS, jsonObject.getString("store_address"));
+                        contentValues.put(NearByDealsDataModel.SHOP_LATITUDE, jsonObject.getString("store_latitude"));
+                        contentValues.put(NearByDealsDataModel.SHOP_LONGITUDE, jsonObject.getString("store_longitude"));
 
-                        nearByDealsDataModelList.add(nearByDealsDataModel);
+                        databaseHelper.addDeal(contentValues);
                     }
-
-                    totalDeals = nearByDealsDataModelList;
-
-                    for (int i = 0; i < totalDeals.size(); i++) {
-
-                        switch (totalDeals.get(i).getDealsCategory()) {
-                            case NearByDealsConstants.SHOPPING:
-                                if (checkUniqueDeal(shoppingDeals, totalDeals.get(i))) {
-                                    shoppingDeals.add(totalDeals.get(i));
-                                }
-
-                                break;
-                            case NearByDealsConstants.FOOD:
-                                if (checkUniqueDeal(foodDeals, totalDeals.get(i))) {
-                                    foodDeals.add(totalDeals.get(i));
-                                }
-                                break;
-                            case NearByDealsConstants.SERVICES:
-                                if (checkUniqueDeal(servicesDeals, totalDeals.get(i))) {
-                                    servicesDeals.add(totalDeals.get(i));
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-
-                    if(dealCategory == IEventConstants.EVENT_SHOPPING_DEALS_NEARBY){
-                        Utils.postEvent(TAB, IEventConstants.EVENT_SHOPPING_DEALS_NEARBY, shoppingDeals);
-                    }else if(dealCategory == IEventConstants.EVENT_FOOD_DEALS_NEARBY){
-                        Utils.postEvent(TAB, IEventConstants.EVENT_FOOD_DEALS_NEARBY, foodDeals);
-                    }else if(dealCategory == IEventConstants.EVENT_SERVICES_DEALS_NEARBY){
-                        Utils.postEvent(TAB, IEventConstants.EVENT_SERVICES_DEALS_NEARBY, servicesDeals);
-                    }
+                    uiListener.onSuccess();
                 }else{
                     uiListener.onFailure();
                 }
@@ -658,14 +626,14 @@ public class ServiceManager {
         }
     }
 
-    private static boolean checkUniqueDeal(ArrayList<NearByDealsDataModel> nearByDealsDataModels, NearByDealsDataModel nearByDealsDataModel) {
-        for (int i = 0; i < nearByDealsDataModels.size(); i++) {
-            if (nearByDealsDataModel.getDealId().equalsIgnoreCase(nearByDealsDataModels.get(i).getDealId())) {
-                return false;
-            }
-        }
-        return true;
-    }
+//    private static boolean checkUniqueDeal(ArrayList<NearByDealsDataModel> nearByDealsDataModels, NearByDealsDataModel nearByDealsDataModel) {
+//        for (int i = 0; i < nearByDealsDataModels.size(); i++) {
+//            if (nearByDealsDataModel.getDealId().equalsIgnoreCase(nearByDealsDataModels.get(i).getDealId())) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
     public static void callVerificationService(Context context, String verificationCode, String mobileNumber, String token, final UIListener uiListener) {
 
@@ -1051,4 +1019,513 @@ public class ServiceManager {
             uiListener.onConnectionError();
         }
     }
+
+//    public static void callFetchDealsService(Context context, int dealCategory, final UIListener uiListener) {
+//
+//        fetchDealsTask = new FetchDealsTask(context, dealCategory, uiListener);
+//        fetchDealsTask.execute();
+//    }
+//
+//    public static class FetchDealsTask extends AsyncTask<Void, Void, Void>{
+//
+//        private ArrayList<NearByDealsDataModel> totalDeals = new ArrayList<>();
+//        private ArrayList<NearByDealsDataModel> shoppingDeals = new ArrayList<>();
+//        private ArrayList<NearByDealsDataModel> foodDeals = new ArrayList<>();
+//        private ArrayList<NearByDealsDataModel> servicesDeals = new ArrayList<>();
+//        private JSONObject response;
+//        private Context context;
+//        private UIListener uiListener;
+//        private int dealCategory;
+//
+//        public FetchDealsTask(Context context, int dealCategory, UIListener uiListener){
+//            this.context = context;
+//            this.dealCategory = dealCategory;
+//            this.uiListener = uiListener;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//            ArrayList<PostParam> postParams = new ArrayList<>();
+//
+//            postParams.add(new PostParam("mobile", UserProfile.getPhone(context)));
+//            postParams.add(new PostParam("token", UserProfile.getToken(context)));
+//
+//            response = PostRequest.execute(URLConstants.URL_NEARBY_DEALS, postParams, null);
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//
+//            try {
+//                if (response.getJSONObject("data").getInt("result") == 1) {
+//
+//                    JSONArray jsonArray = response.getJSONObject("data").getJSONArray("deals");
+//
+//                    ArrayList<NearByDealsDataModel> nearByDealsDataModelList = new ArrayList<>();
+//
+//                    for(int i = 0; i < jsonArray.length(); i++){
+//                        JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+//
+//                        NearByDealsDataModel nearByDealsDataModel = new NearByDealsDataModel();
+//
+//                        nearByDealsDataModel.setDealId(jsonObject.getString("deal_id"));
+//                        nearByDealsDataModel.setDealsCategory(jsonObject.getInt("deal_category"));
+//                        nearByDealsDataModel.setDealsType(jsonObject.getInt("deal_type"));
+//                        nearByDealsDataModel.setShopName(jsonObject.getString("store_name"));
+//                        nearByDealsDataModel.setShopLocation(jsonObject.getString("store_location"));
+//                        nearByDealsDataModel.setShopPhone(jsonObject.getString("store_phone"));
+//                        nearByDealsDataModel.setShopLatitude(jsonObject.getString("store_latitude"));
+//                        nearByDealsDataModel.setShopLongitude(jsonObject.getString("store_longitude"));
+//                        nearByDealsDataModel.setImageUrl(jsonObject.getString("image"));
+//                        nearByDealsDataModel.setItemHeading(jsonObject.getString("deal_heading"));
+//                        nearByDealsDataModel.setItemDescription(jsonObject.getString("deal_description"));
+//                        nearByDealsDataModel.setValidTo(jsonObject.getString("deal_validity"));
+//                        nearByDealsDataModel.setActivated(jsonObject.getInt("activated"));
+//
+//                        if(jsonObject.getString("activated").equalsIgnoreCase(1 + "")){
+//                            nearByDealsDataModel.setVoucherId(jsonObject.getString("voucher_id"));
+//                        }
+//
+//                        nearByDealsDataModelList.add(nearByDealsDataModel);
+//                    }
+//
+//                    totalDeals = nearByDealsDataModelList;
+//
+//                    for (int i = 0; i < totalDeals.size(); i++) {
+//
+//                        switch (totalDeals.get(i).getDealsCategory()) {
+//                            case NearByDealsConstants.SHOPPING:
+//                                if (checkUniqueDeal(shoppingDeals, totalDeals.get(i))) {
+//                                    shoppingDeals.add(totalDeals.get(i));
+//                                }
+//
+//                                break;
+//                            case NearByDealsConstants.FOOD:
+//                                if (checkUniqueDeal(foodDeals, totalDeals.get(i))) {
+//                                    foodDeals.add(totalDeals.get(i));
+//                                }
+//                                break;
+//                            case NearByDealsConstants.SERVICES:
+//                                if (checkUniqueDeal(servicesDeals, totalDeals.get(i))) {
+//                                    servicesDeals.add(totalDeals.get(i));
+//                                }
+//                                break;
+//                            default:
+//                                break;
+//                        }
+//                    }
+//
+//                    if(dealCategory == IEventConstants.EVENT_SHOPPING_DEALS_NEARBY){
+//                        Utils.postEvent(TAB, IEventConstants.EVENT_SHOPPING_DEALS_NEARBY, shoppingDeals);
+//                    }else if(dealCategory == IEventConstants.EVENT_FOOD_DEALS_NEARBY){
+//                        Utils.postEvent(TAB, IEventConstants.EVENT_FOOD_DEALS_NEARBY, foodDeals);
+//                    }else if(dealCategory == IEventConstants.EVENT_SERVICES_DEALS_NEARBY){
+//                        Utils.postEvent(TAB, IEventConstants.EVENT_SERVICES_DEALS_NEARBY, servicesDeals);
+//                    }
+//                }else{
+//                    uiListener.onFailure();
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//                uiListener.onConnectionError();
+//            }
+//        }
+//    }
+//
+//    private static boolean checkUniqueDeal(ArrayList<NearByDealsDataModel> nearByDealsDataModels, NearByDealsDataModel nearByDealsDataModel) {
+//        for (int i = 0; i < nearByDealsDataModels.size(); i++) {
+//            if (nearByDealsDataModel.getDealId().equalsIgnoreCase(nearByDealsDataModels.get(i).getDealId())) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
+//
+//    public static void callVerificationService(Context context, String verificationCode, String mobileNumber, String token, final UIListener uiListener) {
+//
+//        accountVerificationTask = new AccountVerificationTask(context, verificationCode, mobileNumber, token, uiListener);
+//        accountVerificationTask.execute();
+//    }
+//
+//    public static class AccountVerificationTask extends AsyncTask<Void, Void, Boolean> {
+//
+//        private JSONObject response;
+//        private Context context;
+//        private String verificationCode, mobileNumber, token;
+//        private UIListener uiListener;
+//
+//        public AccountVerificationTask(Context context, String verificationCode, String mobileNumber, String token, final UIListener uiListener) {
+//            this.context = context;
+//            this.verificationCode = verificationCode;
+//            this.mobileNumber = mobileNumber;
+//            this.token = token;
+//            this.uiListener = uiListener;
+//        }
+//
+//        @Override
+//        protected Boolean doInBackground(Void... params) {
+//            ArrayList<PostParam> postParams = new ArrayList<>();
+//
+//            postParams.add(new PostParam("otp_in", verificationCode));
+//            postParams.add(new PostParam("mobile", mobileNumber));
+//            postParams.add(new PostParam("token", token));
+//
+//            response = PostRequest.execute(URLConstants.URL_ACCOUNT_VERIFICATION, postParams, null);
+//
+//            Log.d("RESPONSE", response.toString());
+//            return true;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Boolean aBoolean) {
+//            super.onPostExecute(aBoolean);
+//
+//            try {
+//                if (response.getJSONObject("data").getInt("result") == 1) {
+//                    uiListener.onSuccess();
+//                }else{
+//                    uiListener.onFailure();
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//                uiListener.onConnectionError();
+//            }
+//        }
+//    }
+//
+//    public static void callRetryVerificationService(Context context, String mobileNumber, String token, final UIListener uiListener) {
+//
+//        retryOTPTask = new RetryVerificationTask(context, mobileNumber, token, uiListener);
+//        retryOTPTask.execute();
+//    }
+//
+//    public static class RetryVerificationTask extends AsyncTask<Void, Void, Boolean> {
+//
+//        private JSONObject response;
+//        private Context context;
+//        private String mobileNumber, token;
+//        private UIListener uiListener;
+//
+//        public RetryVerificationTask(Context context, String mobileNumber, String token, final UIListener uiListener) {
+//            this.context = context;
+//            this.mobileNumber = mobileNumber;
+//            this.token = token;
+//            this.uiListener = uiListener;
+//        }
+//
+//        @Override
+//        protected Boolean doInBackground(Void... params) {
+//            ArrayList<PostParam> postParams = new ArrayList<>();
+//
+//            postParams.add(new PostParam("mobile", mobileNumber));
+//            postParams.add(new PostParam("token", token));
+//
+//            response = PostRequest.execute(URLConstants.URL_RETRY_VERIFICATION, postParams, null);
+//
+//            Log.d("RESPONSE", response.toString());
+//            return true;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Boolean aBoolean) {
+//            super.onPostExecute(aBoolean);
+//
+//            try {
+//                if (response.getJSONObject("data").getInt("result") == 1 && response.getJSONObject("data").getInt("eflag") == 1) {
+//                    uiListener.onSuccess();
+//                }else{
+//                    uiListener.onFailure();
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//                uiListener.onConnectionError();
+//            }
+//        }
+//    }
+//
+//    public static void callForgotPasswordService(Context context, String mobileNumber, final UIListener uiListener) {
+//
+//        ForgotPasswordTask forgotPasswordTask = new ForgotPasswordTask(context, mobileNumber, uiListener);
+//        forgotPasswordTask.execute();
+//    }
+//
+//    public static class ForgotPasswordTask extends AsyncTask<Void, Void, Void>{
+//
+//        private JSONObject response;
+//        private String mobileNumber;
+//        private Context context;
+//        private UIListener uiListener;
+//
+//        public ForgotPasswordTask(Context context, String mobileNumber, final UIListener uiListener){
+//            this.context = context;
+//            this.mobileNumber = mobileNumber;
+//            this.uiListener = uiListener;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//
+//            ArrayList<PostParam> postParams = new ArrayList<>();
+//            postParams.add(new PostParam("mobile",mobileNumber));
+//
+//            response = PostRequest.execute(URLConstants.URL_FORGOT_PASSWORD,postParams,null);
+//            Log.d("RESPONSE", response.toString());
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//
+//            try{
+//                if(response.getJSONObject("data").getInt("result") == 1){
+//                    if(response.getJSONObject("data").getInt("eflag") == 0){
+//                        uiListener.onFailure(0);
+//                    }else{
+//                        uiListener.onSuccess();
+//                    }
+//                }else if(response.getJSONObject("data").getInt("result") == 0){
+//                    uiListener.onFailure();
+//                }else{
+//                    uiListener.onConnectionError();
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//                uiListener.onConnectionError();
+//            }
+//        }
+//
+//        @Override
+//        protected void onCancelled() {
+//            super.onCancelled();
+//            uiListener.onCancelled();
+//        }
+//    }
+//
+//    public static void callPasswordVerificationService(Context context, String number, String verificationCode, final UIListener uiListener) {
+//
+//        PasswordVerificationTask passwordVerificationTask = new PasswordVerificationTask(context,number,verificationCode,uiListener);
+//        passwordVerificationTask.execute();
+//    }
+//
+//    public static class PasswordVerificationTask extends AsyncTask<Void,Void,Void>{
+//
+//        private JSONObject response;
+//        private String number,verificationCode;
+//        private UIListener uiListener;
+//
+//        public PasswordVerificationTask(Context context, String number, String verificationCode, final UIListener uiListener){
+//            this.number = number;
+//            this.verificationCode = verificationCode;
+//            this.uiListener = uiListener;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//
+//            ArrayList<PostParam> postParams = new ArrayList<>();
+//            postParams.add(new PostParam("mobile",number));
+//            postParams.add(new PostParam("verif",verificationCode));
+//
+//            response = PostRequest.execute(URLConstants.URL_PASSWORD_VERIFICATION,postParams,null);
+//            Log.d("RESPONSE", response.toString());
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//
+//            try{
+//                if(response.getJSONObject("data").getInt("result") == 1){
+//                    uiListener.onSuccess();
+//                }else if(response.getJSONObject("data").getInt("result") == 0){
+//                    uiListener.onFailure();
+//                }else{
+//                    uiListener.onConnectionError();
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//                uiListener.onConnectionError();
+//            }
+//        }
+//
+//        @Override
+//        protected void onCancelled() {
+//            super.onCancelled();
+//            uiListener.onCancelled();
+//        }
+//    }
+//
+//    public static void callPasswordChangeService(Context context, String mobileNumber, String password, final UIListener uiListener) {
+//
+//        ChangePasswordTask changePasswordTask = new ChangePasswordTask(context,mobileNumber,password,uiListener);
+//        changePasswordTask.execute();
+//    }
+//
+//    public static class ChangePasswordTask extends AsyncTask<Void,Void,Void> {
+//
+//        private JSONObject response;
+//        private String mobileNumber;
+//        private String password;
+//        private UIListener uiListener;
+//
+//        public ChangePasswordTask(Context context, String mobileNumber, String password, final UIListener uiListener){
+//            this.mobileNumber = mobileNumber;
+//            this.password = password;
+//            this.uiListener = uiListener;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//
+//            ArrayList<PostParam> postParams = new ArrayList<>();
+//            postParams.add(new PostParam("mobile",mobileNumber));
+//            postParams.add(new PostParam("npass",password));
+//
+//            response = PostRequest.execute(URLConstants.URL_PASSWORD_CHANGE,postParams,null);
+//            Log.d("RESPONSE", response.toString());
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//            try{
+//                if(response.getJSONObject("data").getInt("result") == 1){
+//                    uiListener.onSuccess();
+//                }else{
+//                    uiListener.onFailure();
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//                uiListener.onConnectionError();
+//            }
+//        }
+//        @Override
+//        protected void onCancelled() {
+//            super.onCancelled();
+//            uiListener.onConnectionError();
+//        }
+//    }
+//
+//    public static void callUploadContactsService(Context context, String mobileNumber, ArrayList<String> contactList, final UIListener uiListener) {
+//
+//        UpLoadContactsTask upLoadContactsTask = new UpLoadContactsTask(context,mobileNumber,contactList,uiListener);
+//        upLoadContactsTask.execute();
+//    }
+//
+//    public static class UpLoadContactsTask extends AsyncTask<Void,Void,Void> {
+//
+//        private JSONObject response;
+//        private String mobileNumber;
+//        private ArrayList<String> contactList;
+//        private UIListener uiListener;
+//
+//        public UpLoadContactsTask(Context context, String mobileNumber, ArrayList<String> contactList, final UIListener uiListener){
+//            this.mobileNumber = mobileNumber;
+//            this.contactList = contactList;
+//            this.uiListener = uiListener;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//
+//            ArrayList<PostParam> postParams = new ArrayList<>();
+//            postParams.add(new PostParam("mobile",mobileNumber));
+//            postParams.add(new PostParam("contacts",contactList.toString()));
+//
+//            response = PostRequest.execute(URLConstants.URL_UPLOAD_CONTACTS,postParams,null);
+//            Log.d("RESPONSE", response.toString());
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//            try{
+//                if(response.getJSONObject("data").getInt("result") == 1){
+//                    uiListener.onSuccess();
+//                }else{
+//                    uiListener.onFailure();
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//                uiListener.onConnectionError();
+//            }
+//        }
+//        @Override
+//        protected void onCancelled() {
+//            super.onCancelled();
+//            uiListener.onConnectionError();
+//        }
+//    }
+//
+//    public static void callGetVoucherIdService(Context context, String dealId, final UIResponseListener<DealsVoucherResponse> uiListener) {
+//
+//        GetVoucherIdTask getVoucherIdTask = new GetVoucherIdTask(context, dealId, uiListener);
+//        getVoucherIdTask.execute();
+//    }
+//
+//    public static class GetVoucherIdTask extends AsyncTask<Void,Void,Void> {
+//
+//        private Context context;
+//        private JSONObject response;
+//        private String dealId;
+//        private UIResponseListener<DealsVoucherResponse> uiListener;
+//
+//        public GetVoucherIdTask(Context context, String dealId, final UIResponseListener<DealsVoucherResponse> uiListener){
+//            this.context = context;
+//            this.dealId = dealId;
+//            this.uiListener = uiListener;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//
+//            ArrayList<PostParam> postParams = new ArrayList<>();
+//            postParams.add(new PostParam("mobile", UserProfile.getPhone(context)));
+//            postParams.add(new PostParam("token", UserProfile.getToken(context)));
+//            postParams.add(new PostParam("deal_id", dealId));
+//
+//            response = PostRequest.execute(URLConstants.URL_VOUCHER_ID,postParams,null);
+//            Log.d("RESPONSE", response.toString());
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//            try{
+//                if(response.getJSONObject("data").getInt("result") == 1){
+//                    DealsVoucherResponse dealsVoucherResponse = new DealsVoucherResponse();
+//                    dealsVoucherResponse.setVoucherID(response.getJSONObject("data").getString("voucher_id"));
+//                    uiListener.onSuccess(dealsVoucherResponse);
+//                }else{
+//                    uiListener.onFailure();
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//                uiListener.onConnectionError();
+//            }
+//        }
+//        @Override
+//        protected void onCancelled() {
+//            super.onCancelled();
+//            uiListener.onConnectionError();
+//        }
+//    }
 }

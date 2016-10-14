@@ -20,24 +20,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.buyer.flashfetch.CommonUtils.Toasts;
 import com.buyer.flashfetch.CommonUtils.Utils;
-import com.buyer.flashfetch.Constants.Constants;
-import com.buyer.flashfetch.Constants.IEventConstants;
 import com.buyer.flashfetch.Constants.NearByDealsConstants;
-import com.buyer.flashfetch.Interfaces.StringResponseListener;
-import com.buyer.flashfetch.Interfaces.UIListener;
 import com.buyer.flashfetch.Interfaces.UIResponseListener;
 import com.buyer.flashfetch.Network.ServiceManager;
-import com.buyer.flashfetch.Objects.IEvent;
 import com.buyer.flashfetch.Objects.NearByDealsDataModel;
-import com.buyer.flashfetch.Objects.UserProfile;
 import com.buyer.flashfetch.R;
 import com.buyer.flashfetch.ServiceResponseObjects.DealsVoucherResponse;
 
-import org.greenrobot.eventbus.Subscribe;
-
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.List;
 
 public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.MyViewHolder>{
 
@@ -140,7 +130,7 @@ public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.
                     } else {
                         Toasts.internetUnavailableToast(context);
                     }
-                    
+
                 } else if (dataModel.getDealsType() == NearByDealsConstants.INVENTORY_DEALS) {
 
                 }
@@ -214,6 +204,9 @@ public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.
             public void onClick(View view) {
 
                 TextView code, codeDescription, validUpTo, knowMoreDone, availDeal;
+                String avail, duh = "";
+                int i = 1;
+                ArrayList<String> deals = new ArrayList<String>();
 
                 final Dialog dialog = new Dialog(context);
 
@@ -226,9 +219,15 @@ public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.
                 knowMoreDone = (TextView)dialog.findViewById(R.id.know_more_dialog_ok);
                 availDeal = (TextView)dialog.findViewById(R.id.how_to_avail_deal);
 
+                avail = dataModel.getHowToAvailDeal();
+                for(String val :  avail.split("\\.")){
+                    duh = duh + i + ". " + val + "\n";
+                    i++;
+                }
+
                 codeDescription.setText(dataModel.getItemDescription());
                 validUpTo.setText(dataModel.getValidTo());
-                availDeal.setText(dataModel.getHowToAvailDeal());
+                availDeal.setText(duh);
 
                 knowMoreDone.setOnClickListener(new View.OnClickListener() {
                     @Override

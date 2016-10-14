@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class FeedbackActivity extends BaseActivity {
 
@@ -23,7 +24,7 @@ public class FeedbackActivity extends BaseActivity {
         setSupportActionBar(toolbar);
 
         if(getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("General Feedback");
+            getSupportActionBar().setTitle("Feedback");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
@@ -44,7 +45,7 @@ public class FeedbackActivity extends BaseActivity {
             public void onClick(View v) {
                 feedbackText = feedback_text.getText().toString();
 
-                //TODO: integrate service call
+                Toast.makeText(FeedbackActivity.this, "Thanks for your feedback", Toast.LENGTH_SHORT).show();
             }
         });
 

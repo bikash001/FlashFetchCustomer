@@ -39,31 +39,13 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
 public class FoodDealsFragment extends BaseFragment {
 
-    private static final String FOOD_DEALS = "shopping_deals";
+    private static final String FOOD_DEALS = "food_deals";
 
     private RecyclerView recyclerView;
     private NearByDealsAdapter nearByDealsAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ProgressDialog progressDialog;
 
     private ArrayList<NearByDealsDataModel> foodDeals = new ArrayList<>();
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Utils.registerEventBus(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        Utils.unregisterEventBus(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
 
     @Nullable
     @Override
@@ -77,7 +59,7 @@ public class FoodDealsFragment extends BaseFragment {
             @Override
             public void onRefresh() {
 
-                setUpData();
+                setNearByDealsAdapter();
                 nearByDealsAdapter.notifyDataSetChanged();
 
                 new Handler().postDelayed(new Runnable() {
@@ -110,18 +92,22 @@ public class FoodDealsFragment extends BaseFragment {
     }
 
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        if (savedInstanceState != null) {
-            foodDeals = (ArrayList<NearByDealsDataModel>) savedInstanceState.getSerializable(FOOD_DEALS);
-        } else {
-            setUpData();
-        }
-    }
+//    @Override
+//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//
+//        if (savedInstanceState != null) {
+//            foodDeals = (ArrayList<NearByDealsDataModel>) savedInstanceState.getSerializable(FOOD_DEALS);
+//        } else {
+//            setUpData();
+//        }
+//    }
 
     private void setNearByDealsAdapter() {
+
+        if(foodDeals == null){
+            foodDeals = NearByDealsDataModel.getDeals(getContext(), NearByDealsConstants.FOOD + "");
+        }
 
         nearByDealsAdapter = new NearByDealsAdapter(getContext(), foodDeals);
 
@@ -133,79 +119,27 @@ public class FoodDealsFragment extends BaseFragment {
         recyclerView.setAdapter(new ScaleInAnimationAdapter(alphaInAnimationAdapter));
     }
 
-    private void setUpData() {
-        if (Utils.isInternetAvailable(getContext())) {
-            showProgressDialog();
-
-            ServiceManager.callFetchDealsService(getContext(), IEventConstants.EVENT_FOOD_DEALS_NEARBY, new UIListener() {
-                @Override
-                public void onSuccess() {
-
-                }
-
-                @Override
-                public void onFailure() {
-                    progressDialog.dismiss();
-                    Toasts.serverBusyToast(getContext());
-                }
-
-                @Override
-                public void onFailure(int result) {
-                    progressDialog.dismiss();
-                    Toasts.serverBusyToast(getContext());
-                }
-
-                @Override
-                public void onConnectionError() {
-                    progressDialog.dismiss();
-                    Toasts.serverBusyToast(getContext());
-                }
-
-                @Override
-                public void onCancelled() {
-                    progressDialog.dismiss();
-                    Toasts.serverBusyToast(getContext());
-                }
-            });
-
-        } else {
-            Toasts.internetUnavailableToast(getContext());
-        }
-    }
-
-    public void showProgressDialog() {
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Loading...");
-        progressDialog.setMessage("Please wait...");
-        progressDialog.setCancelable(false);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-
-        progressDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(FOOD_DEALS, foodDeals);
-    }
-
-    @Subscribe
-    public void onEvent(IEvent iEvent) {
-        if (iEvent.getEventID() == IEventConstants.EVENT_FOOD_DEALS_NEARBY) {
-            hideProgressDialog();
-
-            if (iEvent.getEventObject() != null) {
-                foodDeals = (ArrayList<NearByDealsDataModel>) iEvent.getEventObject();
-                setNearByDealsAdapter();
-            }
-        }
-    }
+//    public void showProgressDialog() {
+//        progressDialog = new ProgressDialog(getContext());
+//        progressDialog.setTitle("Loading...");
+//        progressDialog.setMessage("Please wait...");
+//        progressDialog.setCancelable(false);
+//        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//
+//        progressDialog.show();
+//    }
+//
+//    private void hideProgressDialog() {
+//        if (progressDialog != null && progressDialog.isShowing()) {
+//            progressDialog.dismiss();
+//        }
+//    }
+//
+//    @Override
+//    public void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable(FOOD_DEALS, foodDeals);
+//    }
 }
 

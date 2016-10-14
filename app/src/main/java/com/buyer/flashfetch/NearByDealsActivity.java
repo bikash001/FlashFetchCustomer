@@ -26,17 +26,23 @@ import android.widget.LinearLayout;
 
 import com.buyer.flashfetch.Adapters.NearByDealsViewPagerAdapter;
 import com.buyer.flashfetch.Animations.ZoomOutPageTransformer;
+import com.buyer.flashfetch.CommonUtils.Toasts;
 import com.buyer.flashfetch.CommonUtils.Utils;
 import com.buyer.flashfetch.Constants.Constants;
+import com.buyer.flashfetch.Constants.IEventConstants;
 import com.buyer.flashfetch.Interfaces.UIListener;
 import com.buyer.flashfetch.Network.ServiceManager;
+import com.buyer.flashfetch.Objects.IEvent;
+import com.buyer.flashfetch.Objects.NearByDealsDataModel;
 import com.buyer.flashfetch.Objects.UserProfile;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
 public class NearByDealsActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String TAG = "OfferNearByActivity";
+    private static final String TAG = "NearByDealsActivity";
 
     private int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
 
@@ -53,7 +59,7 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private NearByDealsViewPagerAdapter dealsViewPagerAdapter;
-    private Bundle bundle = new Bundle();
+    private ArrayList<NearByDealsDataModel> deals;
     private ArrayList<String> contactsList = new ArrayList<>();
 
     @Override
@@ -82,9 +88,12 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
             });
         }
 
-        getContacts();
-
         progressDialog = getProgressDialog(context);
+
+        getContacts();
+        setUpData();
+
+
 
         tabLayout = (TabLayout) findViewById(R.id.deal_nearby_tab_layout);
         viewPager = (ViewPager) findViewById(R.id.deals_nearby_view_pager);
@@ -105,8 +114,7 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
             tabLayout.setTabMode(TabLayout.MODE_FIXED);
         }
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        dealsViewPagerAdapter = new NearByDealsViewPagerAdapter(fragmentManager, tabTitles);
+        dealsViewPagerAdapter = new NearByDealsViewPagerAdapter(getSupportFragmentManager(), tabTitles);
 
         if (viewPager != null) {
             viewPager.setAdapter(dealsViewPagerAdapter);
@@ -201,6 +209,46 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
         }
 
         return true;
+    }
+
+    private void setUpData() {
+        if (Utils.isInternetAvailable(context)) {
+            progressDialog.show();
+
+            ServiceManager.callFetchDealsService(context, new UIListener() {
+                @Override
+                public void onSuccess() {
+                    progressDialog.dismiss();
+                }
+
+                @Override
+                public void onFailure() {
+                    progressDialog.dismiss();
+                    Toasts.serverBusyToast(context);
+                }
+
+                @Override
+                public void onFailure(int result) {
+                    progressDialog.dismiss();
+                    Toasts.serverBusyToast(context);
+                }
+
+                @Override
+                public void onConnectionError() {
+                    progressDialog.dismiss();
+                    Toasts.serverBusyToast(context);
+                }
+
+                @Override
+                public void onCancelled() {
+                    progressDialog.dismiss();
+                    Toasts.serverBusyToast(context);
+                }
+            });
+
+        } else {
+            Toasts.internetUnavailableToast(context);
+        }
     }
 
     private void getContacts() {

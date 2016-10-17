@@ -1,5 +1,6 @@
 package com.buyer.flashfetch;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.buyer.flashfetch.Adapters.NotificationsAdapter;
+import com.buyer.flashfetch.Helper.DatabaseHelper;
 import com.buyer.flashfetch.Objects.Notification;
 
 /**
@@ -47,6 +49,19 @@ public class NotificationsActivity extends BaseActivity{
                 }
             });
         }
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        ContentValues contentValues = new ContentValues();
+        ContentValues contentValues1 = new ContentValues();
+
+        contentValues.put(Notification.NOTIFICATION_ID, 1234);
+        contentValues.put(Notification.NOTIFICATION_HEADING, "Testing Notification");
+        contentValues.put(Notification.NOTIFICATION_DESCRIPTION, "Testing Notification");
+        contentValues.put(Notification.NOTIFICATION_IMAGE_URL, "https://s5.postimg.org/kyy74k5qf/Welcome_Notification_Final.png");
+        contentValues.put(Notification.NOTIFICATION_EXP_TIME, System.currentTimeMillis() + 5*60*1000);
+
+        databaseHelper.addNotification(contentValues);
+        databaseHelper.addNotification(contentValues1);
 
         notificationsAdapter = new NotificationsAdapter(context, Notification.getAllNotifications(context));
 

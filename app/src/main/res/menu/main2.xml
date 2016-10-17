@@ -3,25 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_contact"
-        android:orderInCategory="1"
-        android:title="Contact Us"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/action_connect"
-        android:orderInCategory="2"
+        android:orderInCategory="1"
         android:title="Connect with us"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/action_rate"
-        android:orderInCategory="3"
-        android:title="Rate Us"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_update"
-        android:orderInCategory="4"
-        android:title="Update"
-        app:showAsAction="never" />
+
     <item
         android:id="@+id/action_logout"
         android:orderInCategory="100"

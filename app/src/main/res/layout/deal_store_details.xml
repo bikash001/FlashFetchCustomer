@@ -65,7 +65,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:background="@color/ff_gray"
+            android:background="@color/ff_black"
             android:gravity="center"
             android:padding="8dp"
             android:text="Get Directions"

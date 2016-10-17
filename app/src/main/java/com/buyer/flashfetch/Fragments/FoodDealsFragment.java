@@ -1,6 +1,5 @@
 package com.buyer.flashfetch.Fragments;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -16,17 +15,9 @@ import android.view.animation.OvershootInterpolator;
 
 import com.buyer.flashfetch.Adapters.NearByDealsAdapter;
 import com.buyer.flashfetch.BaseFragment;
-import com.buyer.flashfetch.CommonUtils.Toasts;
-import com.buyer.flashfetch.CommonUtils.Utils;
-import com.buyer.flashfetch.Constants.IEventConstants;
 import com.buyer.flashfetch.Constants.NearByDealsConstants;
-import com.buyer.flashfetch.Interfaces.UIListener;
-import com.buyer.flashfetch.Network.ServiceManager;
-import com.buyer.flashfetch.Objects.IEvent;
 import com.buyer.flashfetch.Objects.NearByDealsDataModel;
 import com.buyer.flashfetch.R;
-
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
@@ -38,8 +29,6 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
  */
 
 public class FoodDealsFragment extends BaseFragment {
-
-    private static final String FOOD_DEALS = "food_deals";
 
     private RecyclerView recyclerView;
     private NearByDealsAdapter nearByDealsAdapter;
@@ -88,26 +77,14 @@ public class FoodDealsFragment extends BaseFragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        setNearByDealsAdapter();
+
         return view;
     }
 
-
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//
-//        if (savedInstanceState != null) {
-//            foodDeals = (ArrayList<NearByDealsDataModel>) savedInstanceState.getSerializable(FOOD_DEALS);
-//        } else {
-//            setUpData();
-//        }
-//    }
-
     private void setNearByDealsAdapter() {
 
-        if(foodDeals == null){
-            foodDeals = NearByDealsDataModel.getDeals(getContext(), NearByDealsConstants.FOOD + "");
-        }
+        foodDeals = NearByDealsDataModel.getDeals(getContext(), NearByDealsConstants.FOOD + "");
 
         nearByDealsAdapter = new NearByDealsAdapter(getContext(), foodDeals);
 
@@ -118,28 +95,5 @@ public class FoodDealsFragment extends BaseFragment {
 
         recyclerView.setAdapter(new ScaleInAnimationAdapter(alphaInAnimationAdapter));
     }
-
-//    public void showProgressDialog() {
-//        progressDialog = new ProgressDialog(getContext());
-//        progressDialog.setTitle("Loading...");
-//        progressDialog.setMessage("Please wait...");
-//        progressDialog.setCancelable(false);
-//        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-//
-//        progressDialog.show();
-//    }
-//
-//    private void hideProgressDialog() {
-//        if (progressDialog != null && progressDialog.isShowing()) {
-//            progressDialog.dismiss();
-//        }
-//    }
-//
-//    @Override
-//    public void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(FOOD_DEALS, foodDeals);
-//    }
 }
 

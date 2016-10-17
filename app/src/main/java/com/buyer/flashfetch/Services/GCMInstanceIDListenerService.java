@@ -8,7 +8,7 @@ import android.content.Intent;
 */
 
 
-public class IE_InstanceIDListenerService extends com.google.android.gms.iid.InstanceIDListenerService {
+public class GCMInstanceIDListenerService extends com.google.android.gms.iid.InstanceIDListenerService {
     private static final String TAG = "MyInstanceIDLS";
 /*
 
@@ -23,7 +23,7 @@ public class IE_InstanceIDListenerService extends com.google.android.gms.iid.Ins
     @Override
     public void onTokenRefresh() {
         // Fetch updated Instance ID token and notify our app's server of any changes (if applicable).
-        Intent intent = new Intent(this, IE_RegistrationIntentService.class);
+        Intent intent = new Intent(this, GCMRegistrationIntentService.class);
         startService(intent);
     }
     // [END refresh_token]

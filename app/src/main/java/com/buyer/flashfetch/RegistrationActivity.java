@@ -17,9 +17,9 @@ import com.buyer.flashfetch.Interfaces.UIListener;
 import com.buyer.flashfetch.Network.ServiceManager;
 import com.buyer.flashfetch.Objects.SignUpObject;
 
-public class RegisterActivity extends BaseActivity {
+public class RegistrationActivity extends BaseActivity {
 
-    private static final String TAG = "RegisterActivity";
+    private static final String TAG = RegistrationActivity.class.getSimpleName();
 
     private Context context;
     private ProgressDialog progressDialog;
@@ -31,7 +31,7 @@ public class RegisterActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        context = RegisterActivity.this;
+        context = RegistrationActivity.this;
 
         setContentView(R.layout.activity_register);
 

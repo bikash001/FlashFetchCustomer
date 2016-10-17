@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.buyer.flashfetch.CommonUtils.Toasts;
 import com.buyer.flashfetch.CommonUtils.Utils;
+import com.buyer.flashfetch.Constants.RegistrationConstants;
 import com.buyer.flashfetch.Interfaces.UIListener;
 import com.buyer.flashfetch.Network.ServiceManager;
 import com.buyer.flashfetch.Objects.UserProfile;
@@ -126,6 +127,7 @@ public class AccountVerification extends BaseActivity {
                                     UserProfile.setAccountVerified(context,true);
                                     Toast.makeText(context, "Verification Completed! Welcome to FlashFetch", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(AccountVerification.this,NearByDealsActivity.class);
+                                    intent.putExtra(RegistrationConstants.FROM_REGISTRATION_FLOW, true);
                                     startActivity(intent);
                                     finish();
                                 }

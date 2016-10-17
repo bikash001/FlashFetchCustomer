@@ -12,5 +12,5 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="login_padding_top">128dp</dimen>
     <dimen name="toolbar_padding_top">24dp</dimen>
-
+    <dimen name="edit_box_height">120dp</dimen>
 </resources>

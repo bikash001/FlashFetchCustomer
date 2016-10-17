@@ -110,49 +110,49 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             tabLayout.setupWithViewPager(mViewPager);
         }
 
-        if(numberOfVisits == 5){
-
-            View view = getLayoutInflater().inflate(R.layout.experience_layout,null);
-
-            final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setView(view);
-
-            ImageView imageView = (ImageView)view.findViewById(R.id.experience_clear_button);
-            ImageView sadImageView = (ImageView)view.findViewById(R.id.experience_sad);
-            ImageView neutralImageView = (ImageView)view.findViewById(R.id.experience_neutral);
-            ImageView happyImageView = (ImageView)view.findViewById(R.id.experience_happy);
-
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    alertDialog.dismiss();
-                }
-            });
-
-            sadImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    alertDialog.dismiss();
-                }
-            });
-
-            neutralImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    alertDialog.dismiss();
-                }
-            });
-
-            happyImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    alertDialog.dismiss();
-                }
-            });
-
-            alertDialog = builder.create();
-            alertDialog.show();
-        }
+//        if(numberOfVisits == 5){
+//
+//            View view = getLayoutInflater().inflate(R.layout.experience_layout,null);
+//
+//            final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+//            builder.setView(view);
+//
+//            ImageView imageView = (ImageView)view.findViewById(R.id.experience_clear_button);
+//            ImageView sadImageView = (ImageView)view.findViewById(R.id.experience_sad);
+//            ImageView neutralImageView = (ImageView)view.findViewById(R.id.experience_neutral);
+//            ImageView happyImageView = (ImageView)view.findViewById(R.id.experience_happy);
+//
+//            imageView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    alertDialog.dismiss();
+//                }
+//            });
+//
+//            sadImageView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    alertDialog.dismiss();
+//                }
+//            });
+//
+//            neutralImageView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    alertDialog.dismiss();
+//                }
+//            });
+//
+//            happyImageView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    alertDialog.dismiss();
+//                }
+//            });
+//
+//            alertDialog = builder.create();
+//            alertDialog.show();
+//        }
     }
 
     @Override
@@ -180,11 +180,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             Utils.doLogout(this);
             return true;
 
-        } else if (id == R.id.action_contact){
-
-            Intent intent = new Intent(this,ContactUs.class);
-            startActivity(intent);
-            return true;
         }
         else if(id == R.id.action_connect) {
 

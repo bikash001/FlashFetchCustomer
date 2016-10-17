@@ -8,20 +8,7 @@ public class UserProfile {
 
     public static final String SHARED_PREFERENCES = "flash_fetch_buyer";
 
-    public static String name,email,token,text;
-    public static int category, profileId;
-
-    public static void setProfileId(Context context, int profileId){
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES,Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("profile_id",profileId);
-        editor.commit();
-    }
-
-    public static String getProfileId(Context context){
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        return sharedPreferences.getString("profile_id", "");
-    }
+    private static final String VISITS = "visits";
 
     public static void setAccountVerified(Context context, boolean isVerified){
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES,Context.MODE_PRIVATE);
@@ -210,26 +197,12 @@ public class UserProfile {
         return pref.getString("referral_code", "");
     }
 
-  /*  public static String getText(Context context) {
-        SharedPreferences pref = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        return pref.getString("text", "Thank you for registering with us. Buyers coming soon");
-    }
-
-    public static int getCounter(Context context) {
-        SharedPreferences pref = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        return pref.getInt("counter", 0);
-    }
-
-    public static int getUpdate(Context context) {
-        SharedPreferences pref = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        return pref.getInt("update", 0);
-    }*/
-    public static int clear(Context context){
+    public static boolean clear(Context context){
         setName("", context);
         setEmail("", context);
         setToken("", context);
         setCategory(1,context);
-        return 1;
+        return true;
     }
 
 

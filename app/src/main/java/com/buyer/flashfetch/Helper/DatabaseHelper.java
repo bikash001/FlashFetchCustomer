@@ -53,13 +53,12 @@ public class DatabaseHelper {
 //            Log.d("QUOTE", "DATABASE CREATED");
 
             db.execSQL("CREATE TABLE " + Notification.TABLE_NAME + "(" +
-                    Notification.NOTIFICATION_ID + " INT PRIMARY KEY," + Notification.NOTIFICATION_HEADING + " VARCHAR," +
+                    Notification.NOTIFICATION_ID + " INT NOT NULL UNIQUE," + Notification.NOTIFICATION_HEADING + " VARCHAR," +
                     Notification.NOTIFICATION_DESCRIPTION + " VARCHAR," + Notification.NOTIFICATION_IMAGE_URL + " VARCHAR," +
                     Notification.NOTIFICATION_EXP_TIME + " BIGINT DEFAULT 0" + ")");
-            Log.d("NOTIFICATION", "DATABASE CREATED");
 
             db.execSQL("CREATE TABLE " + NearByDealsDataModel.DEAL_TABLE_NAME + "(" +
-                    NearByDealsDataModel.DEALS_ID + " VARCHAR PRIMARY KEY," +
+                    NearByDealsDataModel.DEALS_ID + " VARCHAR NOT NULL UNIQUE," +
                     NearByDealsDataModel.DEAL_TYPE + " INT DEFAULT 0," +
                     NearByDealsDataModel.DEAL_CATEGORY + " INT DEFAULT 0," +
                     NearByDealsDataModel.IMAGE_URL + " VARCHAR," +
@@ -74,10 +73,10 @@ public class DatabaseHelper {
                     NearByDealsDataModel.SHOP_LOCATION + " VARCHAR," +
                     NearByDealsDataModel.SHOP_ADDRESS + " VARCHAR," +
                     NearByDealsDataModel.SHOP_LATITUDE + " VARCHAR," +
-                    NearByDealsDataModel.SHOP_LONGITUDE + " VARCHAR" + ")");
-            Log.d("DNB", "DATABASE CREATED");
-
+                    NearByDealsDataModel.SHOP_LONGITUDE + " VARCHAR," +
+                    NearByDealsDataModel.DEAL_WEIGHTAGE + " INT DEFAULT 1000" + ")");
         }
+
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             // TODO Auto-generated method stub
@@ -92,13 +91,17 @@ public class DatabaseHelper {
     }
 
     public DatabaseHelper open(){
-        dbHelper = new DbHelper (context);
+        if(dbHelper == null){
+            dbHelper = new DbHelper (context);
+        }
         ourDatabase = dbHelper.getWritableDatabase();
         return this;
     }
 
     public void close(){
-        dbHelper.close();
+        if(ourDatabase.isOpen()){
+            dbHelper.close();
+        }
     }
 
     public long addRequest(ContentValues cv) {
@@ -165,21 +168,30 @@ public class DatabaseHelper {
     }
 
     public void addDeal(ContentValues contentValues){
-        open();
-        long id = ourDatabase.insert(NearByDealsDataModel.DEAL_TABLE_NAME,null,contentValues);
+        if(getAllDeals() != null && getAllDeals().size() > 0){
+            if(getDeal(contentValues.getAsString(NearByDealsDataModel.DEALS_ID)) != null && getDeal(contentValues.getAsString(NearByDealsDataModel.DEALS_ID)).size() > 0  && getDeal(contentValues.getAsString(NearByDealsDataModel.DEALS_ID)).get(0).getDealId().equalsIgnoreCase(contentValues.getAsString(NearByDealsDataModel.DEALS_ID))){
+                updateDeal(contentValues, contentValues.getAsString(NearByDealsDataModel.DEALS_ID));
+            }else{
+                open();
+                long id = ourDatabase.insert(NearByDealsDataModel.DEAL_TABLE_NAME, null, contentValues);
+            }
+        }else{
+            open();
+            long id = ourDatabase.insert(NearByDealsDataModel.DEAL_TABLE_NAME, null, contentValues);
+        }
         close();
     }
 
     public void updateDeal(ContentValues contentValues, String dealId){
         open();
-        ourDatabase.update(NearByDealsDataModel.DEAL_TABLE_NAME,contentValues,NearByDealsDataModel.DEALS_ID + " = ? ", new String[]{dealId});
+        long id = ourDatabase.update(NearByDealsDataModel.DEAL_TABLE_NAME,contentValues,NearByDealsDataModel.DEALS_ID + " = ? ", new String[]{dealId});
         close();
     }
 
     public ArrayList<NearByDealsDataModel> getAllDeals(){
         open();
         String[] columns = NearByDealsDataModel.DEALS_COLUMN_NAMES;
-        Cursor cursor = ourDatabase.query(NearByDealsDataModel.DEAL_TABLE_NAME,columns,null,null,null,null,"time DESC");
+        Cursor cursor = ourDatabase.query(NearByDealsDataModel.DEAL_TABLE_NAME,columns,null,null,null,null, NearByDealsDataModel.DEAL_WEIGHTAGE + " DESC");
         ArrayList<NearByDealsDataModel> arrayList = NearByDealsDataModel.getArrayList(cursor);
         close();
         return arrayList;
@@ -188,16 +200,17 @@ public class DatabaseHelper {
     public ArrayList<NearByDealsDataModel> getDeals(String dealCategory){
         open();
         String[] columns = NearByDealsDataModel.DEALS_COLUMN_NAMES;
-        Cursor cursor = ourDatabase.query(NearByDealsDataModel.DEAL_TABLE_NAME,columns,NearByDealsDataModel.DEAL_CATEGORY + " = ? ", new String[]{dealCategory},null,null,"time DESC");
+        Cursor cursor = ourDatabase.query(NearByDealsDataModel.DEAL_TABLE_NAME,columns,NearByDealsDataModel.DEAL_CATEGORY + " = ? ", new String[]{dealCategory},null,null, NearByDealsDataModel.DEAL_WEIGHTAGE + " DESC");
         ArrayList<NearByDealsDataModel> arrayList = NearByDealsDataModel.getArrayList(cursor);
         close();
         return arrayList;
     }
 
-    public NearByDealsDataModel getDeal(String dealId){
+    public ArrayList<NearByDealsDataModel> getDeal(String dealId){
         open();
-        Cursor cursor = ourDatabase.query(NearByDealsDataModel.DEAL_TABLE_NAME, NearByDealsDataModel.DEALS_COLUMN_NAMES, NearByDealsDataModel.DEALS_ID + " = ?",new String[]{dealId},null, null, "time DESC");
-        NearByDealsDataModel nearByDealsDataModel = NearByDealsDataModel.getArrayList(cursor).get(0);
+        Cursor cursor = ourDatabase.query(NearByDealsDataModel.DEAL_TABLE_NAME, NearByDealsDataModel.DEALS_COLUMN_NAMES, NearByDealsDataModel.DEALS_ID + " = ?",new String[]{dealId},null, null, NearByDealsDataModel.DEAL_WEIGHTAGE + " DESC");
+        ArrayList<NearByDealsDataModel> nearByDealsDataModel = NearByDealsDataModel.getArrayList(cursor);
+        close();
         return nearByDealsDataModel;
     }
 }

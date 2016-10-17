@@ -53,7 +53,7 @@ public class ChangePassword extends BaseActivity {
             getSupportActionBar().setHomeButtonEnabled(true);
         }
 
-        if (toolbar != null) {
+        if(toolbar != null) {
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -2,50 +2,49 @@ package com.buyer.flashfetch.CommonUtils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.util.Patterns;
 import android.widget.Toast;
 
 import com.buyer.flashfetch.Constants.Constants;
-import com.buyer.flashfetch.Interfaces.UIListener;
 import com.buyer.flashfetch.LoginActivity;
 import com.buyer.flashfetch.Objects.IEvent;
 import com.buyer.flashfetch.Objects.UserProfile;
-import com.buyer.flashfetch.Services.IE_RegistrationIntentService;
+import com.buyer.flashfetch.R;
+import com.buyer.flashfetch.Services.GCMRegistrationIntentService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import org.greenrobot.eventbus.EventBus;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 /**
  * Created by KRANTHI on 05-06-2016.
  */
 public class Utils {
-    private static EventBus eventBus;
 
-//    private static EventBus eventBus;
+    private static EventBus eventBus;
 
     public static boolean isValidEmail(String emailText) {
         if (emailText == null) {
@@ -116,7 +115,7 @@ public class Utils {
 
     public static void startPlayServices(Activity activity) {
         if (Utils.checkPlayServices(activity)) {
-            Intent intent = new Intent(activity, IE_RegistrationIntentService.class);
+            Intent intent = new Intent(activity, GCMRegistrationIntentService.class);
             activity.startService(intent);
         } else {
             activity.finish();
@@ -267,6 +266,33 @@ public class Utils {
         }
 
         return containedUrls;
+    }
+
+
+    public static void sendNotification(Context context, Class activity, String title, String message) {
+
+        Intent intent = new Intent(context, activity);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            notificationBuilder.setSmallIcon(R.mipmap.ic_launcher).setColor(Color.RED);
+        } else {
+            notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        }
+
+        NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify((int) (Math.random() * 1000), notificationBuilder.build());
     }
 
     private static void initEventBus(){

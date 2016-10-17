@@ -7,11 +7,13 @@ public class Constants {
 
     // social media URL's
 
-    public static String FACEBOOK_URL = "https://www.facebook.com/Flashfetch-140606842997095/";
+    public static final String GOOGLE_PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.buyer.flashfetch";
 
-    public static String TWITTER_URL = "https://twitter.com/flashfetch";
+    public static final String FACEBOOK_URL = "https://www.facebook.com/Flashfetch-140606842997095/";
 
-    public static String CONTACT_US = "+919940126973";
+    public static final String TWITTER_URL = "https://twitter.com/flashfetch";
+
+    public static final String CONTACT_US = "9940126973";
 
     // product constants
 

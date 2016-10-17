@@ -20,14 +20,14 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class IE_RegistrationIntentService extends IntentService {
+public class GCMRegistrationIntentService extends IntentService {
 
     private static final String TAG = "RegistrationIntentService";
     private static final String[] TOPICS = {"global"};
     private String Old_ID,token;
     private boolean senttokentoserver;
 
-    public IE_RegistrationIntentService() {
+    public GCMRegistrationIntentService() {
         super(TAG);
     }
     @Override
@@ -94,9 +94,9 @@ public class IE_RegistrationIntentService extends IntentService {
 
     private void sendRegistrationToServer(String freshtoken) {
         ArrayList<PostParam> PostParams = new ArrayList<PostParam>();
-        PostParams.add(new PostParam("mobile", UserProfile.getPhone(IE_RegistrationIntentService.this)));
+        PostParams.add(new PostParam("mobile", UserProfile.getPhone(GCMRegistrationIntentService.this)));
         PostParams.add(new PostParam("gcmid",freshtoken));
-        PostParams.add(new PostParam("token",UserProfile.getToken(IE_RegistrationIntentService.this)));
+        PostParams.add(new PostParam("token",UserProfile.getToken(GCMRegistrationIntentService.this)));
 
         JSONObject ResponseJSON = PostRequest.execute(URLConstants.URL_GCM_REGISTER, PostParams, null);
         Log.d("RESPONSE",ResponseJSON.toString());

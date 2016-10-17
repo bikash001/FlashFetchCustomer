@@ -2,6 +2,7 @@ package com.buyer.flashfetch.Adapters;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -21,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.buyer.flashfetch.CommonUtils.Toasts;
 import com.buyer.flashfetch.CommonUtils.Utils;
 import com.buyer.flashfetch.Constants.NearByDealsConstants;
+import com.buyer.flashfetch.Helper.DatabaseHelper;
 import com.buyer.flashfetch.Interfaces.UIResponseListener;
 import com.buyer.flashfetch.Network.ServiceManager;
 import com.buyer.flashfetch.Objects.NearByDealsDataModel;
@@ -103,6 +105,13 @@ public class NearByDealsAdapter extends RecyclerView.Adapter<NearByDealsAdapter.
                         ServiceManager.callGetVoucherIdService(context, dataModel.getDealId(), new UIResponseListener<DealsVoucherResponse>() {
                             @Override
                             public void onSuccess(DealsVoucherResponse result) {
+                                ContentValues contentValues = new ContentValues();
+                                contentValues.put(NearByDealsDataModel.VOUCHER_ID, result.getVoucherID());
+                                contentValues.put(NearByDealsDataModel.ACTIVATED, 1);
+
+                                DatabaseHelper databaseHelper = new DatabaseHelper(context);
+                                databaseHelper.updateDeal(contentValues, dataModel.getDealId());
+
                                 hideProgressDialog();
                                 holder.voucherID.setText(result.getVoucherID());
                                 holder.buyNow.setVisibility(View.GONE);

@@ -20,7 +20,7 @@ import com.buyer.flashfetch.CommonUtils.Utils;
 import com.buyer.flashfetch.Interfaces.UIListener;
 import com.buyer.flashfetch.Network.ServiceManager;
 import com.buyer.flashfetch.Objects.UserProfile;
-import com.buyer.flashfetch.Services.IE_RegistrationIntentService;
+import com.buyer.flashfetch.Services.GCMRegistrationIntentService;
 
 import java.util.concurrent.TimeUnit;
 /*import com.facebook.CallbackManager;
@@ -109,7 +109,7 @@ public class LoginActivity extends BaseActivity {
         registerHere.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context,RegisterActivity.class);
+                Intent intent = new Intent(context,RegistrationActivity.class);
                 startActivity(intent);
             }
         });
@@ -169,7 +169,7 @@ public class LoginActivity extends BaseActivity {
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
 
-                            intent = new Intent(LoginActivity.this, IE_RegistrationIntentService.class);
+                            intent = new Intent(LoginActivity.this, GCMRegistrationIntentService.class);
                             startService(intent);
                             finish();
                         }else{

@@ -40,12 +40,14 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <category android:name="com.buyer.flashfetch" />
+                <category android:name="com.buyer.flashfestch" />
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".BroadcastReceivers.RegistrationReceiver"/>
+
         <service
-            android:name=".Services.IE_GCMListenerService"
+            android:name=".Services.GCMListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
@@ -53,7 +55,7 @@
         </service>
 
         <service
-            android:name=".Services.IE_InstanceIDListenerService"
+            android:name=".Services.GCMInstanceIDListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
@@ -61,7 +63,7 @@
         </service>
 
         <service
-            android:name=".Services.IE_RegistrationIntentService"
+            android:name=".Services.GCMRegistrationIntentService"
             android:exported="false" />
 
         <activity
@@ -96,7 +98,7 @@
         <activity android:name=".MainActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".RegisterActivity"
+        <activity android:name=".RegistrationActivity"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".ForgotPassword"

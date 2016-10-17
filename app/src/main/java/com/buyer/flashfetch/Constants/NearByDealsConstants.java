@@ -5,6 +5,16 @@ package com.buyer.flashfetch.Constants;
  */
 public class NearByDealsConstants {
 
+    // String Constants
+
+    public static final String TAB_SHOPPING = "SHOPPING";
+
+    public static final String TAB_FOOD = "FOOD";
+
+    public static final String TAB_SERVICES = "SERVICES";
+
+    // Int Constants
+
     // Deals Category Constants
 
     public static final int SHOPPING = 1;
@@ -17,7 +27,7 @@ public class NearByDealsConstants {
 
     public static final int TRENDING = ENTERTAINMENT + 1;
 
-    //Deals Delivery Constants
+    // Deals Delivery Constants
 
     public static final int PICKUP_DEALS = 99;
 

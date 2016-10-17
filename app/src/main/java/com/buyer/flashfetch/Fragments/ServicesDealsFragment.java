@@ -16,29 +16,16 @@ import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 
 import com.buyer.flashfetch.Adapters.NearByDealsAdapter;
-import com.buyer.flashfetch.CommonUtils.Toasts;
-import com.buyer.flashfetch.CommonUtils.Utils;
-import com.buyer.flashfetch.Constants.IEventConstants;
 import com.buyer.flashfetch.Constants.NearByDealsConstants;
-import com.buyer.flashfetch.Interfaces.UIListener;
-import com.buyer.flashfetch.Network.ServiceManager;
-import com.buyer.flashfetch.Objects.IEvent;
 import com.buyer.flashfetch.Objects.NearByDealsDataModel;
 import com.buyer.flashfetch.R;
-
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
-/**
- * Created by KRANTHI on 06-10-2016.
- */
 public class ServicesDealsFragment extends Fragment {
-
-    private static final String SERVICES_DEALS = "service_deals";
 
     private RecyclerView recyclerView;
     private NearByDealsAdapter nearByDealsAdapter;
@@ -93,22 +80,9 @@ public class ServicesDealsFragment extends Fragment {
         return view;
     }
 
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//
-//        if (savedInstanceState != null) {
-//            servicesDeals = (ArrayList<NearByDealsDataModel>) savedInstanceState.getSerializable(SERVICES_DEALS);
-//        } else {
-//            setUpData();
-//        }
-//    }
-
     private void setNearByDealsAdapter() {
 
-        if(servicesDeals == null){
-            servicesDeals = NearByDealsDataModel.getDeals(getContext(), NearByDealsConstants.SERVICES + "");
-        }
+        servicesDeals = NearByDealsDataModel.getDeals(getContext(), NearByDealsConstants.SERVICES + "");
 
         nearByDealsAdapter = new NearByDealsAdapter(getContext(), servicesDeals);
 
@@ -119,27 +93,4 @@ public class ServicesDealsFragment extends Fragment {
 
         recyclerView.setAdapter(new ScaleInAnimationAdapter(alphaInAnimationAdapter));
     }
-
-//    public void showProgressDialog() {
-//        progressDialog = new ProgressDialog(getContext());
-//        progressDialog.setTitle("Loading...");
-//        progressDialog.setMessage("Please wait...");
-//        progressDialog.setCancelable(false);
-//        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-//
-//        progressDialog.show();
-//    }
-//
-//    private void hideProgressDialog() {
-//        if (progressDialog != null && progressDialog.isShowing()) {
-//            progressDialog.dismiss();
-//        }
-//    }
-//
-//    @Override
-//    public void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(SERVICES_DEALS, servicesDeals);
-//    }
 }

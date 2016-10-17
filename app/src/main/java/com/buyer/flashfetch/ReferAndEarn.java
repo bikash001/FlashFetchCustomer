@@ -40,6 +40,7 @@ public class ReferAndEarn extends AppCompatActivity implements View.OnClickListe
             });
         }
 
+
         referralCode = (TextView)findViewById(R.id.code);
 
         referralCode.setText("Your Code: " + UserProfile.getReferralCode(ReferAndEarn.this));

@@ -35,6 +35,16 @@
             android:title="Refer" />
 
         <item
+            android:id="@+id/nav_rate_us"
+            android:icon="@drawable/star"
+            android:title="Rate Us"/>
+
+        <item
+            android:id="@+id/nav_contact_us"
+            android:icon="@drawable/call"
+            android:title="Contact Us"/>
+
+        <item
             android:id="@+id/nav_help"
             android:icon="@drawable/ic_chat_black"
             android:title="Help Us Improve" />

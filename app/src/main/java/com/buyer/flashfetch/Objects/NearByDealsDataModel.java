@@ -31,16 +31,17 @@ public class NearByDealsDataModel implements Serializable {
     public static final String SHOP_ADDRESS = "shop_address";
     public static final String SHOP_LATITUDE = "shop_latitude";
     public static final String SHOP_LONGITUDE = "shop_longitude";
+    public static final String DEAL_WEIGHTAGE = "deal_weightage";
 
     public static String[] DEALS_COLUMN_NAMES = {"deals_id", "deal_type", "deal_category", "image_url", "deal_heading", "deal_description",
             "deal_valid_upto", "how_to_avail_deal", "activated", "voucher_id", "shop_name", "shop_phone", "shop_location",
-            "shop_address", "shop_latitude", "shop_longitude"};
+            "shop_address", "shop_latitude", "shop_longitude", "deal_weightage"};
 
     private String imageUrl;
     private String dealId, itemHeading, itemDescription, validTo, howToAvailDeal, voucherId;
     private String shopName, shopPhone, shopLongitude, shopLatitude, shopAddress, shopLocation;
     private boolean isActivated;
-    private int dealsCategory, dealsType;
+    private int dealsCategory, dealsType, dealWeightage;
 
     public String getImageUrl() {
         return imageUrl;
@@ -187,7 +188,7 @@ public class NearByDealsDataModel implements Serializable {
         return databaseHelper.getAllDeals();
     }
 
-    public static NearByDealsDataModel getDeal(Context context, String dealId){
+    public static ArrayList<NearByDealsDataModel> getDeal(Context context, String dealId){
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         return databaseHelper.getDeal(dealId);
     }
@@ -218,5 +219,13 @@ public class NearByDealsDataModel implements Serializable {
         nearByDealsDataModel.setShopLongitude(cursor.getString(15));
 
         return nearByDealsDataModel;
+    }
+
+    public int getDealWeightage() {
+        return dealWeightage;
+    }
+
+    public void setDealWeightage(int dealWeightage) {
+        this.dealWeightage = dealWeightage;
     }
 }

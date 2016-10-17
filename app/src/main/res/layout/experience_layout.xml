@@ -10,7 +10,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp">
 
         <LinearLayout
             android:orientation="vertical"
@@ -19,6 +20,7 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/rating_title"
                 android:text="How is your Experience"
                 android:textSize="16sp"
                 android:textColor="@color/ff_black"
@@ -27,6 +29,7 @@
                 android:layout_marginBottom="8dp"/>
 
             <TextView
+                android:id="@+id/rating_description"
                 android:text="Are you enjoying FlashFetch ?"
                 android:textSize="14sp"
                 android:layout_width="match_parent"
@@ -43,6 +46,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/experience_layout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -50,22 +54,100 @@
         <ImageView
             android:id="@+id/experience_sad"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:src="@drawable/nopes"
+            android:layout_marginRight="4dp"
+            android:layout_height="150dp"
             android:layout_weight="1" />
 
         <ImageView
-            android:id="@+id/experience_neutral"
+            android:id="@+id/experience_happy"
+            android:layout_marginLeft="4dp"
             android:layout_width="0dp"
+            android:src="@drawable/yes"
             android:layout_weight="1"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_height="match_parent" />
+            android:layout_height="150dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/experience_sad_layout"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/rating_edit_text_feedback"
+            android:background="@drawable/edit_text_black_border"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:id="@+id/feedback_cancel"
+                android:layout_marginRight="16dp"
+                android:text="Cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/feedback_send"
+                android:text="Send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/experience_happy_layout"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/experience_happy"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent" />
+            android:src="@drawable/yes"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:id="@+id/rating_cancel"
+                android:layout_marginRight="16dp"
+                android:text="Nope"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/rating_send"
+                android:text="Yeah Sure!"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

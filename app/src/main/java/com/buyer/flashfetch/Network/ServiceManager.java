@@ -115,10 +115,6 @@ public class ServiceManager {
                         UserProfile.setReferralCode(context, response.getJSONObject("data").getString("referral_code"));
                     }
 
-                    if(!TextUtils.isEmpty(response.getJSONObject("data").getString("referral_code"))){
-                        UserProfile.setReferralCode(context, response.getJSONObject("data").getString("referral_code"));
-                    }
-
                     uiListener.onSuccess();
 
                 } else if (response.getJSONObject("data").getInt("result") == 0) {
@@ -602,7 +598,7 @@ public class ServiceManager {
                         contentValues.put(NearByDealsDataModel.HOW_TO_AVAIL_DEAL, jsonObject.getString("deal_activate"));
                         contentValues.put(NearByDealsDataModel.ACTIVATED, jsonObject.getInt("activated"));
                         if(jsonObject.getString("activated").equalsIgnoreCase(1 + "")){
-                            contentValues.put(NearByDealsDataModel.VOUCHER_ID, jsonObject.getString("deal_id"));
+                            contentValues.put(NearByDealsDataModel.VOUCHER_ID, jsonObject.getString("voucher_id"));
                         }else{
                             contentValues.put(NearByDealsDataModel.VOUCHER_ID, "");
                         }
@@ -612,6 +608,7 @@ public class ServiceManager {
                         contentValues.put(NearByDealsDataModel.SHOP_ADDRESS, jsonObject.getString("store_address"));
                         contentValues.put(NearByDealsDataModel.SHOP_LATITUDE, jsonObject.getString("store_latitude"));
                         contentValues.put(NearByDealsDataModel.SHOP_LONGITUDE, jsonObject.getString("store_longitude"));
+                        contentValues.put(NearByDealsDataModel.DEAL_WEIGHTAGE, jsonObject.getString("weightage"));
 
                         databaseHelper.addDeal(contentValues);
                     }
@@ -625,15 +622,6 @@ public class ServiceManager {
             }
         }
     }
-
-//    private static boolean checkUniqueDeal(ArrayList<NearByDealsDataModel> nearByDealsDataModels, NearByDealsDataModel nearByDealsDataModel) {
-//        for (int i = 0; i < nearByDealsDataModels.size(); i++) {
-//            if (nearByDealsDataModel.getDealId().equalsIgnoreCase(nearByDealsDataModels.get(i).getDealId())) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
 
     public static void callVerificationService(Context context, String verificationCode, String mobileNumber, String token, final UIListener uiListener) {
 

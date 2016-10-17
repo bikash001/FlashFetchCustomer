@@ -67,7 +67,7 @@ public class ForgotPassword extends BaseActivity {
         registerHere.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ForgotPassword.this, RegisterActivity.class);
+                Intent intent = new Intent(ForgotPassword.this, RegistrationActivity.class);
                 startActivity(intent);
                 finish();
             }

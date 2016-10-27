@@ -94,7 +94,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
 
         personName = (TextView)navigationView.getHeaderView(0).findViewById(R.id.navigation_person_name);
-        personEmail = (TextView)navigationView.getHeaderView(0).findViewById(R.id.navigation_person_email);
+        personEmail = (TextView)navigationView.getHeaderView(0).findViewById(R.id.navigation_person_phone);
 
         personName.setText(UserProfile.getName(context));
         personEmail.setText(UserProfile.getEmail(context));

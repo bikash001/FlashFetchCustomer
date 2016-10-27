@@ -8,7 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -17,19 +17,17 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.View;
 import android.widget.Toast;
 
 import com.buyer.flashfetch.Constants.Constants;
+import com.buyer.flashfetch.FireBaseCloudMessaging.RegistrationService;
 import com.buyer.flashfetch.LoginActivity;
-import com.buyer.flashfetch.Objects.IEvent;
 import com.buyer.flashfetch.Objects.UserProfile;
 import com.buyer.flashfetch.R;
-import com.buyer.flashfetch.Services.GCMRegistrationIntentService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +42,7 @@ import java.util.regex.Pattern;
  */
 public class Utils {
 
-    private static EventBus eventBus;
+//    private static EventBus eventBus;
 
     public static boolean isValidEmail(String emailText) {
         if (emailText == null) {
@@ -115,7 +113,7 @@ public class Utils {
 
     public static void startPlayServices(Activity activity) {
         if (Utils.checkPlayServices(activity)) {
-            Intent intent = new Intent(activity, GCMRegistrationIntentService.class);
+            Intent intent = new Intent(activity, RegistrationService.class);
             activity.startService(intent);
         } else {
             activity.finish();
@@ -283,54 +281,66 @@ public class Utils {
                 .setContentText(message)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent)
+                .setPriority(android.app.Notification.PRIORITY_MAX)
                 .setAutoCancel(true);
 
+
+        notificationBuilder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.notification_icon));
+
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            notificationBuilder.setSmallIcon(R.mipmap.ic_launcher).setColor(Color.RED);
+            notificationBuilder.setSmallIcon(R.drawable.notification_small_icon);
         } else {
-            notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
+            notificationBuilder.setSmallIcon(R.drawable.notification_small_icon);
         }
 
         NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify((int) (Math.random() * 1000), notificationBuilder.build());
-    }
+        android.app.Notification notification = notificationBuilder.build();
 
-    private static void initEventBus(){
-        if (eventBus == null) {
-            eventBus = EventBus.getDefault();
+        int smallIconId = context.getResources().getIdentifier("right_icon", "id", android.R.class.getPackage().getName());
+
+        if (smallIconId != 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            notification.contentView.setViewVisibility(smallIconId, View.INVISIBLE);
         }
+
+        notificationManager.notify((int) (Math.random() * 1000), notification);
     }
 
-    public static void registerEventBus(Object receiver){
-        initEventBus();
-        eventBus.register(receiver);
-    }
-
-    public static void unregisterEventBus(Object receiver){
-        initEventBus();
-        eventBus.unregister(receiver);
-    }
-
-    public static void postEvent(Object event){
-        initEventBus();
-        eventBus.post(event);
-    }
-
-    public static void postStickyEvent(Object event){
-        initEventBus();
-        eventBus.postSticky(event);
-    }
-
-    public static void registerSticky(Object receiver){
-        initEventBus();
-        eventBus.register(receiver);
-    }
-
-    public static void postEvent(String eventName, int eventId, Object object){
-        IEvent.Builder builder = new IEvent.Builder();
-        builder.setEventID(eventId);
-        builder.setEventName(eventName);
-        builder.setEventObject(object);
-        postEvent(builder.build());
-    }
+//    private static void initEventBus(){
+//        if (eventBus == null) {
+//            eventBus = EventBus.getDefault();
+//        }
+//    }
+//
+//    public static void registerEventBus(Object receiver){
+//        initEventBus();
+//        eventBus.register(receiver);
+//    }
+//
+//    public static void unregisterEventBus(Object receiver){
+//        initEventBus();
+//        eventBus.unregister(receiver);
+//    }
+//
+//    public static void postEvent(Object event){
+//        initEventBus();
+//        eventBus.post(event);
+//    }
+//
+//    public static void postStickyEvent(Object event){
+//        initEventBus();
+//        eventBus.postSticky(event);
+//    }
+//
+//    public static void registerSticky(Object receiver){
+//        initEventBus();
+//        eventBus.register(receiver);
+//    }
+//
+//    public static void postEvent(String eventName, int eventId, Object object){
+//        IEvent.Builder builder = new IEvent.Builder();
+//        builder.setEventID(eventId);
+//        builder.setEventName(eventName);
+//        builder.setEventObject(object);
+//        postEvent(builder.build());
+//    }
 }

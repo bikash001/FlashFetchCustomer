@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.buyer.flashfetch.Constants.Constants;
 import com.buyer.flashfetch.Objects.UserProfile;
 
 public class ReferAndEarn extends AppCompatActivity implements View.OnClickListener{
@@ -62,7 +63,7 @@ public class ReferAndEarn extends AppCompatActivity implements View.OnClickListe
         Intent intent;
         intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, "your code");
+        intent.putExtra(Intent.EXTRA_TEXT, "I have found the great app for deals around us. Register with my code " + UserProfile.getReferralCode(ReferAndEarn.this) + " . Get it here " + Constants.GOOGLE_PLAY_STORE_URL);
 
         switch (v.getId()){
             case R.id.whatsApp:

@@ -1,29 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <group>
-        <!--<item-->
-            <!--android:id="@+id/nav_home"-->
-            <!--android:icon="@drawable/ic_home_black"-->
-            <!--android:title="Home" />-->
-
-        <!--<item-->
-            <!--android:id="@+id/nav_deals"-->
-            <!--android:icon="@drawable/ic_menu_gallery"-->
-            <!--android:title="Deals Nearby" />-->
-
-        <!--<item-->
-            <!--android:id="@+id/nav_wallet"-->
-            <!--android:icon="@drawable/ic_wallet_black"-->
-            <!--android:title="Wallet" />-->
 
         <item
             android:id="@+id/nav_account"
             android:icon="@drawable/ic_person_black"
             android:title="Account" />
 
-    </group>
-
-    <group>
         <item
             android:id="@+id/nav_notification"
             android:icon="@drawable/ic_notifications_black"

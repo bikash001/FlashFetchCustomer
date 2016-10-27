@@ -10,13 +10,16 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.buyer.flashfetch.CommonUtils.Toasts;
 import com.buyer.flashfetch.CommonUtils.Utils;
 import com.buyer.flashfetch.Constants.RegistrationConstants;
+import com.buyer.flashfetch.Helper.DialogManager;
 import com.buyer.flashfetch.Interfaces.UIListener;
 import com.buyer.flashfetch.Network.ServiceManager;
 import com.buyer.flashfetch.Objects.UserProfile;
@@ -78,7 +81,7 @@ public class AccountVerification extends BaseActivity {
                             progressDialog.dismiss();
                             retryNumber = retryNumber + 1;
                             setTimerTime();
-                            Toast.makeText(context, "OTP has been resent", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "OTP has been resent to your registered mobile number", Toast.LENGTH_SHORT).show();
                             enableRetryButton(false);
                         }
 
@@ -199,7 +202,12 @@ public class AccountVerification extends BaseActivity {
 
             @Override
             public void onFinish() {
-                enableRetryButton(true);
+                if(retryNumber < 2){
+                    enableRetryButton(true);
+                }else{
+                    retryButton.setVisibility(View.GONE);
+                    submitButton.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+                }
             }
         }.start();
     }
@@ -215,8 +223,7 @@ public class AccountVerification extends BaseActivity {
         int id = item.getItemId();
 
         if (id == R.id.account_verify_contact_us){
-            Intent intent = new Intent(this,ContactUs.class);
-            startActivity(intent);
+            DialogManager.showContactDialog(context);
             return true;
         }
         return false;

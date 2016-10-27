@@ -32,7 +32,6 @@ public class SplashActivity extends AppCompatActivity{
 
     @Override
     protected void onPause() {
-        // TODO Auto-generated method stub
         super.onPause();
         finish();
     }

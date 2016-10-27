@@ -18,12 +18,12 @@ public class Notification {
     public static final String NOTIFICATION_IMAGE_URL = "imageURL";
     public static final String NOTIFICATION_EXP_TIME = "time";
 
-    public static String[] columns = {"notificationId","heading","description","imageURL","time"};
+    public static String[] COLUMNS = {"notificationId","heading","description","imageURL","time"};
     public static String TABLE_NAME = "Notifications";
 
-    private int notificationId;
-    private String heading, description, imageURL;
-    private long timeInMillis;
+    public int notificationId;
+    public String heading, description, imageURL;
+    public long timeInMillis;
 
     public Notification(int notificationId, String heading, String description, String imageURL, long timeInMillis){
         this.notificationId = notificationId;
@@ -83,5 +83,13 @@ public class Notification {
 
     public void setTimeInMillis(long timeInMillis) {
         this.timeInMillis = timeInMillis;
+    }
+
+    public int getNotificationId() {
+        return notificationId;
+    }
+
+    public void setNotificationId(int notificationId) {
+        this.notificationId = notificationId;
     }
 }

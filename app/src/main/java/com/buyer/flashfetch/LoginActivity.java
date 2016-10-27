@@ -20,12 +20,8 @@ import com.buyer.flashfetch.CommonUtils.Utils;
 import com.buyer.flashfetch.Interfaces.UIListener;
 import com.buyer.flashfetch.Network.ServiceManager;
 import com.buyer.flashfetch.Objects.UserProfile;
-import com.buyer.flashfetch.Services.GCMRegistrationIntentService;
 
 import java.util.concurrent.TimeUnit;
-/*import com.facebook.CallbackManager;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;*/
 
 public class LoginActivity extends BaseActivity {
 
@@ -54,9 +50,6 @@ public class LoginActivity extends BaseActivity {
         context = LoginActivity.this;
 
         if(UserProfile.getPhone(context) != ""){
-//            Intent intent = new Intent(context,MainActivity.class);
-//            startActivity(intent);
-//            finish();
 
             if(UserProfile.isAccountVerified(context)){
                 Intent intent = new Intent(context, NearByDealsActivity.class);
@@ -159,19 +152,11 @@ public class LoginActivity extends BaseActivity {
                     public void onSuccess() {
                         progressDialog.dismiss();
 
-//                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                        intent.putExtra("LOGIN", true);
-//                        startActivity(intent);
-
                         if(UserProfile.isAccountVerified(context)){
                             Intent intent = new Intent(LoginActivity.this,NearByDealsActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
 
-                            intent = new Intent(LoginActivity.this, GCMRegistrationIntentService.class);
-                            startService(intent);
-                            finish();
                         }else{
                             Intent intent = new Intent(LoginActivity.this,AccountVerification.class);
                             startActivity(intent);

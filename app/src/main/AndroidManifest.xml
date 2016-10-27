@@ -32,38 +32,26 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
-                <category android:name="com.buyer.flashfestch" />
-            </intent-filter>
-        </receiver>
-
         <receiver android:name=".BroadcastReceivers.RegistrationReceiver"/>
 
         <service
-            android:name=".Services.GCMListenerService"
+            android:name=".FireBaseCloudMessaging.MessagingService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
         <service
-            android:name=".Services.GCMInstanceIDListenerService"
+            android:name=".FireBaseCloudMessaging.InstanceIDService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
         <service
-            android:name=".Services.GCMRegistrationIntentService"
+            android:name=".FireBaseCloudMessaging.RegistrationService"
             android:exported="false" />
 
         <activity
@@ -76,14 +64,6 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-
-        <!--<activity-->
-            <!--android:name=".LoginActivity">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
 
         <activity
             android:name=".LoginActivity"
@@ -141,15 +121,6 @@
             android:screenOrientation="portrait"/>
 
         <activity android:name=".ReferAndEarn"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".FeedbackActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".FeedbackActivity1"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".FeedbackActivity2"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".DeliveryActivity" />

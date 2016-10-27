@@ -104,4 +104,6 @@
     <string name="shop_name">Shop Name</string>
     <string name="shop_phone">Shop Phone</string>
     <string name="shop_address">Shop Address</string>
+
+    <string name="google_play_store_url"><u>https://play.google.com/store/apps/details?id=com.buyer.flashfetch</u></string>
 </resources>

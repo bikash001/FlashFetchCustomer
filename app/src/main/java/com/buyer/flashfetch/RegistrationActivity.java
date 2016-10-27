@@ -156,12 +156,15 @@ public class RegistrationActivity extends BaseActivity {
                     @Override
                     public void onFailure() {
                         progressDialog.dismiss();
-                        Toast.makeText(context, "Email is already registered", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(context, "Email is already registered", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onFailure(int result) {
-
+                        progressDialog.dismiss();
+                        if(result == -1){
+                            Toast.makeText(context, "Mobilenumber is already registered", Toast.LENGTH_LONG).show();
+                        }
                     }
 
                     @Override

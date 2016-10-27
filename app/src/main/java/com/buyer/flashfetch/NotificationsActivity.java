@@ -52,16 +52,14 @@ public class NotificationsActivity extends BaseActivity{
 
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         ContentValues contentValues = new ContentValues();
-        ContentValues contentValues1 = new ContentValues();
 
         contentValues.put(Notification.NOTIFICATION_ID, 1234);
-        contentValues.put(Notification.NOTIFICATION_HEADING, "Testing Notification");
-        contentValues.put(Notification.NOTIFICATION_DESCRIPTION, "Testing Notification");
+        contentValues.put(Notification.NOTIFICATION_HEADING, "Welcome to Family");
+        contentValues.put(Notification.NOTIFICATION_DESCRIPTION, "Let us serve you with the best deals around you.");
         contentValues.put(Notification.NOTIFICATION_IMAGE_URL, "https://s5.postimg.org/kyy74k5qf/Welcome_Notification_Final.png");
         contentValues.put(Notification.NOTIFICATION_EXP_TIME, System.currentTimeMillis() + 5*60*1000);
 
         databaseHelper.addNotification(contentValues);
-        databaseHelper.addNotification(contentValues1);
 
         notificationsAdapter = new NotificationsAdapter(context, Notification.getAllNotifications(context));
 

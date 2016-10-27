@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.buyer.flashfetch.Adapters.RequestedAdapter;
-import com.buyer.flashfetch.Helper.DatabaseHelper;
 import com.buyer.flashfetch.Objects.Request;
 import com.buyer.flashfetch.R;
 

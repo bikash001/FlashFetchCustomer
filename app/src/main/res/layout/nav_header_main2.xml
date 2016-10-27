@@ -33,12 +33,12 @@
         android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/navigation_person_email"
+        android:id="@+id/navigation_person_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:padding="4dp"
         android:textSize="12sp"
-        android:text="flashfetchbuyer@gmail.com" />
+        android:text="9876543210" />
 
 </LinearLayout>

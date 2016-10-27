@@ -83,10 +83,10 @@ public class ServiceManager {
             ArrayList<PostParam> postParams = new ArrayList<PostParam>();
 
             postParams.add(new PostParam("name", personName));
-            postParams.add(new PostParam("email", personEmail));
-            postParams.add(new PostParam("password", password));
             postParams.add(new PostParam("mobile", String.valueOf(phoneNumber)));
+            postParams.add(new PostParam("password", password));
             postParams.add(new PostParam("referral", referralCode));
+            postParams.add(new PostParam("email", personEmail));
 
             response = PostRequest.execute(URLConstants.URL_SIGN_UP, postParams, null);
             return null;
@@ -111,14 +111,16 @@ public class ServiceManager {
                         UserProfile.sentVerificationOTP(false,context);
                     }
 
-                    if(!TextUtils.isEmpty(response.getJSONObject("data").getString("referral_code"))){
-                        UserProfile.setReferralCode(context, response.getJSONObject("data").getString("referral_code"));
+                    if(!TextUtils.isEmpty(response.getJSONObject("data").getString("referral_id"))){
+                        UserProfile.setReferralCode(context, response.getJSONObject("data").getString("referral_id"));
                     }
 
                     uiListener.onSuccess();
 
                 } else if (response.getJSONObject("data").getInt("result") == 0) {
                     uiListener.onFailure();
+                }else if (response.getJSONObject("data").getInt("result") == -1) {
+                    uiListener.onFailure(-1);
                 } else {
                     uiListener.onConnectionError();
                 }
@@ -175,8 +177,6 @@ public class ServiceManager {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            userLoginTask = null;
-
             try {
                 if (response.getJSONObject("data").getInt("result") == 1) {
 
@@ -189,6 +189,10 @@ public class ServiceManager {
                     }else{
                         UserProfile.setAccountVerified(context,false);
                     }
+                    //TODO: need to chnage this
+//                    if(!TextUtils.isEmpty(response.getJSONObject("data").getString("referral_id"))){
+//                        UserProfile.setReferralCode(context, response.getJSONObject("data").getString("referral_id"));
+//                    }
 
                     uiListener.onSuccess();
 
@@ -597,11 +601,13 @@ public class ServiceManager {
                         contentValues.put(NearByDealsDataModel.DEAL_VALID_UPTO, jsonObject.getString("deal_validity"));
                         contentValues.put(NearByDealsDataModel.HOW_TO_AVAIL_DEAL, jsonObject.getString("deal_activate"));
                         contentValues.put(NearByDealsDataModel.ACTIVATED, jsonObject.getInt("activated"));
+
                         if(jsonObject.getString("activated").equalsIgnoreCase(1 + "")){
                             contentValues.put(NearByDealsDataModel.VOUCHER_ID, jsonObject.getString("voucher_id"));
                         }else{
                             contentValues.put(NearByDealsDataModel.VOUCHER_ID, "");
                         }
+
                         contentValues.put(NearByDealsDataModel.SHOP_NAME, jsonObject.getString("store_name"));
                         contentValues.put(NearByDealsDataModel.SHOP_PHONE, jsonObject.getString("store_phone"));
                         contentValues.put(NearByDealsDataModel.SHOP_LOCATION, jsonObject.getString("store_location"));

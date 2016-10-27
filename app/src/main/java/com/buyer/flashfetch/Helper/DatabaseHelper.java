@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.buyer.flashfetch.Objects.NearByDealsDataModel;
 import com.buyer.flashfetch.Objects.Notification;
@@ -79,7 +78,6 @@ public class DatabaseHelper {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            // TODO Auto-generated method stub
             db.execSQL(" DROP TABLE IF EXISTS " + Notification.TABLE_NAME);
             db.execSQL(" DROP TABLE IF EXISTS " + NearByDealsDataModel.DEAL_TABLE_NAME);
             onCreate(db);
@@ -151,33 +149,55 @@ public class DatabaseHelper {
         return arrayList;
     }
 
-    public long addNotification(ContentValues cv) {
-        open();
-        long id = ourDatabase.insert(Notification.TABLE_NAME, null, cv);
+    public void addNotification(ContentValues contentValues) {
+        if(getAllNotifications() != null && getAllNotifications().size() > 0){
+            if(getNotification(contentValues.getAsInteger(Notification.NOTIFICATION_ID)) != null && getNotification(contentValues.getAsInteger(Notification.NOTIFICATION_ID)).size() > 0 ){
+                updateNotification(contentValues.getAsInteger(Notification.NOTIFICATION_ID), contentValues);
+            }else{
+                open();
+                ourDatabase.insert(Notification.TABLE_NAME, null, contentValues);
+            }
+        }else{
+            open();
+            ourDatabase.insert(Notification.TABLE_NAME, null, contentValues);
+        }
         close();
-        return id;
+    }
+
+    public void updateNotification(int notificationId, ContentValues contentValues){
+        open();
+        long id = ourDatabase.update(Notification.TABLE_NAME,contentValues,Notification.NOTIFICATION_ID + " = ? ", new String[]{notificationId + ""});
+        close();
     }
 
     public ArrayList<Notification> getAllNotifications(){
         open();
-        String[] columns = Notification.columns;
+        String[] columns = Notification.COLUMNS;
         Cursor c = ourDatabase.query(Notification.TABLE_NAME, columns, null, null, null, null, "time DESC");
         ArrayList<Notification> arrayList = Notification.getArrayList(c);
         close();
         return arrayList;
     }
 
+    public ArrayList<Notification> getNotification(int notificationID){
+        open();
+        Cursor cursor = ourDatabase.query(Notification.TABLE_NAME, Notification.COLUMNS, Notification.NOTIFICATION_ID + " = ?",new String[]{notificationID + ""},null, null, Notification.NOTIFICATION_EXP_TIME + " DESC");
+        ArrayList<Notification> notifications = Notification.getArrayList(cursor);
+        close();
+        return notifications;
+    }
+
     public void addDeal(ContentValues contentValues){
         if(getAllDeals() != null && getAllDeals().size() > 0){
-            if(getDeal(contentValues.getAsString(NearByDealsDataModel.DEALS_ID)) != null && getDeal(contentValues.getAsString(NearByDealsDataModel.DEALS_ID)).size() > 0  && getDeal(contentValues.getAsString(NearByDealsDataModel.DEALS_ID)).get(0).getDealId().equalsIgnoreCase(contentValues.getAsString(NearByDealsDataModel.DEALS_ID))){
+            if(getDeal(contentValues.getAsString(NearByDealsDataModel.DEALS_ID)) != null && getDeal(contentValues.getAsString(NearByDealsDataModel.DEALS_ID)).size() > 0){
                 updateDeal(contentValues, contentValues.getAsString(NearByDealsDataModel.DEALS_ID));
             }else{
                 open();
-                long id = ourDatabase.insert(NearByDealsDataModel.DEAL_TABLE_NAME, null, contentValues);
+                ourDatabase.insert(NearByDealsDataModel.DEAL_TABLE_NAME, null, contentValues);
             }
         }else{
             open();
-            long id = ourDatabase.insert(NearByDealsDataModel.DEAL_TABLE_NAME, null, contentValues);
+            ourDatabase.insert(NearByDealsDataModel.DEAL_TABLE_NAME, null, contentValues);
         }
         close();
     }

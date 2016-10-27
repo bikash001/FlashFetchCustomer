@@ -13,7 +13,7 @@ public class Constants {
 
     public static final String TWITTER_URL = "https://twitter.com/flashfetch";
 
-    public static final String CONTACT_US = "9940126973";
+    public static final String CONTACT_US = "9884388389";
 
     // product constants
 

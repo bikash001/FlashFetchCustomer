@@ -7,7 +7,6 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -27,7 +26,6 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,10 +40,11 @@ import com.buyer.flashfetch.CommonUtils.Utils;
 import com.buyer.flashfetch.Constants.Constants;
 import com.buyer.flashfetch.Constants.NearByDealsConstants;
 import com.buyer.flashfetch.Constants.RegistrationConstants;
-import com.buyer.flashfetch.Helper.IntentManager;
+import com.buyer.flashfetch.Helper.DialogManager;
 import com.buyer.flashfetch.Interfaces.UIListener;
 import com.buyer.flashfetch.Network.ServiceManager;
 import com.buyer.flashfetch.Objects.UserProfile;
+import com.google.android.gms.vision.text.Text;
 
 import java.util.ArrayList;
 
@@ -67,7 +66,8 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
     private NearByDealsViewPagerAdapter dealsViewPagerAdapter;
     private ArrayList<String> contactsList = new ArrayList<>();
     private int numberOfVisits;
-    private AlertDialog feedbackAlertDialog, contactAlertDialog, feedBackAlertDialog_1;
+    private AlertDialog feedbackAlertDialog;
+    private TextView buyerName, buyerPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +78,8 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
         numberOfVisits = UserProfile.getVisits(context);
         numberOfVisits++;
         UserProfile.setVisits(numberOfVisits, context);
+
+        Utils.startPlayServices(this);
 
         setContentView(R.layout.deals_main);
 
@@ -96,7 +98,7 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
             Intent intent = new Intent(this, RegistrationReceiver.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, REGISTRATION_RECEIVER_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 15 * 1000, pendingIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() +  15* 1000, pendingIntent);
         }
 
         if (toolbar != null) {
@@ -110,7 +112,10 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
 
         progressDialog = getProgressDialog(context);
 
-        getContacts();
+        if(!UserProfile.isContactsRetrieved(context)){
+            getContacts();
+        }
+
         setUpData();
 
         tabLayout = (TabLayout) findViewById(R.id.deal_nearby_tab_layout);
@@ -127,6 +132,13 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
             navigationView.setNavigationItemSelectedListener(NearByDealsActivity.this);
         }
 
+        buyerName = (TextView)navigationView.findViewById(R.id.navigation_person_name);
+        buyerPhone = (TextView)navigationView.findViewById(R.id.navigation_person_phone);
+
+        //TODO: need to edit these
+        buyerName.setText(UserProfile.getName(context));
+        buyerPhone.setText(UserProfile.getPhone(context));
+
         if (tabLayout != null) {
             tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
             tabLayout.setTabMode(TabLayout.MODE_FIXED);
@@ -134,97 +146,8 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
 
         dealsViewPagerAdapter = new NearByDealsViewPagerAdapter(getSupportFragmentManager(), tabTitles);
 
-        if (UserProfile.getVisits(context) == 5) {
-
-            View view = getLayoutInflater().inflate(R.layout.experience_layout, null);
-
-            final AlertDialog.Builder builder = new AlertDialog.Builder(NearByDealsActivity.this);
-            builder.setView(view);
-
-            final LinearLayout experienceLayout = (LinearLayout) view.findViewById(R.id.experience_layout);
-            final LinearLayout experienceSadLayout = (LinearLayout) view.findViewById(R.id.experience_sad_layout);
-            final LinearLayout experienceHappyLayout = (LinearLayout) view.findViewById(R.id.experience_happy_layout);
-
-            final TextView ratingTitle = (TextView) view.findViewById(R.id.rating_title);
-            final TextView ratingDescription = (TextView) view.findViewById(R.id.rating_description);
-
-            ImageView imageView = (ImageView) view.findViewById(R.id.experience_clear_button);
-            ImageView sadImageView = (ImageView) view.findViewById(R.id.experience_sad);
-            ImageView happyImageView = (ImageView) view.findViewById(R.id.experience_happy);
-
-            final EditText feedback = (EditText) view.findViewById(R.id.rating_edit_text_feedback);
-            final TextView feedbackNo = (TextView) view.findViewById(R.id.feedback_cancel);
-            TextView feedbackYes = (TextView) view.findViewById(R.id.feedback_send);
-
-            TextView ratingCancel = (TextView) view.findViewById(R.id.rating_cancel);
-            TextView ratingSend = (TextView) view.findViewById(R.id.rating_send);
-
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    feedbackAlertDialog.dismiss();
-                }
-            });
-
-            sadImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    experienceLayout.setVisibility(View.GONE);
-                    experienceSadLayout.setVisibility(View.VISIBLE);
-                    ratingTitle.setText("Help us do better!");
-                    ratingDescription.setText("Mind giving us a quick feedback ?");
-                }
-            });
-
-            happyImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    experienceLayout.setVisibility(View.GONE);
-                    experienceHappyLayout.setVisibility(View.VISIBLE);
-                    ratingTitle.setText("Rate App");
-                    ratingDescription.setText("Mind giving us 5 star on Google Play ?");
-                }
-            });
-
-            feedbackNo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    feedbackAlertDialog.dismiss();
-                    Toast.makeText(context, "No worries. We will work harder", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            feedbackYes.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!TextUtils.isEmpty(feedback.getText())) {
-                        Toast.makeText(context, "Thanks for your feedback", Toast.LENGTH_SHORT).show();
-                        //TODO: need to integrate service call for feedback
-                    } else {
-                        Toast.makeText(context, "Please enter your feedback", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-
-            ratingCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    feedbackAlertDialog.dismiss();
-                    Toast.makeText(context, "No worries. We will work harder", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            ratingSend.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    feedbackAlertDialog.dismiss();
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GOOGLE_PLAY_STORE_URL));
-                    context.startActivity(intent);
-                }
-            });
-
-            feedbackAlertDialog = builder.create();
-            feedbackAlertDialog.show();
+        if (UserProfile.getVisits(context) == 7) {
+            showRatingPopup();
         }
     }
 
@@ -313,35 +236,18 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
             return true;
 
         } else if (id == R.id.nav_help) {
-            startActivity(new Intent(context, FeedbackActivity.class));
+//            startActivity(new Intent(context, FeedbackActivity.class));
+            DialogManager.showFeedbackDialog(this);
             return true;
 
         } else if (id == R.id.nav_rate_us) {
 
-            IntentManager.launchPlayStore(context);
+            showRatingPopup();
             return true;
 
         } else if (id == R.id.nav_contact_us) {
-
-            final AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                    .setTitle("Contact Us")
-                    .setMessage("Contact us at " + Constants.CONTACT_US + " between 11 AM to 10 PM")
-                    .setPositiveButton("Call", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            contactAlertDialog.dismiss();
-                            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Constants.CONTACT_US));
-                            startActivity(intent);
-                        }
-                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            contactAlertDialog.dismiss();
-                        }
-                    });
-
-            contactAlertDialog = builder.create();
-            contactAlertDialog.show();
+            DialogManager.showContactDialog(context);
+            return true;
         }
 
         return true;
@@ -365,25 +271,25 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
                 @Override
                 public void onFailure() {
                     progressDialog.dismiss();
-                    Toasts.serverBusyToast(context);
+                    DialogManager.showAlertDialog(NearByDealsActivity.this);
                 }
 
                 @Override
                 public void onFailure(int result) {
                     progressDialog.dismiss();
-                    Toasts.serverBusyToast(context);
+                    DialogManager.showAlertDialog(NearByDealsActivity.this);
                 }
 
                 @Override
                 public void onConnectionError() {
                     progressDialog.dismiss();
-                    Toasts.serverBusyToast(context);
+                    DialogManager.showAlertDialog(NearByDealsActivity.this);
                 }
 
                 @Override
                 public void onCancelled() {
                     progressDialog.dismiss();
-                    Toasts.serverBusyToast(context);
+                    DialogManager.showAlertDialog(NearByDealsActivity.this);
                 }
             });
 
@@ -398,6 +304,97 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
         }
     }
 
+    private void showRatingPopup(){
+        View view = getLayoutInflater().inflate(R.layout.experience_layout, null);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(NearByDealsActivity.this);
+        builder.setView(view);
+
+        final LinearLayout experienceLayout = (LinearLayout) view.findViewById(R.id.experience_layout);
+        final LinearLayout experienceSadLayout = (LinearLayout) view.findViewById(R.id.experience_sad_layout);
+        final LinearLayout experienceHappyLayout = (LinearLayout) view.findViewById(R.id.experience_happy_layout);
+
+        final TextView ratingTitle = (TextView) view.findViewById(R.id.rating_title);
+        final TextView ratingDescription = (TextView) view.findViewById(R.id.rating_description);
+
+        ImageView imageView = (ImageView) view.findViewById(R.id.experience_clear_button);
+        ImageView sadImageView = (ImageView) view.findViewById(R.id.experience_sad);
+        ImageView happyImageView = (ImageView) view.findViewById(R.id.experience_happy);
+
+        final EditText feedback = (EditText) view.findViewById(R.id.rating_edit_text_feedback);
+        final TextView feedbackNo = (TextView) view.findViewById(R.id.feedback_cancel);
+        TextView feedbackYes = (TextView) view.findViewById(R.id.feedback_send);
+
+        TextView ratingCancel = (TextView) view.findViewById(R.id.rating_cancel);
+        TextView ratingSend = (TextView) view.findViewById(R.id.rating_send);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                feedbackAlertDialog.dismiss();
+            }
+        });
+
+        sadImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                experienceLayout.setVisibility(View.GONE);
+                experienceSadLayout.setVisibility(View.VISIBLE);
+                ratingTitle.setText("Help us do better!");
+                ratingDescription.setText("Mind giving us a quick feedback ?");
+            }
+        });
+
+        happyImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                experienceLayout.setVisibility(View.GONE);
+                experienceHappyLayout.setVisibility(View.VISIBLE);
+                ratingTitle.setText("Rate App");
+                ratingDescription.setText("Mind giving us 5 star on Google Play ?");
+            }
+        });
+
+        feedbackNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                feedbackAlertDialog.dismiss();
+                Toast.makeText(context, "No worries. We will work harder", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        feedbackYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                feedbackAlertDialog.dismiss();
+                Toast.makeText(context, "Thanks for your feedback", Toast.LENGTH_SHORT).show();
+                if (!TextUtils.isEmpty(feedback.getText())) {
+                    //TODO: need to integrate service call for feedback
+                }
+            }
+        });
+
+        ratingCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                feedbackAlertDialog.dismiss();
+                Toast.makeText(context, "No worries. We will work harder", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        ratingSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                feedbackAlertDialog.dismiss();
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GOOGLE_PLAY_STORE_URL));
+                context.startActivity(intent);
+            }
+        });
+
+        feedbackAlertDialog = builder.create();
+        feedbackAlertDialog.show();
+    }
+
     private void getContacts() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{android.Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
@@ -407,6 +404,7 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
                 ServiceManager.callUploadContactsService(context, UserProfile.getPhone(context), contactsList, new UIListener() {
                     @Override
                     public void onSuccess() {
+                        UserProfile.setContactsRetrieved(true, context);
                     }
 
                     @Override

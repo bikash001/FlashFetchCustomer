@@ -120,15 +120,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             finish();
         } else if (id == R.id.accept) {
 
-            dialog = new Dialog(this);
-            dialog.setContentView(R.layout.dialog_accept);
-            dialog.getWindow().setLayout((int) (width * 0.8), height);
+//            dialog = new Dialog(this);
+//            dialog.setContentView(R.layout.dialog_accept);
+//            dialog.getWindow().setLayout((int) (width * 0.8), height);
             handlerDialog = new Handler_Dialog();
-            home = (RadioButton) dialog.findViewById(R.id.home_delivery);
-            shop = (RadioButton) dialog.findViewById(R.id.visit_shop);
+//            home = (RadioButton) dialog.findViewById(R.id.home_delivery);
+//            shop = (RadioButton) dialog.findViewById(R.id.visit_shop);
             Button button = (Button) dialog.findViewById(R.id.ok);
             button.setOnClickListener(handlerDialog);
-            dialog.show();
+//            dialog.show();
         } else if (id == R.id.bargain) {
 
             dialog = new Dialog(this);

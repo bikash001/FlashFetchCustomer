@@ -17,6 +17,6 @@ import com.buyer.flashfetch.Objects.Notification;
 public class RegistrationReceiver extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
-        Utils.sendNotification(context, NearByDealsActivity.class, "Welcome Aboard", "We are happy you are here");
+        Utils.sendNotification(context, NearByDealsActivity.class, "Welcome to the family", "Let us serve you with the best deals around you");
     }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -28,6 +30,8 @@ import com.buyer.flashfetch.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,6 +47,7 @@ import java.util.regex.Pattern;
 public class Utils {
 
 //    private static EventBus eventBus;
+    private static ProgressDialog progressDialog;
 
     public static boolean isValidEmail(String emailText) {
         if (emailText == null) {
@@ -175,10 +180,10 @@ public class Utils {
         return false;
     }
 
-    public static void doLogout(final Activity activity) {
+    public static void doLogout(final Context context) {
         final AlertDialog alertDialog;
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
         builder.setTitle("Logout");
         builder.setMessage("Are you sure you want to logout?");
@@ -186,8 +191,9 @@ public class Utils {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                logout(activity);
-                Toast.makeText(activity, "Successfully Logged out", Toast.LENGTH_SHORT).show();
+                showProgressDialog(context);
+                new logoutTask().execute(context);
+                Toast.makeText(context, "Successfully Logged out", Toast.LENGTH_SHORT).show();
             }
         });
         builder.setNegativeButton("Cancel", null);
@@ -195,33 +201,79 @@ public class Utils {
         alertDialog.show();
     }
 
-    private static void logout(Activity activity) {
-        clearApplicationData(activity);
+    private static class logoutTask extends AsyncTask<Context, Void, Context>{
 
-        SharedPreferences prefs = activity.getSharedPreferences(UserProfile.SHARED_PREFERENCES, 0);
-        prefs.edit().putString("delete", "hellothisisacheck").apply();
+        @Override
+        protected Context doInBackground(Context... activities) {
+            clearApplicationData(activities[0]);
 
-        Log.d("delete", prefs.getString("delete", "nope"));
+            SharedPreferences prefs = activities[0].getSharedPreferences(UserProfile.SHARED_PREFERENCES, 0);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.clear();
+            editor.apply();
 
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.clear();
-        editor.apply();
+            UserProfile.clear(activities[0]);
 
-        UserProfile.clear(activity);
-        Log.d("delete", prefs.getString("delete", "nope"));
+            FirebaseInstanceId firebaseInstanceId = FirebaseInstanceId.getInstance();
+            try {
+                firebaseInstanceId.deleteInstanceId();
+            } catch (IOException e) {
+                System.out.println("Error Message: " + e.getMessage());
+            }
 
-        GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(activity.getBaseContext());
-        try {
-            gcm.unregister();
-        } catch (IOException e) {
-            System.out.println("Error Message: " + e.getMessage());
+            return activities[0];
         }
 
-        Intent i = new Intent(activity, LoginActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        activity.startActivity(i);
-        activity.finish();
+        @Override
+        protected void onPostExecute(Context context) {
+            super.onPostExecute(context);
+            Intent i = new Intent(context, LoginActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(i);
+            dismissProgressDialog();
+        }
     }
+
+    private static void showProgressDialog(Context context){
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setTitle("Loading...");
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setCancelable(false);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
+        if(progressDialog != null && !progressDialog.isShowing()){
+            progressDialog.show();
+        }
+    }
+
+    private static void dismissProgressDialog(){
+        if(progressDialog != null && progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
+    }
+
+//    private static void logout(Activity activity) {
+//        clearApplicationData(activity);
+//
+//        SharedPreferences prefs = activity.getSharedPreferences(UserProfile.SHARED_PREFERENCES, 0);
+//        SharedPreferences.Editor editor = prefs.edit();
+//        editor.clear();
+//        editor.apply();
+//
+//        UserProfile.clear(activity);
+//
+//        Fire gcm = GoogleCloudMessaging.getInstance(activity.getBaseContext());
+//        try {
+//            gcm.unregister();
+//        } catch (IOException e) {
+//            System.out.println("Error Message: " + e.getMessage());
+//        }
+//
+//        Intent i = new Intent(activity, LoginActivity.class);
+//        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        activity.startActivity(i);
+//        activity.finish();
+//    }
 
     private static void clearApplicationData(Context context) {
         File cache = context.getCacheDir();
@@ -289,6 +341,7 @@ public class Utils {
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             notificationBuilder.setSmallIcon(R.drawable.notification_small_icon);
+            notificationBuilder.setColor(context.getResources().getColor(R.color.ff_red));
         } else {
             notificationBuilder.setSmallIcon(R.drawable.notification_small_icon);
         }

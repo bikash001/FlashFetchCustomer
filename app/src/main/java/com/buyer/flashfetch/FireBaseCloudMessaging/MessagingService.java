@@ -1,8 +1,13 @@
 package com.buyer.flashfetch.FireBaseCloudMessaging;
 
 
+import android.content.ContentValues;
+import android.provider.Settings;
+
 import com.buyer.flashfetch.CommonUtils.Utils;
+import com.buyer.flashfetch.Helper.DatabaseHelper;
 import com.buyer.flashfetch.NearByDealsActivity;
+import com.buyer.flashfetch.Objects.Notification;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -25,6 +30,17 @@ public class MessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(Notification.NOTIFICATION_ID, remoteMessage.getData().get("message_id"));
+        contentValues.put(Notification.NOTIFICATION_HEADING, remoteMessage.getNotification().getTitle());
+        contentValues.put(Notification.NOTIFICATION_DESCRIPTION, remoteMessage.getNotification().getBody());
+        contentValues.put(Notification.NOTIFICATION_IMAGE_URL, remoteMessage.getData().get("image_url"));
+        contentValues.put(Notification.NOTIFICATION_EXP_TIME, System.currentTimeMillis());
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        databaseHelper.addNotification(contentValues);
 
         if(remoteMessage.getNotification() != null){
             Utils.sendNotification(this, NearByDealsActivity.class, remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());

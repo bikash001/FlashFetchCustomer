@@ -6,7 +6,7 @@ import android.net.NetworkInfo;
 
 import java.io.IOException;
 
-public class Connectivity {
+public class ConnectionManager {
 
     public static boolean isConnected() {
 

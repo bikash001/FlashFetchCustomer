@@ -63,7 +63,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
         long time = System.currentTimeMillis();
 
-        int difference = (int) ((notification.getTimeInMillis() - time)/60000);
+        int difference = (int) ((time - notification.getTimeInMillis())/60000);
 
         if(difference < 60){
             holder.timer.setText(difference + "m ago");

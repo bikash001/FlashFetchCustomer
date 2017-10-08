@@ -21,11 +21,11 @@ public class Notification {
     public static String[] COLUMNS = {"notificationId","heading","description","imageURL","time"};
     public static String TABLE_NAME = "Notifications";
 
-    public int notificationId;
+    public String notificationId;
     public String heading, description, imageURL;
     public long timeInMillis;
 
-    public Notification(int notificationId, String heading, String description, String imageURL, long timeInMillis){
+    public Notification(String notificationId, String heading, String description, String imageURL, long timeInMillis){
         this.notificationId = notificationId;
         this.heading = heading;
         this.description = description;
@@ -42,7 +42,7 @@ public class Notification {
     }
 
     public static Notification parseNotification(Cursor c) {
-        Notification notification = new Notification(c.getInt(0),c.getString(1),c.getString(2),c.getString(3),c.getLong(4));
+        Notification notification = new Notification(c.getString(0),c.getString(1),c.getString(2),c.getString(3),c.getLong(4));
         return notification;
     }
 
@@ -85,11 +85,11 @@ public class Notification {
         this.timeInMillis = timeInMillis;
     }
 
-    public int getNotificationId() {
+    public String getNotificationId() {
         return notificationId;
     }
 
-    public void setNotificationId(int notificationId) {
+    public void setNotificationId(String notificationId) {
         this.notificationId = notificationId;
     }
 }

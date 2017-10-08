@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -35,18 +34,24 @@ import android.widget.Toast;
 import com.buyer.flashfetch.Adapters.NearByDealsViewPagerAdapter;
 import com.buyer.flashfetch.Animations.ZoomOutPageTransformer;
 import com.buyer.flashfetch.BroadcastReceivers.RegistrationReceiver;
-import com.buyer.flashfetch.CommonUtils.Toasts;
 import com.buyer.flashfetch.CommonUtils.Utils;
 import com.buyer.flashfetch.Constants.Constants;
+import com.buyer.flashfetch.Constants.GCMTaskServiceConstants;
 import com.buyer.flashfetch.Constants.NearByDealsConstants;
 import com.buyer.flashfetch.Constants.RegistrationConstants;
 import com.buyer.flashfetch.Helper.DialogManager;
 import com.buyer.flashfetch.Interfaces.UIListener;
 import com.buyer.flashfetch.Network.ServiceManager;
+import com.buyer.flashfetch.Objects.Notification;
 import com.buyer.flashfetch.Objects.UserProfile;
-import com.google.android.gms.vision.text.Text;
+import com.buyer.flashfetch.Services.CustomService;
+import com.google.android.gms.gcm.GcmNetworkManager;
+import com.google.android.gms.gcm.PeriodicTask;
+import com.google.android.gms.gcm.Task;
 
 import java.util.ArrayList;
+
+import static com.google.android.gms.gcm.Task.NETWORK_STATE_CONNECTED;
 
 public class NearByDealsActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -58,8 +63,9 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
 
     String[] tabTitles = {NearByDealsConstants.TAB_SHOPPING, NearByDealsConstants.TAB_FOOD, NearByDealsConstants.TAB_SERVICES};
 
+    private GcmNetworkManager gcmNetworkManager;
+
     private ProgressDialog progressDialog;
-    private Context context;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private DrawerLayout drawer;
@@ -72,12 +78,6 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        context = NearByDealsActivity.this;
-
-        numberOfVisits = UserProfile.getVisits(context);
-        numberOfVisits++;
-        UserProfile.setVisits(numberOfVisits, context);
 
         Utils.startPlayServices(this);
 
@@ -92,13 +92,22 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
             getSupportActionBar().setHomeButtonEnabled(true);
         }
 
+        gcmNetworkManager = GcmNetworkManager.getInstance(this);
+
+        if(Utils.checkPlayServices(this)){
+            scheduleTasks();
+        }else {
+            setUpData();
+        }
+
+
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null && bundle.getBoolean(RegistrationConstants.FROM_REGISTRATION_FLOW)) {
             Intent intent = new Intent(this, RegistrationReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, REGISTRATION_RECEIVER_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, REGISTRATION_RECEIVER_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() +  15* 1000, pendingIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() +  5*60*1000, pendingIntent);
         }
 
         if (toolbar != null) {
@@ -110,9 +119,9 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
             });
         }
 
-        progressDialog = getProgressDialog(context);
+        progressDialog = getProgressDialog(this);
 
-        if(!UserProfile.isContactsRetrieved(context)){
+        if(!UserProfile.isContactsRetrieved(this)){
             getContacts();
         }
 
@@ -130,14 +139,12 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
         NavigationView navigationView = (NavigationView) findViewById(R.id.deals_navigation_view);
         if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(NearByDealsActivity.this);
+            buyerName = (TextView)navigationView.getHeaderView(0).findViewById(R.id.navigation_person_name);
+            buyerPhone = (TextView)navigationView.getHeaderView(0).findViewById(R.id.navigation_person_phone);
         }
 
-        buyerName = (TextView)navigationView.findViewById(R.id.navigation_person_name);
-        buyerPhone = (TextView)navigationView.findViewById(R.id.navigation_person_phone);
-
-        //TODO: need to edit these
-        buyerName.setText(UserProfile.getName(context));
-        buyerPhone.setText(UserProfile.getPhone(context));
+        buyerName.setText(UserProfile.getName(this));
+        buyerPhone.setText(UserProfile.getPhone(this));
 
         if (tabLayout != null) {
             tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -145,9 +152,20 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
         }
 
         dealsViewPagerAdapter = new NearByDealsViewPagerAdapter(getSupportFragmentManager(), tabTitles);
+    }
 
-        if (UserProfile.getVisits(context) == 7) {
-            showRatingPopup();
+    private void scheduleTasks(){
+        Task task = new PeriodicTask.Builder()
+                .setService(CustomService.class)
+                .setPeriod(60*1000)
+                .setFlex(30)
+                .setPersisted(true)
+                .setTag(GCMTaskServiceConstants.FETCH_DEALS_TASK)
+                .setRequiredNetwork(NETWORK_STATE_CONNECTED)
+                .build();
+
+        if(gcmNetworkManager != null) {
+            gcmNetworkManager.schedule(task);
         }
     }
 
@@ -246,7 +264,7 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
             return true;
 
         } else if (id == R.id.nav_contact_us) {
-            DialogManager.showContactDialog(context);
+            DialogManager.showContactDialog(this);
             return true;
         }
 
@@ -254,30 +272,46 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
     }
 
     private void setUpData() {
-        if (Utils.isInternetAvailable(context)) {
+        if (Utils.isInternetAvailable(this)) {
             progressDialog.show();
 
-            ServiceManager.callFetchDealsService(context, new UIListener() {
+            ServiceManager.callFetchDealsService(this, new UIListener() {
                 @Override
                 public void onSuccess() {
+
+                    numberOfVisits = UserProfile.getVisits(NearByDealsActivity.this);
+                    numberOfVisits++;
+                    UserProfile.setVisits(numberOfVisits, NearByDealsActivity.this);
+
                     progressDialog.dismiss();
                     if (viewPager != null) {
                         viewPager.setAdapter(dealsViewPagerAdapter);
                         viewPager.setPageTransformer(false, new ZoomOutPageTransformer());
                         tabLayout.setupWithViewPager(viewPager);
                     }
+
+                    if (UserProfile.getVisits(NearByDealsActivity.this) == 7) {
+                        showRatingPopup();
+                    }
                 }
 
                 @Override
                 public void onFailure() {
+                    if(Notification.getAllNotifications(NearByDealsActivity.this) != null && Notification.getAllNotifications(NearByDealsActivity.this).size() > 0){
+                        if (viewPager != null) {
+                            viewPager.setAdapter(dealsViewPagerAdapter);
+                            viewPager.setPageTransformer(false, new ZoomOutPageTransformer());
+                            tabLayout.setupWithViewPager(viewPager);
+                        }
+                    }
                     progressDialog.dismiss();
                     DialogManager.showAlertDialog(NearByDealsActivity.this);
                 }
 
                 @Override
                 public void onFailure(int result) {
-                    progressDialog.dismiss();
-                    DialogManager.showAlertDialog(NearByDealsActivity.this);
+//                    progressDialog.dismiss();
+//                    DialogManager.showAlertDialog(NearByDealsActivity.this);
                 }
 
                 @Override
@@ -288,13 +322,20 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
 
                 @Override
                 public void onCancelled() {
-                    progressDialog.dismiss();
-                    DialogManager.showAlertDialog(NearByDealsActivity.this);
+//                    progressDialog.dismiss();
+//                    DialogManager.showAlertDialog(NearByDealsActivity.this);
                 }
             });
 
         } else {
-            Toasts.internetUnavailableToast(context);
+            if(Notification.getAllNotifications(this) != null && Notification.getAllNotifications(this).size() > 0){
+                if (viewPager != null) {
+                    viewPager.setAdapter(dealsViewPagerAdapter);
+                    viewPager.setPageTransformer(false, new ZoomOutPageTransformer());
+                    tabLayout.setupWithViewPager(viewPager);
+                }
+            }
+            Toast.makeText(this, "Connect to internet to avail latest deals", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -359,7 +400,7 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
             @Override
             public void onClick(View v) {
                 feedbackAlertDialog.dismiss();
-                Toast.makeText(context, "No worries. We will work harder", Toast.LENGTH_SHORT).show();
+                Toast.makeText(NearByDealsActivity.this, "No worries. We will work harder", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -367,7 +408,7 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
             @Override
             public void onClick(View v) {
                 feedbackAlertDialog.dismiss();
-                Toast.makeText(context, "Thanks for your feedback", Toast.LENGTH_SHORT).show();
+                Toast.makeText(NearByDealsActivity.this, "Thanks for your feedback", Toast.LENGTH_SHORT).show();
                 if (!TextUtils.isEmpty(feedback.getText())) {
                     //TODO: need to integrate service call for feedback
                 }
@@ -378,7 +419,7 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
             @Override
             public void onClick(View v) {
                 feedbackAlertDialog.dismiss();
-                Toast.makeText(context, "No worries. We will work harder", Toast.LENGTH_SHORT).show();
+                Toast.makeText(NearByDealsActivity.this, "No worries. We will work harder", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -387,7 +428,7 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
             public void onClick(View v) {
                 feedbackAlertDialog.dismiss();
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GOOGLE_PLAY_STORE_URL));
-                context.startActivity(intent);
+                NearByDealsActivity.this.startActivity(intent);
             }
         });
 
@@ -399,12 +440,12 @@ public class NearByDealsActivity extends BaseActivity implements NavigationView.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{android.Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
         } else {
-            if (Utils.isInternetAvailable(context)) {
+            if (Utils.isInternetAvailable(this)) {
 
-                ServiceManager.callUploadContactsService(context, UserProfile.getPhone(context), contactsList, new UIListener() {
+                ServiceManager.callUploadContactsService(this, UserProfile.getPhone(this), contactsList, new UIListener() {
                     @Override
                     public void onSuccess() {
-                        UserProfile.setContactsRetrieved(true, context);
+                        UserProfile.setContactsRetrieved(true, NearByDealsActivity.this);
                     }
 
                     @Override

@@ -153,6 +153,9 @@ public class UserProfile {
         setPhone("", context);
         setToken("", context);
         setVisits(0, context);
+        setGCMToken("", context);
+        setVisits(0, context);
+        setContactsRetrieved(false, context);
         return true;
     }
 

@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.buyer.flashfetch.Constants.Constants;
@@ -23,8 +24,7 @@ public class DialogManager {
     public static void showAlertDialog(final Activity activity) {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(activity)
-                .setTitle("Service Unavailable")
-                .setMessage("Service is updating and temporarily busy. Please visit after a while")
+                .setMessage("Connection timed out please check your internet settings...")
                 .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -34,6 +34,7 @@ public class DialogManager {
                 });
 
         alertDialog = builder.create();
+        alertDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         alertDialog.show();
     }
 

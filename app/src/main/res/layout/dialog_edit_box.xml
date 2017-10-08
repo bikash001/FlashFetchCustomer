@@ -8,11 +8,13 @@
     <EditText
         android:id="@+id/feedback_edit_text"
         android:background="@drawable/edit_text_black_border"
-        android:focusable="false"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:focusable="true"
+        android:gravity="start"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="12dp"
         android:layout_width="match_parent"
-        android:layout_height="120dp" />
+        android:layout_height="120dp">
+    </EditText>
 
 </LinearLayout>

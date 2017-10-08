@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/ff_black</item>
         <item name="colorPrimaryDark">@color/colorSecondary</item>
         <item name="colorAccent">@color/ff_green</item>
+        <item name="android:windowAnimationStyle">@style/AppTheme.Window</item>
     </style>
 
     <!--<style name="AppTheme.NoActionBar">-->
@@ -42,6 +43,13 @@
     <style name="RatingBar" parent="Theme.AppCompat">
         <item name="colorControlNormal">#FFFFFF</item>
         <item name="colorControlActivated">#D6D6D6</item>
+    </style>
+    
+    <style name="AppTheme.Window" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_right_to_left</item>
+        <!--<item name="android:activityOpenExitAnimation">@anim/slide_left_to_right</item>-->
+        <!--<item name="android:activityCloseEnterAnimation">@anim/slide_right_to_left</item>-->
+        <item name="android:activityCloseExitAnimation">@anim/slide_left_to_right</item>
     </style>
 
 </resources>

@@ -41,24 +41,21 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
 
     public static final String TAG = "MainActivity";
-    private Context context;
+
     private ViewPager mViewPager;
     private TabLayout tabLayout;
     private TextView personName, personEmail;
     private int numberOfVisits;
-    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        context = MainActivity.this;
-
         Utils.startPlayServices(this);
 
-        numberOfVisits = UserProfile.getVisits(context);
+        numberOfVisits = UserProfile.getVisits(this);
         numberOfVisits++;
-        UserProfile.setVisits(numberOfVisits,context);
+        UserProfile.setVisits(numberOfVisits,this);
 
         setContentView(R.layout.activity_main2);
 
@@ -96,8 +93,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         personName = (TextView)navigationView.getHeaderView(0).findViewById(R.id.navigation_person_name);
         personEmail = (TextView)navigationView.getHeaderView(0).findViewById(R.id.navigation_person_phone);
 
-        personName.setText(UserProfile.getName(context));
-        personEmail.setText(UserProfile.getEmail(context));
+        personName.setText(UserProfile.getName(this));
+        personEmail.setText(UserProfile.getEmail(this));
 
         RequestsPagerAdapter requestsPagerAdapter = new RequestsPagerAdapter(getSupportFragmentManager());
 
@@ -107,6 +104,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (mViewPager != null) {
             mViewPager.setAdapter(requestsPagerAdapter);
             mViewPager.setPageTransformer(false,new ZoomOutPageTransformer());
+        }
+
+        if(tabLayout != null){
             tabLayout.setupWithViewPager(mViewPager);
         }
 

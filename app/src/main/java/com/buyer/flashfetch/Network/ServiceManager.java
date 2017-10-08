@@ -182,6 +182,8 @@ public class ServiceManager {
 
                     UserProfile.setPhone(mobile, context);
                     UserProfile.setPassword(password,context);
+                    UserProfile.setName(response.getJSONObject("data").getString("name"), context);
+                    UserProfile.setEmail(response.getJSONObject("data").getString("email"), context);
                     UserProfile.setToken(response.getJSONObject("data").getString("token"), context);
 
                     if(response.getJSONObject("data").getInt("otp_ver") == 1){
@@ -189,10 +191,10 @@ public class ServiceManager {
                     }else{
                         UserProfile.setAccountVerified(context,false);
                     }
-                    //TODO: need to chnage this
-//                    if(!TextUtils.isEmpty(response.getJSONObject("data").getString("referral_id"))){
-//                        UserProfile.setReferralCode(context, response.getJSONObject("data").getString("referral_id"));
-//                    }
+
+                    if(!TextUtils.isEmpty(response.getJSONObject("data").getString("referral_id"))){
+                        UserProfile.setReferralCode(context, response.getJSONObject("data").getString("referral_id"));
+                    }
 
                     uiListener.onSuccess();
 
@@ -583,9 +585,22 @@ public class ServiceManager {
             try {
                 if (response.getJSONObject("data").getInt("result") == 1) {
 
+                    DatabaseHelper databaseHelper = new DatabaseHelper(context);
+
+                    ArrayList<NearByDealsDataModel> nearByDealsDataModels = NearByDealsDataModel.getAllDeals(context);
+
                     JSONArray jsonArray = response.getJSONObject("data").getJSONArray("deals");
 
-                    DatabaseHelper databaseHelper = new DatabaseHelper(context);
+                    if(nearByDealsDataModels != null && nearByDealsDataModels.size() > 0){
+                        for(int i = 0; i < nearByDealsDataModels.size(); i++){
+                            for(int j =0 ; j < jsonArray.length(); j ++){
+                                JSONObject jsonObject = (JSONObject) jsonArray.get(j);
+                                if(!nearByDealsDataModels.get(i).getDealId().equalsIgnoreCase(jsonObject.getString("deal_id"))){
+                                    databaseHelper.deleteDeal(nearByDealsDataModels.get(i).getDealId());
+                                }
+                            }
+                        }
+                    }
 
                     for(int i = 0; i < jsonArray.length(); i++){
                         JSONObject jsonObject = (JSONObject) jsonArray.get(i);

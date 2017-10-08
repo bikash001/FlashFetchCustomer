@@ -152,7 +152,7 @@ public class DatabaseHelper {
     public void addNotification(ContentValues contentValues) {
         if(getAllNotifications() != null && getAllNotifications().size() > 0){
             if(getNotification(contentValues.getAsInteger(Notification.NOTIFICATION_ID)) != null && getNotification(contentValues.getAsInteger(Notification.NOTIFICATION_ID)).size() > 0 ){
-                updateNotification(contentValues.getAsInteger(Notification.NOTIFICATION_ID), contentValues);
+                updateNotification(contentValues.getAsString(Notification.NOTIFICATION_ID), contentValues);
             }else{
                 open();
                 ourDatabase.insert(Notification.TABLE_NAME, null, contentValues);
@@ -164,16 +164,16 @@ public class DatabaseHelper {
         close();
     }
 
-    public void updateNotification(int notificationId, ContentValues contentValues){
+    public void updateNotification(String notificationId, ContentValues contentValues){
         open();
-        long id = ourDatabase.update(Notification.TABLE_NAME,contentValues,Notification.NOTIFICATION_ID + " = ? ", new String[]{notificationId + ""});
+        long id = ourDatabase.update(Notification.TABLE_NAME,contentValues,Notification.NOTIFICATION_ID + " = ? ", new String[]{notificationId});
         close();
     }
 
     public ArrayList<Notification> getAllNotifications(){
         open();
         String[] columns = Notification.COLUMNS;
-        Cursor c = ourDatabase.query(Notification.TABLE_NAME, columns, null, null, null, null, "time DESC");
+        Cursor c = ourDatabase.query(Notification.TABLE_NAME, columns, null, null, null, null, Notification.NOTIFICATION_EXP_TIME + " DESC");
         ArrayList<Notification> arrayList = Notification.getArrayList(c);
         close();
         return arrayList;
@@ -205,6 +205,12 @@ public class DatabaseHelper {
     public void updateDeal(ContentValues contentValues, String dealId){
         open();
         long id = ourDatabase.update(NearByDealsDataModel.DEAL_TABLE_NAME,contentValues,NearByDealsDataModel.DEALS_ID + " = ? ", new String[]{dealId});
+        close();
+    }
+
+    public void deleteDeal(String dealId){
+        open();
+        long id = ourDatabase.delete(NearByDealsDataModel.DEAL_TABLE_NAME,NearByDealsDataModel.DEALS_ID + " = ? ", new String[]{dealId});
         close();
     }
 

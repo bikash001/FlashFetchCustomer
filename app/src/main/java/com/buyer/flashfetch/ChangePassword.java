@@ -89,7 +89,7 @@ public class ChangePassword extends BaseActivity {
                                 public void onSuccess() {
                                     Toasts.successfulPasswordChangeToast(ChangePassword.this);
 
-                                    Intent intent = new Intent(ChangePassword.this, MainActivity.class);
+                                    Intent intent = new Intent(ChangePassword.this, NearByDealsActivity.class);
                                     startActivity(intent);
                                     finish();
                                 }

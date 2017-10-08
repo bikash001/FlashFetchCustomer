@@ -14,6 +14,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    
     <permission
         android:name="com.buyer.flashfetch.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
@@ -43,8 +45,7 @@
         </service>
 
         <service
-            android:name=".FireBaseCloudMessaging.InstanceIDService"
-            android:exported="false">
+            android:name=".FireBaseCloudMessaging.InstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
@@ -53,6 +54,24 @@
         <service
             android:name=".FireBaseCloudMessaging.RegistrationService"
             android:exported="false" />
+
+        <service android:name=".Services.FetchDealsService" android:exported="true"/>
+
+        <service android:name=".Services.CustomService"
+            android:exported="false"
+            android:enabled="true"
+            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
+
+            <intent-filter>
+                <action android:name="com.google.android.gms.gcm.ACTION_READY_TASK"/>
+            </intent-filter>
+        </service>
+
+        <receiver android:name=".BroadcastReceivers.ConnectivityReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.AIRPLANE_MODE"/>
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".ExtractActivity"
